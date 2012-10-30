@@ -5,8 +5,8 @@
 //  Created by duanhouhai on 12-9-19.
 //
 
-#ifndef __Game_Messages_h__
-#define __Game_Messages_h__
+#ifndef GAME_MESSAGES_H_
+#define GAME_MESSAGES_H_
 
 #include "CCMessage.h"
 
@@ -29,4 +29,4 @@ enum GameMessage
 
 
 
-#endif //__Game_Message_h__
+#endif //GAME_MESSAGES_H_

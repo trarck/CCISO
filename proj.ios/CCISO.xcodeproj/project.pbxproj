@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5716B5B8163932D900FAE4B5 /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5716B5B6163932D900FAE4B5 /* Unit.cpp */; };
+		5723975616394B15006D853E /* WorldEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5723975416394B15006D853E /* WorldEntity.cpp */; };
 		57584246162D1B85008DA210 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584244162D1B85008DA210 /* Monster.cpp */; };
 		57584249162D3884008DA210 /* AutoAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584247162D3884008DA210 /* AutoAttackComponent.cpp */; };
 		5758424C162D39A0008DA210 /* ManualAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5758424A162D39A0008DA210 /* ManualAttackComponent.cpp */; };
@@ -51,7 +53,6 @@
 		5791DDF916098BC800D996E9 /* CCSimpleMessageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDF216098BC800D996E9 /* CCSimpleMessageManager.cpp */; };
 		5791DE181609B7AE00D996E9 /* GameEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE0160982C200D996E9 /* GameEntity.cpp */; };
 		57B0C70C16353F400002A0CD /* characters in Resources */ = {isa = PBXBuildFile; fileRef = 57B0C70B16353F400002A0CD /* characters */; };
-		57CAC2261609CC2600B21CC3 /* GameEntity2.h in Resources */ = {isa = PBXBuildFile; fileRef = 57CAC2251609CC2600B21CC3 /* GameEntity2.h */; };
 		57CAC22B1609DF0700B21CC3 /* CCSpecMessageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57CAC2291609DF0600B21CC3 /* CCSpecMessageManager.cpp */; };
 		57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5716B5B6163932D900FAE4B5 /* Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Unit.cpp; sourceTree = "<group>"; };
+		5716B5B7163932D900FAE4B5 /* Unit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unit.h; sourceTree = "<group>"; };
+		5716B5B91639346000FAE4B5 /* GameMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMacros.h; sourceTree = "<group>"; };
+		5723975416394B15006D853E /* WorldEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldEntity.cpp; sourceTree = "<group>"; };
+		5723975516394B15006D853E /* WorldEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldEntity.h; sourceTree = "<group>"; };
+		572BA6B4163FB53600F69F7C /* GameTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTypes.h; sourceTree = "<group>"; };
 		57584244162D1B85008DA210 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		57584245162D1B85008DA210 /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
 		57584247162D3884008DA210 /* AutoAttackComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AutoAttackComponent.cpp; sourceTree = "<group>"; };
@@ -149,8 +156,6 @@
 		5791DE151609A30F00D996E9 /* ComponentEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComponentEntity.h; sourceTree = "<group>"; };
 		5791DE161609A37B00D996E9 /* ComponentEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentEntity.cpp; sourceTree = "<group>"; };
 		57B0C70B16353F400002A0CD /* characters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = characters; sourceTree = "<group>"; };
-		57CAC2251609CC2600B21CC3 /* GameEntity2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEntity2.h; sourceTree = "<group>"; };
-		57CAC2271609CC4D00B21CC3 /* GameEntity2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEntity2.cpp; sourceTree = "<group>"; };
 		57CAC2291609DF0600B21CC3 /* CCSpecMessageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpecMessageManager.cpp; sourceTree = "<group>"; };
 		57CAC22A1609DF0600B21CC3 /* CCSpecMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpecMessageManager.h; sourceTree = "<group>"; };
 		57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleMoveComponent.cpp; sourceTree = "<group>"; };
@@ -223,7 +228,7 @@
 				5763C233160855E90068D420 /* RootViewController.mm */,
 			);
 			name = ios;
-			path = GameComponents;
+			path = CCISO;
 			sourceTree = "<group>";
 		};
 		5763C238160855F80068D420 /* Products */ = {
@@ -246,6 +251,8 @@
 				5763C248160856DB0068D420 /* HelloWorldScene.h */,
 				5791DDDA160979FE00D996E9 /* YHMacros.h */,
 				5791DE141609935600D996E9 /* GameMessages.h */,
+				5716B5B91639346000FAE4B5 /* GameMacros.h */,
+				572BA6B4163FB53600F69F7C /* GameTypes.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -330,14 +337,16 @@
 		5791DDDF160982C200D996E9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				5723975416394B15006D853E /* WorldEntity.cpp */,
+				5723975516394B15006D853E /* WorldEntity.h */,
+				5716B5B6163932D900FAE4B5 /* Unit.cpp */,
+				5716B5B7163932D900FAE4B5 /* Unit.h */,
 				57584244162D1B85008DA210 /* Monster.cpp */,
 				57584245162D1B85008DA210 /* Monster.h */,
 				5791DDE3160982EE00D996E9 /* Player.cpp */,
 				5791DDE4160982EE00D996E9 /* Player.h */,
 				5791DDE0160982C200D996E9 /* GameEntity.cpp */,
 				5791DDE1160982C200D996E9 /* GameEntity.h */,
-				57CAC2271609CC4D00B21CC3 /* GameEntity2.cpp */,
-				57CAC2251609CC2600B21CC3 /* GameEntity2.h */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -368,9 +377,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5763BF991608554E0068D420 /* GameComponentCCISO */ = {
+		5763BF991608554E0068D420 /* CCISO */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5763C226160855540068D420 /* Build configuration list for PBXNativeTarget "GameComponentCCISO" */;
+			buildConfigurationList = 5763C226160855540068D420 /* Build configuration list for PBXNativeTarget "CCISO" */;
 			buildPhases = (
 				5763BF961608554E0068D420 /* Sources */,
 				5763BF971608554E0068D420 /* Frameworks */,
@@ -381,8 +390,8 @@
 			dependencies = (
 				5763C242160856160068D420 /* PBXTargetDependency */,
 			);
-			name = GameComponentCCISO;
-			productName = GameComponents;
+			name = CCISO;
+			productName = CCISO;
 			productReference = 5763BF9A1608554E0068D420 /* GameComponentCCISO.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -412,7 +421,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				5763BF991608554E0068D420 /* GameComponentCCISO */,
+				5763BF991608554E0068D420 /* CCISO */,
 			);
 		};
 /* End PBXProject section */
@@ -442,7 +451,6 @@
 				5763C25D160856E20068D420 /* Icon-Small@2x.png in Resources */,
 				5763C25E160856E20068D420 /* Icon.png in Resources */,
 				5763C25F160856E20068D420 /* Icon@2x.png in Resources */,
-				57CAC2261609CC2600B21CC3 /* GameEntity2.h in Resources */,
 				57B0C70C16353F400002A0CD /* characters in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +488,8 @@
 				5758424C162D39A0008DA210 /* ManualAttackComponent.cpp in Sources */,
 				578747431630083D002A6E3F /* AnimationComponent.cpp in Sources */,
 				57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */,
+				5716B5B8163932D900FAE4B5 /* Unit.cpp in Sources */,
+				5723975616394B15006D853E /* WorldEntity.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,7 +631,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5763C226160855540068D420 /* Build configuration list for PBXNativeTarget "GameComponentCCISO" */ = {
+		5763C226160855540068D420 /* Build configuration list for PBXNativeTarget "CCISO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5763C227160855540068D420 /* Debug */,

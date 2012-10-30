@@ -1,5 +1,5 @@
-#ifndef  _APP_DELEGATE_H_
-#define  _APP_DELEGATE_H_
+#ifndef  APP_DELEGATE_H_
+#define  APP_DELEGATE_H_
 
 #include "CCApplication.h"
 
@@ -34,5 +34,5 @@ public:
     virtual void applicationWillEnterForeground();
 };
 
-#endif // _APP_DELEGATE_H_
+#endif // APP_DELEGATE_H_
 

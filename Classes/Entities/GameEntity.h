@@ -1,14 +1,16 @@
-#ifndef __Game_Entity_H__
-#define __Game_Entity_H__
+#ifndef ENTITIES_GAME_ENTITY_H_
+#define ENTITIES_GAME_ENTITY_H_
 
 #include "cocos2d.h"
+#include "GameMacros.h"
 #include "CCMessage.h"
 #include "CCMessageHandler.h"
 #include "Component.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
 
-//class Component;
+
+NS_YH_BEGIN
 
 class GameEntity : public CCSprite {
 public:
@@ -16,26 +18,28 @@ public:
     GameEntity();
     ~GameEntity();
     
-    bool init();
-    bool init(int guid);
+    virtual bool init();
+    virtual bool init(int entityId);
+    virtual bool init(CCDictionary* data);
     
-    int guid();
-    void guid(int guid);
+    //get set
+    int getEntityId();
+    void setEntityId(int entityId);
     
     virtual CCSprite* view();
     virtual void view(CCSprite* view);
     
-    void registerMessage(MessageType type,SEL_MessageHandler handle , CCObject* sender);
-    void unregisterMessage(MessageType type ,SEL_MessageHandler handle ,CCObject* sender);
-//    void sendMessage(MessageType type ,CCObject* receiver ,CCDictionary* data);
-    void sendMessage(MessageType type ,CCObject* receiver ,CCObject* data);
-    void sendMessage(MessageType type ,CCObject* receiver);
+    //message operate
+    virtual void registerMessage(MessageType type,SEL_MessageHandler handle , CCObject* sender);
+    virtual void unregisterMessage(MessageType type ,SEL_MessageHandler handle ,CCObject* sender);
+    virtual void sendMessage(MessageType type ,CCObject* receiver ,CCObject* data);
+    virtual void sendMessage(MessageType type ,CCObject* receiver);
+	virtual void cleanupMessages();
     
-	void cleanupMessages();
-    virtual void cleanup();
-    
+ 
     //components
     virtual void setupComponents();
+    
     void addComponent(Component* component){
         CCLOG("addComponent component named %s",component->getName());
         m_components->setObject(component, component->getName());
@@ -47,20 +51,20 @@ public:
     Component* getComponent(const char *name){
         return (Component*) m_components->objectForKey(name);
     };
-
-    void setHp(int hp);
-    int getHp();
+    
+    virtual void cleanup();
+   
+    
     
 protected:
-	int m_guid;//game object id
+	int m_entityId;//game object id
     CCDictionary* m_components;
     
-    unsigned int m_hp;
-    
+   
 //    CCSprite* m_view;
 };
 
-NS_CC_END
+NS_YH_END
 
-//+(int) guid;
-#endif //__Game_Entity_H__
+
+#endif //ENTITIES_GAME_ENTITY_H_

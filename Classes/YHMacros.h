@@ -5,8 +5,8 @@
 //  Created by duanhouhai on 12-9-19.
 
 
-#ifndef __YH_Macros_h__
-#define __YH_Macros_h__
+#ifndef YH_MACROS_H_
+#define YH_MACROS_H_
 
 /** CC_PROPERTY_READONLY is used to declare a protected variable.
  We can use getter to read the variable.
@@ -97,4 +97,4 @@ varName = var; \
 
 
 
-#endif //__YH_Macros_h__
+#endif //YH_MACROS_H_
