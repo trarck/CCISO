@@ -1,12 +1,12 @@
-#ifndef HELLOWORLD_SCENE_H_
-#define HELLOWORLD_SCENE_H_
+#ifndef GameScene_SCENE_H_
+#define GameScene_SCENE_H_
 
 #include "cocos2d.h"
 #include "Player.h"
 
 USING_NS_YH;
 
-class HelloWorld : public cocos2d::CCLayer
+class GameScene : public cocos2d::CCLayer
 {
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
