@@ -1,22 +1,24 @@
-#ifndef __Player_H__
-#define __Player_H__
+#ifndef ENTITIES_PLAYER_H_
+#define ENTITIES_PLAYER_H_
 
 #include "cocos2d.h"
-#include "GameEntity.h"
+#include "Unit.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
 
-class Player : public GameEntity {
+NS_YH_BEGIN
+
+class Player : public Unit {
 public:
     Player();
     ~Player();
     
     virtual void setupComponents();
 
-private:
+protected:
 
 };
 
-NS_CC_END
+NS_YH_END
 
-#endif //__Player_H__
+#endif //ENTITIES_PLAYER_H_

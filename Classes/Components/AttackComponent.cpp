@@ -2,7 +2,9 @@
 #include "CCMessageManager.h"
 #include "GameMessages.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 AttackComponent::AttackComponent()
 :m_target(NULL)
@@ -28,11 +30,11 @@ void AttackComponent::handleMessage(CCMessage *message)
     CCLOG("AttackComponent::handleMessage");
     CCLOG("get message %d",message->getType());
 
-    GameEntity* target;
+    Unit* target;
 	switch(message->getType()){
 		
 		case ATTACK:
-            target=(GameEntity*)message->getData();
+            target=(Unit*)message->getData();
             if(target){
                 setTarget(target);
             }
@@ -42,7 +44,7 @@ void AttackComponent::handleMessage(CCMessage *message)
             didTargetDie();
 			break;
         case SET_ATTACK_TARGET:
-            setTarget((GameEntity*)message->getData());
+            setTarget((Unit*)message->getData());
             break;
 
 	}
@@ -70,9 +72,9 @@ void AttackComponent::attack()
 {
     if(m_target){
         CCLOG("AttackComponent::startAttack");
-        int targetHp=m_target->getHp();
+        int targetHp=m_target->getHealth();
         CCLOG("current target hp %d after attack %d",targetHp,targetHp-1);
-        m_target->setHp(targetHp-1);
+        m_target->setHealth(targetHp-1);
     }else {
         CCLOG("AttackComponent::startAttack no target");
     }
@@ -98,12 +100,12 @@ void AttackComponent::didTargetDie()
     m_target=NULL;
 }
 
-GameEntity* AttackComponent::getTarget()
+Unit* AttackComponent::getTarget()
 {
     return m_target;
 }
 
-void AttackComponent::setTarget(GameEntity* target)
+void AttackComponent::setTarget(Unit* target)
 {
     if(target!=m_target){
         CCMessageManager::defaultManager()->removeReceiver(this, DIE, m_target, message_selector(AttackComponent::handleMessage));
@@ -115,5 +117,5 @@ void AttackComponent::setTarget(GameEntity* target)
     }
 }
 
-NS_CC_END
+NS_YH_END
 

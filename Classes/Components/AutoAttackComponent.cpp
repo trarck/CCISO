@@ -2,7 +2,9 @@
 #include "CCMessageManager.h"
 #include "GameMessages.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 AutoAttackComponent::AutoAttackComponent()
 :m_attackSpeed(2)
@@ -26,12 +28,12 @@ bool AutoAttackComponent::init()
 void AutoAttackComponent::handleMessage(CCMessage *message)
 {
         
-    GameEntity* target;
+    Unit* target;
     
     switch(message->getType()){
             
 		case AUTO_ATTACK:
-            target=(GameEntity*)message->getData();
+            target=(Unit*)message->getData();
             if(target){
                 setTarget(target);
             }
@@ -86,9 +88,9 @@ void AutoAttackComponent::updateAttack(float delta)
 	 2.if use skill, mp less then the skill requirement
 
 	 */
-	int targetHp=m_target->getHp();
+	int targetHp=m_target->getHealth();
     CCLOG("current target hp %d after attack %d",targetHp,targetHp-1);
-    m_target->setHp(targetHp-1);
+    m_target->setHealth(targetHp-1);
 }
 
 void AutoAttackComponent::didTargetDie()
@@ -106,5 +108,5 @@ void AutoAttackComponent::setAttackSpeed(float attackSpeed)
 	m_attackSpeed=attackSpeed;
 }
 
-NS_CC_END
+NS_YH_END
 

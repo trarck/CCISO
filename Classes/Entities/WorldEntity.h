@@ -19,9 +19,9 @@ public:
     WorldEntity();
     ~WorldEntity();
     
-    virtual bool init();
-    virtual bool init(int entityId,int l,int b,int h,bool barrier);
-    virtual bool init(CCDictionary* data);
+//    virtual bool init();
+    virtual bool initWithEntityId(int entityId,int l,int b,int h,bool barrier);
+//    virtual bool initWithData(CCDictionary* data);
     
     
     

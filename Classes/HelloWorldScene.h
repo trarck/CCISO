@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "Player.h"
 
+USING_NS_YH;
+
 class HelloWorld : public cocos2d::CCLayer
 {
 public:
@@ -23,7 +25,7 @@ public:
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
 private:
-    cocos2d::Player* m_player;
+    Player* m_player;
 };
 
 #endif // HELLOWORLD_SCENE_H__

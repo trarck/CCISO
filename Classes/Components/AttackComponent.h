@@ -3,9 +3,11 @@
 
 #include "cocos2d.h"
 #include "Component.h"
-#include "GameEntity.h"
+#include "Unit.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 
 class AttackComponent : public Component 
@@ -26,13 +28,13 @@ public:
     //property
     
     
-    virtual void setTarget(GameEntity* target);
-    GameEntity* getTarget();
+    virtual void setTarget(Unit* target);
+    Unit* getTarget();
     
 protected:
-    GameEntity* m_target;
+    Unit* m_target;
 };
 
-NS_CC_END
+NS_YH_END
 
 #endif //__Attack_Component_H__

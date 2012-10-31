@@ -1,10 +1,12 @@
-#ifndef __Player_H__
-#define __Player_H__
+#ifndef ENTITIES_MONSTER_H_
+#define ENTITIES_MONSTER_H_
 
 #include "cocos2d.h"
 #include "GameEntity.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 class Monster : public GameEntity {
 public:
@@ -15,6 +17,6 @@ public:
 
 };
 
-NS_CC_END
+NS_YH_END
 
-#endif //__Player_H__
+#endif //ENTITIES_MONSTER_H_

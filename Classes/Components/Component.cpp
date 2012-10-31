@@ -1,7 +1,10 @@
 #include "CCMessageManager.h"
+#include "GameMacros.h"
 #include "Component.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 Component::Component()
 :m_owner(NULL)
@@ -69,4 +72,4 @@ void Component::setName(const char* name)
     m_name=name;
 }
 
-NS_CC_END
+NS_YH_END

@@ -28,5 +28,11 @@ WorldEntity::~WorldEntity()
     CCLOG("WorldEntity destroy");  
 }
 
+bool WorldEntity::initWithEntityId(int entityId, int l, int b, int h, bool barrier)
+{
+    GameEntity::init();
+    
+    return true;
+}
 
 NS_YH_END

@@ -4,7 +4,9 @@
 #include "cocos2d.h"
 #include "Component.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 class AnimationComponent : public Component
 {
@@ -57,6 +59,6 @@ protected:
     CCAction* m_lastAction;
 };
 
-NS_CC_END
+NS_YH_END
 
 #endif // __AnimationComponent_H__

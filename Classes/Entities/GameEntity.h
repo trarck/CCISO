@@ -20,7 +20,7 @@ public:
     
     virtual bool init();
     virtual bool init(int entityId);
-    virtual bool init(CCDictionary* data);
+//    virtual bool init(CCDictionary* data);
     
     //get set
     int getEntityId();

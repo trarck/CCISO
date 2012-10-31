@@ -9,6 +9,7 @@
 
 using namespace cocos2d;
 using namespace CocosDenshion;
+USING_NS_YH;
 
 CCScene* HelloWorld::scene()
 {
@@ -92,8 +93,8 @@ bool HelloWorld::init()
     CCLOG("set begin action after");
     
     
-    GameEntity* target=new GameEntity();
-    target->setHp(10);
+    Unit* target=new Unit();
+    target->setHealth(10);
     
 //    player->sendMessage(SET_ATTACK_TARGET, NULL, target);
     

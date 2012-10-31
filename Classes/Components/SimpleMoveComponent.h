@@ -3,7 +3,10 @@
 
 #include "cocos2d.h"
 #include "Component.h"
-NS_CC_BEGIN
+
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 typedef enum  {
 	MoveStop=0,
@@ -123,6 +126,6 @@ protected:
 
 };
 
-NS_CC_END
+NS_YH_END
 
 #endif //__MoveComponent_H__

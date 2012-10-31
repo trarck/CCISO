@@ -9,7 +9,7 @@ NS_YH_BEGIN
 //guid通常由服务端生成建议从1000000开始，有时候客户端也需要一些临时的对象，guid由客户端生成从0-10000000
 
 GameEntity::GameEntity()
-:m_guid(0)
+:m_entityId(0)
 //,m_view(NULL)
 {
     CCLOG("GameEntity create");
@@ -35,28 +35,28 @@ bool GameEntity::init()
 {
     CCLOG("GameEntity init");
     CCSprite::init();
-    m_guid=m_uID;
+    m_entityId=m_uID;
 //    m_view=new CCSprite();
 //    m_view->init();
 	return true;
 }
 
-bool GameEntity::init(int guid)
+bool GameEntity::init(int entityId)
 {
     init();
-    m_guid=guid;
+    m_entityId=entityId;
 	return true;
 }
 
 
-int GameEntity::guid()
+int GameEntity::getEntityId()
 {
-    return m_guid;
+    return m_entityId;
 }
 
-void GameEntity::guid(int guid)
+void GameEntity::setEntityId(int entityId)
 {
-    m_guid=guid;
+    m_entityId=entityId;
 }
 
 CCSprite* GameEntity::view()
@@ -123,19 +123,5 @@ void GameEntity::setupComponents()
 //    m_components->setObject(component, name);
 //}
 
-
-void GameEntity::setHp(int hp)
-{
-    if(hp<=0){
-        hp=0;
-        sendMessage(DIE,NULL);
-    }
-    m_hp=hp;
-}
-
-int GameEntity::getHp()
-{
-    return m_hp;
-}
 
 NS_YH_END

@@ -6,7 +6,9 @@
 
 #include "AttackComponent.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 
 class AutoAttackComponent : public AttackComponent 
@@ -33,6 +35,6 @@ protected:
     float m_attackSpeed;
 };
 
-NS_CC_END
+NS_YH_END
 
 #endif //__Auto_Attack_Component_H__

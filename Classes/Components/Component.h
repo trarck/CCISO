@@ -3,8 +3,11 @@
 
 #include "cocos2d.h"
 #include "CCMessage.h"
+#include "GameMacros.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 //typedef CCObject GameEntity;
 
@@ -35,6 +38,6 @@ protected:
     std::string m_name;
 };
 
-NS_CC_END
+NS_YH_END
 
 #endif // __Component_H__

@@ -3,7 +3,9 @@
 #include "GameEntity.h"
 #include "GameMessages.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 SimpleMoveComponent::SimpleMoveComponent()
 :m_speed(0.0f)
@@ -536,4 +538,4 @@ void SimpleMoveComponent::didHit(CCPoint location)
 	
 }
 
-NS_CC_END
+NS_YH_END

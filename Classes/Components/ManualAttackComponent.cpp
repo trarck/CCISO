@@ -2,7 +2,9 @@
 #include "CCMessageManager.h"
 #include "GameMessages.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+
+NS_YH_BEGIN
 
 ManualAttackComponent::ManualAttackComponent()
 {
@@ -22,5 +24,5 @@ bool ManualAttackComponent::init()
     return true;
 }
 
-NS_CC_END
+NS_YH_END
 

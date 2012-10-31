@@ -3,8 +3,9 @@
 #include "GameMessages.h"
 #include "GameEntity.h"
 
+USING_NS_CC;
 
-NS_CC_BEGIN
+NS_YH_BEGIN
 
 AnimationComponent::AnimationComponent()
 :m_animations(NULL)
@@ -205,4 +206,4 @@ CCArray* AnimationComponent::eightDirectionActionListWithDir(const char* dir ,in
 	return actions;
 }
 
-NS_CC_END
+NS_YH_END
