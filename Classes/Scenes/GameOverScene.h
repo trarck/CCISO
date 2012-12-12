@@ -1,18 +1,26 @@
-//
-//  GameOver.h
-//  Dungeons
-//
-//  Created by trarck trarck on 11-11-14.
-//  Copyright 2011 yitengku.com. All rights reserved.
-//
+#ifndef SCENES_GAMEOVERSCENE_H_
+#define SCENES_GAMEOVERSCENE_H_
 
-#import <Foundation/Foundation.h>
-#import "cocos2d.h"
+#include "cocos2d.h"
+#include "GameConfigs.h"
 
-@interface GameOverScene : CCLayer {
 
-}
+USING_NS_CC;
 
-+(id) scene;
+NS_YH_BEGIN
 
-@end
+class GameOverScene : CCLayer {
+public:
+    virtual bool init();
+    
+    
+    static CCScene* scene();
+    
+    CREATE_FUNC(GameOverScene);
+    
+    
+};
+
+NS_YH_END
+
+#endif //SCENES_GAMEOVERSCENE_H_

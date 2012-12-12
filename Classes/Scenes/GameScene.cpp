@@ -1,51 +1,41 @@
-//
-//  GameScene.m
-//  Dungeons
-//
-//  Created by trarck trarck on 11-10-14.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+#include "cocos2d.h"
+#include "GameScene.h"
+//#include "GameWorld.h"
 
-#import "GameScene.h"
-#import "GameWorld.h"
+//+(CGPoint) locationFromTouch:(UITouch *) touch
+//{
+//	CGPoint touchLocation=[touch locationInView:[touch view]];
+//	return [[CCDirector sharedDirector] convertToGL:touchLocation];
+//}
 
-@implementation GameScene
-
-@synthesize gameWorld=gameWorld_;
-
-+(CGPoint) locationFromTouch:(UITouch *) touch
+CCScene* GameScene::scene()
 {
-	CGPoint touchLocation=[touch locationInView:[touch view]];
-	return [[CCDirector sharedDirector] convertToGL:touchLocation];
-}
-
-+(CCScene *) scene
-{
-	// 'scene' is an autorelease object.
-	CCScene *scene = [CCScene node];
-	
-	// 'layer' is an autorelease object.
-	GameScene *layer = [GameScene node];
-	
-	// add layer as a child to scene
-	[scene addChild: layer];
-	
-	// return the scene
-	return scene;
+    // 'scene' is an autorelease object
+    CCScene* scene = CCScene::create();
+    
+    // 'layer' is an autorelease object
+    GameScene* layer = GameScene::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
 }
 
 // on "init" you need to initialize your instance
--(id) init
+bool GameScene::init
 {
-	// always call "super" init
-	// Apple recommends to re-assign "self" with the "super" return value
-	if( (self=[super init])) {
+    if(!CCLayer::init()){
+        return false;
+    }
+
 				
-		self.gameWorld=[GameWorld sharedGameWorld];
-		[self addChild:gameWorld_];
-		gameWorld_.mapId=1;
-		[gameWorld_ release];
-	}
+    self.gameWorld=[GameWorld sharedGameWorld];
+    [self addChild:gameWorld_];
+    gameWorld_.mapId=1;
+    [gameWorld_ release];
+
 	return self;
 }
 

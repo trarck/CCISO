@@ -1,20 +1,26 @@
-//
-//  GameScene.h
-//  Dungeons
-//
-//  Created by trarck trarck on 11-10-14.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+#ifndef SCENES_GAMESCENE_H_
+#define SCENES_GAMESCENE_H_
 
-#import <Foundation/Foundation.h>
-#import "cocos2d.h"
-#import "GameWorld.h"
+#include "cocos2d.h"
+#include "GameConfigs.h"
 
-@interface GameScene : CCLayer {
-	GameWorld *gameWorld_;
-}
-@property(nonatomic,retain) GameWorld *gameWorld;
 
-+(CGPoint) locationFromTouch:(UITouch*) touch; 
-+(id) scene;
-@end
+USING_NS_CC;
+
+NS_YH_BEGIN
+
+class GameScene : CCLayer {
+public:
+    virtual bool init();
+    
+    
+    static CCScene* scene();
+    
+    CREATE_FUNC(GameScene);
+   
+    
+};
+
+NS_YH_END
+
+#endif //SCENES_GAMESCENE_H_
