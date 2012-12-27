@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5763BF991608554E0068D420"
-               BuildableName = "GameComponentCCISO.app"
+               BuildableName = "CCISO.app"
                BlueprintName = "CCISO"
                ReferencedContainer = "container:CCISO.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5763BF991608554E0068D420"
-            BuildableName = "GameComponentCCISO.app"
+            BuildableName = "CCISO.app"
             BlueprintName = "CCISO"
             ReferencedContainer = "container:CCISO.xcodeproj">
          </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5763BF991608554E0068D420"
-            BuildableName = "GameComponentCCISO.app"
+            BuildableName = "CCISO.app"
             BlueprintName = "CCISO"
             ReferencedContainer = "container:CCISO.xcodeproj">
          </BuildableReference>

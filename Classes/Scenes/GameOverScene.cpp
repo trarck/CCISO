@@ -9,21 +9,20 @@
 #import "GameOverScene.h"
 #import "GameScene.h"
 
-@implementation GameOverScene
 
-+(CCScene *) scene
+CCScene* HelloWorld::scene()
 {
-	// 'scene' is an autorelease object.
-	CCScene *scene = [CCScene node];
-	
-	// 'layer' is an autorelease object.
-	GameOverScene *layer = [GameOverScene node];
-	
-	// add layer as a child to scene
-	[scene addChild: layer];
-	
-	// return the scene
-	return scene;
+    // 'scene' is an autorelease object
+    CCScene *scene = CCScene::create();
+    
+    // 'layer' is an autorelease object
+    HelloWorld *layer = HelloWorld::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    // return the scene
+    return scene;
 }
 
 -(id) init

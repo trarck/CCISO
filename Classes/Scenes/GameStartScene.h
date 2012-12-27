@@ -18,6 +18,9 @@ public:
     
     CREATE_FUNC(GameStartScene);
 
+    void menuStartCallback(CCObject* pSender);
+    void menuQuitCallback(CCObject* pSender);
+
     
 };
 

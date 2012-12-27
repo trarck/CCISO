@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		571658CF167861520090DEF8 /* CCAstar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 571658C3167861520090DEF8 /* CCAstar.cpp */; };
+		571658D0167861520090DEF8 /* CCAstarNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 571658C5167861520090DEF8 /* CCAstarNode.cpp */; };
+		571658D1167861520090DEF8 /* CCCoordinate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 571658C7167861520090DEF8 /* CCCoordinate.cpp */; };
+		571658D2167861520090DEF8 /* CCIsometric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 571658CA167861520090DEF8 /* CCIsometric.cpp */; };
+		571658D3167861520090DEF8 /* CCZIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 571658CC167861520090DEF8 /* CCZIndex.cpp */; };
 		5716B5B8163932D900FAE4B5 /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5716B5B6163932D900FAE4B5 /* Unit.cpp */; };
 		5723975616394B15006D853E /* WorldEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5723975416394B15006D853E /* WorldEntity.cpp */; };
 		57584246162D1B85008DA210 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584244162D1B85008DA210 /* Monster.cpp */; };
@@ -43,7 +48,7 @@
 		5763C2E21608570A0068D420 /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2831608570A0068D420 /* SimpleAudioEngine_objc.m */; };
 		5785793B16412FB6001AFB30 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785793516412FB6001AFB30 /* GameOverScene.cpp */; };
 		5785793C16412FB6001AFB30 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785793716412FB6001AFB30 /* GameScene.cpp */; };
-		5785793D16412FB6001AFB30 /* GameStartScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 5785793A16412FB6001AFB30 /* GameStartScene.m */; };
+		5785793D16412FB6001AFB30 /* GameStartScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785793A16412FB6001AFB30 /* GameStartScene.cpp */; };
 		578747431630083D002A6E3F /* AnimationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 578747411630083D002A6E3F /* AnimationComponent.cpp */; };
 		5791DDD81609703E00D996E9 /* AttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDD31609703E00D996E9 /* AttackComponent.cpp */; };
 		5791DDD91609703E00D996E9 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDD51609703E00D996E9 /* Component.cpp */; };
@@ -78,6 +83,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		571658C3167861520090DEF8 /* CCAstar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAstar.cpp; sourceTree = "<group>"; };
+		571658C4167861520090DEF8 /* CCAstar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAstar.h; sourceTree = "<group>"; };
+		571658C5167861520090DEF8 /* CCAstarNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAstarNode.cpp; sourceTree = "<group>"; };
+		571658C6167861520090DEF8 /* CCAstarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAstarNode.h; sourceTree = "<group>"; };
+		571658C7167861520090DEF8 /* CCCoordinate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCoordinate.cpp; sourceTree = "<group>"; };
+		571658C8167861520090DEF8 /* CCCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCoordinate.h; sourceTree = "<group>"; };
+		571658C9167861520090DEF8 /* CCISOCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOCoordinate.h; sourceTree = "<group>"; };
+		571658CA167861520090DEF8 /* CCIsometric.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCIsometric.cpp; sourceTree = "<group>"; };
+		571658CB167861520090DEF8 /* CCIsometric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCIsometric.h; sourceTree = "<group>"; };
+		571658CC167861520090DEF8 /* CCZIndex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCZIndex.cpp; sourceTree = "<group>"; };
+		571658CD167861520090DEF8 /* CCZIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCZIndex.h; sourceTree = "<group>"; };
+		571658CE167861520090DEF8 /* TestData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestData.h; sourceTree = "<group>"; };
 		5716B5B6163932D900FAE4B5 /* Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Unit.cpp; sourceTree = "<group>"; };
 		5716B5B7163932D900FAE4B5 /* Unit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unit.h; sourceTree = "<group>"; };
 		5716B5B91639346000FAE4B5 /* GameMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMacros.h; sourceTree = "<group>"; };
@@ -136,7 +153,7 @@
 		5785793716412FB6001AFB30 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		5785793816412FB6001AFB30 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		5785793916412FB6001AFB30 /* GameStartScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameStartScene.h; sourceTree = "<group>"; };
-		5785793A16412FB6001AFB30 /* GameStartScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameStartScene.m; sourceTree = "<group>"; };
+		5785793A16412FB6001AFB30 /* GameStartScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameStartScene.cpp; sourceTree = "<group>"; };
 		5785793E164130AD001AFB30 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		578747411630083D002A6E3F /* AnimationComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationComponent.cpp; sourceTree = "<group>"; };
 		578747421630083D002A6E3F /* AnimationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationComponent.h; sourceTree = "<group>"; };
@@ -192,6 +209,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		571658C2167861520090DEF8 /* Isometric */ = {
+			isa = PBXGroup;
+			children = (
+				571658C3167861520090DEF8 /* CCAstar.cpp */,
+				571658C4167861520090DEF8 /* CCAstar.h */,
+				571658C5167861520090DEF8 /* CCAstarNode.cpp */,
+				571658C6167861520090DEF8 /* CCAstarNode.h */,
+				571658C7167861520090DEF8 /* CCCoordinate.cpp */,
+				571658C8167861520090DEF8 /* CCCoordinate.h */,
+				571658C9167861520090DEF8 /* CCISOCoordinate.h */,
+				571658CA167861520090DEF8 /* CCIsometric.cpp */,
+				571658CB167861520090DEF8 /* CCIsometric.h */,
+				571658CC167861520090DEF8 /* CCZIndex.cpp */,
+				571658CD167861520090DEF8 /* CCZIndex.h */,
+				571658CE167861520090DEF8 /* TestData.h */,
+			);
+			name = Isometric;
+			path = ../../CCLibs/Isometric;
+			sourceTree = "<group>";
+		};
 		5763BF8F1608554D0068D420 = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +289,7 @@
 		5763C244160856DB0068D420 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				571658C2167861520090DEF8 /* Isometric */,
 				5785793416412FB6001AFB30 /* Scenes */,
 				5791DDE616098BC700D996E9 /* Message */,
 				5791DDDF160982C200D996E9 /* Entities */,
@@ -333,7 +371,7 @@
 				5785793716412FB6001AFB30 /* GameScene.cpp */,
 				5785793816412FB6001AFB30 /* GameScene.h */,
 				5785793916412FB6001AFB30 /* GameStartScene.h */,
-				5785793A16412FB6001AFB30 /* GameStartScene.m */,
+				5785793A16412FB6001AFB30 /* GameStartScene.cpp */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -517,7 +555,12 @@
 				5723975616394B15006D853E /* WorldEntity.cpp in Sources */,
 				5785793B16412FB6001AFB30 /* GameOverScene.cpp in Sources */,
 				5785793C16412FB6001AFB30 /* GameScene.cpp in Sources */,
-				5785793D16412FB6001AFB30 /* GameStartScene.m in Sources */,
+				5785793D16412FB6001AFB30 /* GameStartScene.cpp in Sources */,
+				571658CF167861520090DEF8 /* CCAstar.cpp in Sources */,
+				571658D0167861520090DEF8 /* CCAstarNode.cpp in Sources */,
+				571658D1167861520090DEF8 /* CCCoordinate.cpp in Sources */,
+				571658D2167861520090DEF8 /* CCIsometric.cpp in Sources */,
+				571658D3167861520090DEF8 /* CCZIndex.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

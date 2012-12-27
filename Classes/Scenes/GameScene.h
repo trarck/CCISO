@@ -12,7 +12,6 @@ NS_YH_BEGIN
 class GameScene : CCLayer {
 public:
     virtual bool init();
-   
 
     static CCScene* scene();
 
@@ -30,5 +29,3 @@ private:
 NS_YH_END
 
 #endif //SCENES_GAME_SCENE_H_
-
-
