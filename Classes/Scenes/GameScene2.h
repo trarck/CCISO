@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "GameConfig.h"
-//#include "GameWorld.h"
+#include "GameWorld.h"
 
 USING_NS_CC;
 
@@ -11,6 +11,10 @@ NS_YH_BEGIN
 
 class GameScene : CCLayer {
 public:
+    
+    GameScene();
+    ~GameScene();
+
     virtual bool init();
 
     static CCScene* scene();
@@ -19,11 +23,15 @@ public:
 
     CREATE_FUNC(GameScene);
 
-    //void setGameWorld(GameWorld* pGameWorld);
-    //GameWorld* getGameWorld();
+    void setGameWorld(GameWorld* pGameWorld);
+    GameWorld* getGameWorld();
+
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent); 
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent); 
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent); 
 
 private:
-    //GameWorld* m_pGameWorld;
+    GameWorld* m_pGameWorld;
 };
 
 NS_YH_END

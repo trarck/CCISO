@@ -1,7 +1,21 @@
 #include "cocos2d.h"
 #include "GameScene.h"
-//#include "GameWorld.h"
+#include "GameWorld.h"
 
+USING_NS_CC;
+
+NS_YH_BEGIN
+
+GameScene::GameScene()
+:m_pGameWorld(NULL)
+{
+    
+}
+
+GameScene::~GameScene()
+{
+    CC_SAFE_RELEASE(m_pGameWorld);
+}
 //+(CGPoint) locationFromTouch:(UITouch *) touch
 //{
 //	CGPoint touchLocation=[touch locationInView:[touch view]];
@@ -24,51 +38,48 @@ CCScene* GameScene::scene()
 }
 
 // on "init" you need to initialize your instance
-bool GameScene::init
+bool GameScene::init()
 {
     if(!CCLayer::init()){
         return false;
     }
 
-				
-    self.gameWorld=[GameWorld sharedGameWorld];
-    [self addChild:gameWorld_];
-    gameWorld_.mapId=1;
-    [gameWorld_ release];
+    m_pGameWorld=new GameWorld();
+    this.addChild(m_pGameWorld);
+    m_pGameWorld.mapId=1;
+    m_pGameWorld->release();
+
+    //由GameWorld接收事件
+    //UI层也由UI接收事件
+//    m_bIsTouchEnabled=true;
 
 	return self;
 }
 
--(void) registerWithTouchDispatcher
+void  GameScene::registerWithTouchDispatcher()
 {
-	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-	
+	CCTouchDispatcher::sharedDispatcher()->addTargetedDelegate(this, 0,true);
 }
 
--(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+bool  GameScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
-	return YES;
+    //GL coordinates
+    CCPoint touchPoint = touch->getLocation(); 
+
+	return true;
 }
--(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+void  GameScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-	//CGPoint location=[self convertTouchToNodeSpace:touch];
 		
 }
-
-// on "dealloc" you need to release all your retained objects
-- (void) dealloc
+void  GameScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
-	
-	// in case you have something to dealloc, do it in this method
-	// in this particular example nothing needs to be released.
-	// cocos2d will automatically release all the children (Label)
-	
-	// don't forget to call "super dealloc"
-	
-	self.gameWorld=nil;
-	NSLog(@"game:before GameScene dealloc.");
-	[super dealloc];
-	NSLog(@"game:end GameScene dealloc.");
+
 }
 
-@end
+GameWorld*  GameScene::getGameWorld()
+{
+    return m_pGameWorld;
+}
+
+NS_YH_END
