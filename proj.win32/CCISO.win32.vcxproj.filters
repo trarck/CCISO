@@ -1,17 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="source">
-      <UniqueIdentifier>{f191eef9-7e9c-4807-a5b5-fd077b76fc91}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
-    </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{84dd156a-09da-4716-8f2b-cbbf09091d61}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
-    </Filter>
     <Filter Include="resource">
       <UniqueIdentifier>{de86420e-485b-409f-85da-fff8de3c7b80}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{6f90c35d-0570-4e95-8b4c-4aa5e2f1cbf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win32">
+      <UniqueIdentifier>{fe6bba5f-85d9-4fec-9cb1-dc494a6822df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Components">
+      <UniqueIdentifier>{5e39cfa3-3e5d-43e8-95f1-23fc423eed53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Entities">
+      <UniqueIdentifier>{4214b472-7f71-4ff9-a775-a50327337ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Isometric">
+      <UniqueIdentifier>{f5760e17-18de-46dc-9878-7653de9768a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Message">
+      <UniqueIdentifier>{8ea7e65a-f2d3-4cde-903b-e284a1765673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Scenes">
+      <UniqueIdentifier>{1ed3f207-54e4-47f3-af39-c39b4f158624}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,28 +47,178 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>include</Filter>
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>include</Filter>
+      <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>include</Filter>
+    <ClInclude Include="..\Classes\GameConfig.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMacros.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMessages.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameTypes.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\YHMacros.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\AnimationComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\AttackComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\AutoAttackComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\Component.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\IComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\ManualAttackComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Components\SimpleMoveComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\GameEntity.h">
+      <Filter>Classes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\Monster.h">
+      <Filter>Classes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\Player.h">
+      <Filter>Classes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\Unit.h">
+      <Filter>Classes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\WorldEntity.h">
+      <Filter>Classes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCAstar.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCAstarNode.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCCoordinate.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOCoordinate.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCZIndex.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCZIndexNode.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Message\CCIMessageManager.h">
+      <Filter>Classes\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Message\CCMessage.h">
+      <Filter>Classes\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Message\CCMessageHandler.h">
+      <Filter>Classes\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Message\CCMessageManager.h">
+      <Filter>Classes\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameOverScene.h">
+      <Filter>Classes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameScene.h">
+      <Filter>Classes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameStartScene.h">
+      <Filter>Classes\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>source</Filter>
+      <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>source</Filter>
+      <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="..\Classes\Components\AnimationComponent.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\AttackComponent.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\AutoAttackComponent.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\Component.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\ManualAttackComponent.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\SimpleMoveComponent.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\GameEntity.cpp">
+      <Filter>Classes\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\Monster.cpp">
+      <Filter>Classes\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\Player.cpp">
+      <Filter>Classes\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\Unit.cpp">
+      <Filter>Classes\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\WorldEntity.cpp">
+      <Filter>Classes\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCAstar.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCAstarNode.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCCoordinate.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCZIndex.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCZIndexNode.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Message\CCMessage.cpp">
+      <Filter>Classes\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Message\CCMessageHandler.cpp">
+      <Filter>Classes\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Message\CCMessageManager.cpp">
+      <Filter>Classes\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp">
+      <Filter>Classes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
+      <Filter>Classes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameStartScene.cpp">
+      <Filter>Classes\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

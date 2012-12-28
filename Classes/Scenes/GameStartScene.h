@@ -2,14 +2,13 @@
 #define SCENES_GAME_START_SCENE_H_
 
 #include "cocos2d.h"
-#include "GameConfigs.h"
-
+#include "GameConfig.h"
 
 USING_NS_CC;
 
 NS_YH_BEGIN
 
-class GameStartScene : CCLayer {
+class GameStartScene : public CCLayer {
 public:
     virtual bool init();
    

@@ -16,9 +16,6 @@ typedef enum {
 	ZIndex_Dynamic
 } ZIndexType;
 
-
-
-
 class CCZIndex : public CCObject {
 
 public:
@@ -35,14 +32,15 @@ public:
     void removeStatic(CCZIndexNode* node);
     void removeDynamic(CCZIndexNode* node);
 
-    void insertSort(CCZIndexNode* node ,CCArray* rects,CCArray& results);
-    void sort(CCArray& results);
+    CCArray* insertSort(CCZIndexNode* node ,CCArray* rects);
+    CCArray* sort();
     void sortStatics();
     //动态指定。
     void start();
     void stop();
     int caculateSideFrom(CCRect* pFrom ,CCRect* pTo);
 
+	void update(float delta);
     void setUpdate(SEL_SCHEDULE pfnUpdate);
 
 protected:
@@ -52,7 +50,7 @@ protected:
 	bool m_bIsWorking;
 	bool m_bStaticDirty;
     //弱引用
-    SEL_SCHEDULE m_pfnUpdate
+    SEL_SCHEDULE m_pfnUpdate;
 };
 
 

@@ -19,7 +19,7 @@ CCScene* GameStartScene::scene()
     CCScene *scene = CCScene::create();
     
     // 'layer' is an autorelease object
-    GameStartScene* gameStartScene = GameStartScene::node();
+    GameStartScene* gameStartScene = GameStartScene::create();
 
     // add layer as a child to scene
     scene->addChild(gameStartScene);
@@ -47,12 +47,12 @@ bool GameStartScene::init()
 	return true;
 }
 
-void GameStartScene:menuStartCallback(CCObject* pSender)
+void GameStartScene::menuStartCallback(CCObject* pSender)
 {
-    CCDirecto::sharedDirector()->replaceScene(GameScene::scene);
+    CCDirector::sharedDirector()->replaceScene(GameScene::scene());
 }
 
-void GameStartScene:menuStartCallback(CCObject* pSender)
+void GameStartScene::menuQuitCallback(CCObject* pSender)
 {
     this->removeAllChildrenWithCleanup(true);
     CCDirector::sharedDirector()->end();

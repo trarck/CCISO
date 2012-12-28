@@ -6,51 +6,56 @@
 //  Copyright 2011 yitengku.com. All rights reserved.
 //
 
-#import "GameOverScene.h"
-#import "GameScene.h"
+#include "GameOverScene.h"
+#include "GameScene.h"
 
-
-CCScene* HelloWorld::scene()
+NS_YH_BEGIN
+CCScene* GameOverScene::scene()
 {
-    // 'scene' is an autorelease object
+     // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
     
     // 'layer' is an autorelease object
-    HelloWorld *layer = HelloWorld::create();
-    
+    GameOverScene* gameOverScene = GameOverScene::create();
+
     // add layer as a child to scene
-    scene->addChild(layer);
-    
+    scene->addChild(gameOverScene);
     // return the scene
     return scene;
 }
 
--(id) init
+bool GameOverScene::init()
 {
-	if((self=[super init])){
-		CCLabelTTF *gameOverlabel=[CCLabelTTF labelWithString:@"Game Over!" fontName:@"Marker Felt" fontSize:64]; 
-		CGSize screenSize=[[CCDirector sharedDirector] winSize];
-		gameOverlabel.position=ccp(screenSize.width/2,screenSize.height/2);
-		[self addChild:gameOverlabel];
-		
-		//menu
-		[CCMenuItemFont setFontName:@"Marker Felt"];
-		[CCMenuItemFont setFontSize:30];
-		
-		CCMenuItem *restart=[CCMenuItemFont itemFromString:@"restart game" target:self selector:@selector(restart:)];
-		
-		CCMenu *menu=[CCMenu menuWithItems:restart,nil];
-		[menu alignItemsHorizontally];
-		menu.position=ccp(screenSize.width/2,30);
-		[self addChild:menu];
-		
-	}
-	return self;
+    if ( !CCLayer::init() )
+    {
+        return false;
+    }
+
+    CCMenuItemFont::setFontName("Marker Felt");
+    CCMenuItemFont::setFontSize(30);
+    
+    CCMenuItem* pStart=CCMenuItemFont::create("start game",this,menu_selector(GameOverScene::menuStartCallback));
+    CCMenuItem* pQuit=CCMenuItemFont::create("quit game",this,menu_selector(GameOverScene::menuQuitCallback));
+    
+    CCMenu* pMenu=CCMenu::create(pStart,pQuit,NULL);
+    pMenu->alignItemsVertically();
+    this->addChild(pMenu);
+
+	return true;
 }
 
--(void) restart:(id) sender
+void GameOverScene::menuStartCallback(CCObject* pSender)
 {
-	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
+    CCDirector::sharedDirector()->replaceScene(GameScene::scene());
 }
 
-@end
+void GameOverScene::menuQuitCallback(CCObject* pSender)
+{
+    this->removeAllChildrenWithCleanup(true);
+    CCDirector::sharedDirector()->end();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    exit(0);
+#endif
+}
+NS_YH_END

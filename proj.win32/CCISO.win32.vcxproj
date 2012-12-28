@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\Classes;$(SolutionDir)cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\kazmath\include;$(SolutionDir)cocos2dx\platform\win32;$(SolutionDir)cocos2dx\platform\third_party\win32;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)CocosDenshion\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Classes;..\Classes\Components;..\Classes\Entities;..\Classes\Isometric;..\Classes\Message;..\Classes\Scenes;$(SolutionDir)cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\kazmath\include;$(SolutionDir)cocos2dx\platform\win32;$(SolutionDir)cocos2dx\platform\third_party\win32;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)CocosDenshion\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -132,13 +132,63 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\Components\AnimationComponent.h" />
+    <ClInclude Include="..\Classes\Components\AttackComponent.h" />
+    <ClInclude Include="..\Classes\Components\AutoAttackComponent.h" />
+    <ClInclude Include="..\Classes\Components\Component.h" />
+    <ClInclude Include="..\Classes\Components\IComponent.h" />
+    <ClInclude Include="..\Classes\Components\ManualAttackComponent.h" />
+    <ClInclude Include="..\Classes\Components\SimpleMoveComponent.h" />
+    <ClInclude Include="..\Classes\Entities\GameEntity.h" />
+    <ClInclude Include="..\Classes\Entities\Monster.h" />
+    <ClInclude Include="..\Classes\Entities\Player.h" />
+    <ClInclude Include="..\Classes\Entities\Unit.h" />
+    <ClInclude Include="..\Classes\Entities\WorldEntity.h" />
+    <ClInclude Include="..\Classes\GameConfig.h" />
+    <ClInclude Include="..\Classes\GameMacros.h" />
+    <ClInclude Include="..\Classes\GameMessages.h" />
+    <ClInclude Include="..\Classes\GameTypes.h" />
+    <ClInclude Include="..\Classes\Isometric\CCAstar.h" />
+    <ClInclude Include="..\Classes\Isometric\CCAstarNode.h" />
+    <ClInclude Include="..\Classes\Isometric\CCCoordinate.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOCoordinate.h" />
+    <ClInclude Include="..\Classes\Isometric\CCZIndex.h" />
+    <ClInclude Include="..\Classes\Isometric\CCZIndexNode.h" />
+    <ClInclude Include="..\Classes\Message\CCIMessageManager.h" />
+    <ClInclude Include="..\Classes\Message\CCMessage.h" />
+    <ClInclude Include="..\Classes\Message\CCMessageHandler.h" />
+    <ClInclude Include="..\Classes\Message\CCMessageManager.h" />
+    <ClInclude Include="..\Classes\Scenes\GameOverScene.h" />
+    <ClInclude Include="..\Classes\Scenes\GameScene.h" />
+    <ClInclude Include="..\Classes\Scenes\GameStartScene.h" />
+    <ClInclude Include="..\Classes\YHMacros.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\Components\AnimationComponent.cpp" />
+    <ClCompile Include="..\Classes\Components\AttackComponent.cpp" />
+    <ClCompile Include="..\Classes\Components\AutoAttackComponent.cpp" />
+    <ClCompile Include="..\Classes\Components\Component.cpp" />
+    <ClCompile Include="..\Classes\Components\ManualAttackComponent.cpp" />
+    <ClCompile Include="..\Classes\Components\SimpleMoveComponent.cpp" />
+    <ClCompile Include="..\Classes\Entities\GameEntity.cpp" />
+    <ClCompile Include="..\Classes\Entities\Monster.cpp" />
+    <ClCompile Include="..\Classes\Entities\Player.cpp" />
+    <ClCompile Include="..\Classes\Entities\Unit.cpp" />
+    <ClCompile Include="..\Classes\Entities\WorldEntity.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCAstar.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCAstarNode.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCCoordinate.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCZIndex.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCZIndexNode.cpp" />
+    <ClCompile Include="..\Classes\Message\CCMessage.cpp" />
+    <ClCompile Include="..\Classes\Message\CCMessageHandler.cpp" />
+    <ClCompile Include="..\Classes\Message\CCMessageManager.cpp" />
+    <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp" />
+    <ClCompile Include="..\Classes\Scenes\GameScene.cpp" />
+    <ClCompile Include="..\Classes\Scenes\GameStartScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,18 +3,21 @@
 
 
 #include "cocos2d.h"
-#include "GameConfigs.h"
+#include "GameConfig.h"
 
 
 USING_NS_CC;
 
 NS_YH_BEGIN
 
-class GameOverScene : CCLayer {
+class GameOverScene : public CCLayer {
 public:
     virtual bool init();
     static CCScene* scene();
     
+	void menuStartCallback(CCObject* pSender);
+    void menuQuitCallback(CCObject* pSender);
+
     CREATE_FUNC(GameOverScene);
 };
 
