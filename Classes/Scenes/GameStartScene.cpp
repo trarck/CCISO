@@ -16,14 +16,13 @@ NS_YH_BEGIN
 CCScene* GameStartScene::scene()
 {
     // 'scene' is an autorelease object
-    CCScene* scene = CCScene::create();
+    CCScene *scene = CCScene::create();
     
     // 'layer' is an autorelease object
-    GameStartScene* layer = GameStartScene::create();
-    
+    GameStartScene* gameStartScene = GameStartScene::node();
+
     // add layer as a child to scene
-    scene->addChild(layer);
-    
+    scene->addChild(gameStartScene);
     // return the scene
     return scene;
 }
@@ -34,7 +33,6 @@ bool GameStartScene::init()
     {
         return false;
     }
-    
 
     CCMenuItemFont::setFontName("Marker Felt");
     CCMenuItemFont::setFontSize(30);
@@ -63,5 +61,4 @@ void GameStartScene:menuStartCallback(CCObject* pSender)
     exit(0);
 #endif
 }
-
 NS_YH_END
