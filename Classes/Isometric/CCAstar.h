@@ -20,14 +20,14 @@ NS_CC_BEGIN
 //	float h;
 //} AstarNode;
 
-#ifndef ISO_MapInfo
-#define ISO_MapInfo
-typedef struct MapInfo{
+#ifndef ISO_MapCellInfo
+#define ISO_MapCellInfo
+typedef struct tMapCellInfo{
 	unsigned short barrier; 
 	int state;
 	CCObject* entity;
-} MapInfo;
-#endif //ISO_MapInfo
+} MapCellInfo;
+#endif //ISO_MapCellInfo
 
 
 class CCAstar : public CCObject {
@@ -46,8 +46,8 @@ public:
 	virtual int getMaxX();
 	virtual void setMaxY(int maxY);
 	virtual int getMaxY();
-	virtual void setBarriers(MapInfo* barriers);
-	virtual MapInfo* getBarriers();
+	virtual void setBarriers(MapCellInfo* barriers);
+	virtual MapCellInfo* getBarriers();
 	virtual void setBarrierColumn(int barrierColumn);
 	virtual int getBarrierColumn();
 
@@ -56,7 +56,7 @@ public:
 	void setBounding(int minX ,int minY,int maxX,int maxY);
 	void setStart(int x ,int y);
 	void setEnd(int x ,int y);
-	void setBarrier(MapInfo* barriers ,int column);
+	void setBarrier(MapCellInfo* barriers ,int column);
 	void reset();
 
 	void getNext();
@@ -92,7 +92,7 @@ protected:
 	int m_minY;
 	int m_maxX;
 	int m_maxY;
-	MapInfo* m_barriers;//二维数组
+	MapCellInfo* m_barriers;//二维数组
 	int m_barrierColumn;//数组的列数 
 	
 	CCAstarNode* m_start;

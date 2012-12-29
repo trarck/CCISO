@@ -45,6 +45,8 @@ typedef struct T_CCPointI{
     int y;
 } ISOPointI;
 
+USING_NS_CC;
+
 static inline CCPoint isoViewToGame2F(float x,float y)
 {
 	CCPoint p;

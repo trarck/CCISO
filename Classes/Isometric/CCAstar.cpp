@@ -86,12 +86,12 @@ int CCAstar::getMaxY()
     return m_maxY;
 }
 
-void CCAstar::setBarriers(MapInfo* barriers)
+void CCAstar::setBarriers(MapCellInfo* barriers)
 {
     m_barriers = barriers;
 }
 
-MapInfo* CCAstar::getBarriers()
+MapCellInfo* CCAstar::getBarriers()
 {
     return m_barriers;
 }
@@ -163,7 +163,7 @@ void CCAstar::setEnd(int x ,int y)
 
 
 
-void CCAstar::setBarrier(MapInfo* barriers ,int column)
+void CCAstar::setBarrier(MapCellInfo* barriers ,int column)
 {
 	m_barriers=barriers;
 	m_barrierColumn=column;
