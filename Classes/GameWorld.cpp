@@ -7,6 +7,7 @@
 
 #include "AutoAttackComponent.h"
 
+#include "ISOCoordinateLayer.h"
 
 USING_NS_CC;
 
@@ -21,6 +22,12 @@ bool GameWorld::init()
         return false;
     }
 	m_bIsTouchEnabled=true;
+
+	//add coord line
+	ISOCoordinateLayer* coordLayer=ISOCoordinateLayer::create();
+	coordLayer->setMapWidth(20);
+	coordLayer->setMapHeight(20);
+	this->addChild(coordLayer);
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 
@@ -106,6 +113,7 @@ bool GameWorld::init()
 
     
 //    CCLOG("attackComponent count=%d",attackComponent->retainCount());
+	return true;
 }
 
 void GameWorld::menuCloseCallback(CCObject* pSender)
