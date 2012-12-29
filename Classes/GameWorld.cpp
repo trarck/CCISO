@@ -20,6 +20,7 @@ bool GameWorld::init()
     {
         return false;
     }
+	m_bIsTouchEnabled=true;
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 
@@ -156,6 +157,29 @@ void GameWorld::menuMoveToCallback(CCObject* pSender)
     
     CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_TO, NULL, m_player,&to);
     
+}
+
+void  GameWorld::registerWithTouchDispatcher()
+{
+	CCDirector* pDirector = CCDirector::sharedDirector();
+    pDirector->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+}
+
+bool  GameWorld::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
+{
+    //GL coordinates
+    CCPoint touchPoint = pTouch->getLocation(); 
+	CCPoint mapCoord=isoViewToGame2F(touchPoint.x,touchPoint.y);
+	CCLOG("touch began view cood:%f,%f,map:%f,%f",touchPoint.x,touchPoint.y,mapCoord.x,mapCoord.y);
+	return true;
+}
+void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
+{
+		
+}
+void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
+{
+
 }
 
 NS_YH_END

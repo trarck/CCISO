@@ -12,4 +12,14 @@
     #define USING_NS_YH
 #endif 
 
+//tile width 
+#ifndef TileWidth
+#define TileWidth 64 
+#endif
+//tile height
+#ifndef TileHeight
+#define TileHeight 32 
+#endif
+
+
 #endif //CCISO_GAMEMACRO_H_

@@ -5,6 +5,6 @@
 #include "GameMacros.h"
 #include "GameTypes.h"
 #include "GameMessages.h"
-
+#include "CCISOCoordinate.h"
 
 #endif //CCISO_GAMECONFIG_H_

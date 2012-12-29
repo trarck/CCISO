@@ -25,6 +25,10 @@ public:
     void menuStopCallback(CCObject* pSender);
     void menuMoveToCallback(CCObject* pSender);
 
+	virtual void registerWithTouchDispatcher();
+	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent); 
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent); 
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent); 
 private:
 	Player* m_player;
 };
