@@ -148,6 +148,7 @@
     <ClInclude Include="..\Classes\GameMacros.h" />
     <ClInclude Include="..\Classes\GameMessages.h" />
     <ClInclude Include="..\Classes\GameTypes.h" />
+    <ClInclude Include="..\Classes\GameWorld.h" />
     <ClInclude Include="..\Classes\Isometric\CCAstar.h" />
     <ClInclude Include="..\Classes\Isometric\CCAstarNode.h" />
     <ClInclude Include="..\Classes\Isometric\CCCoordinate.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="..\Classes\Entities\Player.cpp" />
     <ClCompile Include="..\Classes\Entities\Unit.cpp" />
     <ClCompile Include="..\Classes\Entities\WorldEntity.cpp" />
+    <ClCompile Include="..\Classes\GameWorld.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCAstar.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCAstarNode.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCCoordinate.cpp" />

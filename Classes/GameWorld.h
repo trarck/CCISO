@@ -1,11 +1,9 @@
-#ifndef __HELLOWORLD_SCENE_H__
-#define __HELLOWORLD_SCENE_H__
+#ifndef CCISO_GAMEWORLD_H_
+#define CCISO_GAMEWORLD_H_
 
 #include "cocos2d.h"
 #include "GameConfig.h"
-
-#ifndef CCISO_GAMEWORLD_H_
-#define CCISO_GAMEWORLD_H_
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -19,6 +17,18 @@ public:
 
     // implement the "static node()" method manually
     CREATE_FUNC(GameWorld);
+
+	 // a selector callback
+    void menuCloseCallback(CCObject* pSender);
+    
+    void menuRunCallback(CCObject* pSender);
+    void menuStopCallback(CCObject* pSender);
+    void menuMoveToCallback(CCObject* pSender);
+
+private:
+	Player* m_player;
 };
+
 NS_YH_END
+
 #endif // CCISO_GAMEWORLD_H_

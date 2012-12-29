@@ -146,6 +146,9 @@
     <ClInclude Include="..\Classes\Scenes\GameStartScene.h">
       <Filter>Classes\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameWorld.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -219,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameStartScene.cpp">
       <Filter>Classes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameWorld.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
