@@ -1,3 +1,7 @@
+/**
+ * 现在是按照位置来判断结束于否。
+ * 可以考虑按时间来判断。
+ */
 #include "CCMessageManager.h"
 #include "SimpleMoveComponent.h"
 #include "GameEntity.h"
@@ -6,6 +10,12 @@
 USING_NS_CC;
 
 NS_YH_BEGIN
+
+static int directionMapping[3][3]={
+	{4,1,5},
+	{0,-1,2},
+	{7,3,6}
+};
 
 SimpleMoveComponent::SimpleMoveComponent()
 :m_speed(0.0f)
@@ -266,7 +276,7 @@ void SimpleMoveComponent::moveTo(CCPoint to)
     
     CCLOG("moveTo:%f,%f, diff:%f,%f",to.x,to.y,dx,dy);
     
-    if(dx>0 || dy>0){
+    if(dx!=0 || dy!=0){
         float s=sqrtf(dx*dx+dy*dy);
         
         float directionX=dx/s;
@@ -493,14 +503,25 @@ void SimpleMoveComponent::updateDirection( float delta)
 //		}
 //	}
 //}
-///**
-// * 方向改变
-// * 人物在移动时要面向不同的方向
-// */
-//void updateMoveAnimation
-//{
-//	
-//}
+/**
+ * 方向改变
+ * 人物在移动时要面向不同的方向
+ */
+void SimpleMoveComponent::updateMoveAnimation()
+{
+	//+0.5四舍五入
+	int i=floor(m_directionX+0.5)+1;
+	int j=floor(m_directionY+0.5)+1;
+	int index=directionMapping[i][j];
+	CCLOG("index:%d,%d,%d,%f,%f",index,i,j,m_directionX,m_directionY);
+	if (index>-1) {
+		CCDictionary* data=new CCDictionary();
+		data->setObject(CCString::create("move"), "name");
+		data->setObject(CCInteger::create(index), "direction");
+    
+		CCMessageManager::defaultManager()->dispatchMessageWithType(CHANGE_ANIMATION, NULL, m_owner,data);
+	}
+}
 
 /**
  * 移动结束
@@ -509,13 +530,8 @@ void SimpleMoveComponent::updateDirection( float delta)
 void SimpleMoveComponent::didMoveStart()
 {
     //todo parse direction
-    
-	CCDictionary* data=new CCDictionary();
-    data->setObject(CCString::create("move"), "name");
-    data->setObject(CCInteger::create(3), "direction");
-    
-    CCMessageManager::defaultManager()->dispatchMessageWithType(CHANGE_ANIMATION, NULL, m_owner,data);
-    
+    updateMoveAnimation();
+   
 }
 
 /**

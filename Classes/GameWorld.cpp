@@ -183,7 +183,9 @@ bool  GameWorld::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 }
 void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-		
+	 CCPoint touchPoint = pTouch->getLocation();
+    
+     CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_TO, NULL, m_player,&touchPoint);
 }
 void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
