@@ -155,6 +155,9 @@
     <ClInclude Include="..\Classes\Layers\ISOCoordinateLayer.h">
       <Filter>Classes\Layers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Components\MoveComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -234,6 +237,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Layers\ISOCoordinateLayer.cpp">
       <Filter>Classes\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\MoveComponent.cpp">
+      <Filter>Classes\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

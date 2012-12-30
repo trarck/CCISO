@@ -28,7 +28,25 @@ WorldEntity::~WorldEntity()
     CCLOG("WorldEntity destroy");  
 }
 
-bool WorldEntity::initWithEntityId(int entityId, int l, int b, int h, bool barrier)
+bool WorldEntity::init()
+{
+    if(!GameEntity::init()){
+		return false;
+	}
+    
+    return true;
+}
+
+bool WorldEntity::init(int entityId)
+{
+    if(!GameEntity::init(entityId)){
+		return false;
+	}
+    
+    return true;
+}
+
+bool WorldEntity::init(int entityId, int l, int b, int h, bool barrier)
 {
     GameEntity::init();
     

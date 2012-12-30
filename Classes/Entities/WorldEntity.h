@@ -2,11 +2,10 @@
 #define ENTITIES_WORLD_ENTITY_H_
 
 #include "cocos2d.h"
-#include "CCMessage.h"
+#include "GameConfig.h"
 #include "CCMessageHandler.h"
-#include "GameTypes.h"
-#include "GameMacros.h"
 #include "GameEntity.h"
+
 
 USING_NS_CC;
 
@@ -19,8 +18,9 @@ public:
     WorldEntity();
     ~WorldEntity();
     
-//    virtual bool init();
-    virtual bool initWithEntityId(int entityId,int l,int b,int h,bool barrier);
+    virtual bool init();
+	virtual bool init(int entityId);
+    virtual bool init(int entityId,int l,int b,int h,bool barrier);
 //    virtual bool initWithData(CCDictionary* data);
     
     
@@ -52,22 +52,33 @@ public:
         return m_h;
     };
 
-    
-    
-    
     //coordinate
     
-    inline Vector3F getCoordinate()
+    inline Vector3F getCoordinate3F()
     {
-        Vector3F coordinate={m_x,m_y,m_z};
+		Vector3F coordinate={ m_x, m_y, m_z };
         return coordinate;
     };
     
-    inline void setCoordinate(Vector3F coordinate)
+    inline void setCoordinate3F(Vector3F coordinate)
     {
         m_x=coordinate.x;
         m_y=coordinate.y;
         m_z=coordinate.z;
+		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
+    }
+
+	inline CCPoint getCoordinate()
+    {
+        return ccp(m_x,m_y);
+    };
+    
+	inline void setCoordinate(CCPoint coordinate)
+    {
+        m_x=coordinate.x;
+        m_y=coordinate.y;
+        m_z=0;
+		this->setPosition(isoGameToView2F(m_x,m_y));
     }
     
     

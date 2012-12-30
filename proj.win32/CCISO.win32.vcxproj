@@ -138,6 +138,7 @@
     <ClInclude Include="..\Classes\Components\Component.h" />
     <ClInclude Include="..\Classes\Components\IComponent.h" />
     <ClInclude Include="..\Classes\Components\ManualAttackComponent.h" />
+    <ClInclude Include="..\Classes\Components\MoveComponent.h" />
     <ClInclude Include="..\Classes\Components\SimpleMoveComponent.h" />
     <ClInclude Include="..\Classes\Entities\GameEntity.h" />
     <ClInclude Include="..\Classes\Entities\Monster.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\Classes\Components\AutoAttackComponent.cpp" />
     <ClCompile Include="..\Classes\Components\Component.cpp" />
     <ClCompile Include="..\Classes\Components\ManualAttackComponent.cpp" />
+    <ClCompile Include="..\Classes\Components\MoveComponent.cpp" />
     <ClCompile Include="..\Classes\Components\SimpleMoveComponent.cpp" />
     <ClCompile Include="..\Classes\Entities\GameEntity.cpp" />
     <ClCompile Include="..\Classes\Entities\Monster.cpp" />

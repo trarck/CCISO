@@ -31,6 +31,7 @@ bool GameScene::init()
     
     m_pGameWorld=new GameWorld();
 	m_pGameWorld->init();
+	m_pGameWorld->setup();
     this->addChild(m_pGameWorld);
     //m_pGameWorld.mapId=1;
     m_pGameWorld->release();
