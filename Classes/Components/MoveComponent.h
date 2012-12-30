@@ -29,18 +29,8 @@ public:
     virtual void handleMessage(CCMessage* message);
 //    virtual void cleanupMessages();
     
-    
-	
-
-	void preparePath();
-
-   
-    
-    
-    
     bool isMoving();
     MoveState getMoveState();
-    
     CCPoint movingCoordinate();
     
     inline void calcSpeedVector(float directionVectorX,float directionVectorY){
@@ -51,7 +41,7 @@ public:
     bool beforeMove();
 	void startMove();
     void stopMove();
-    
+    bool checkMoveable();
 	//move to end point
 	void moveTo(CCPoint to);
 
@@ -71,13 +61,17 @@ public:
 	void moveWithPaths(CCArray* paths, int fromIndex);
     void continueMoveWithPaths(CCArray* paths);
     void continueMoveWithPaths(CCArray* paths, int fromIndex);
+	bool beforeMovePath();
+	void restartMove();
+	void preparePath();
+	void calcDirection();
   
     void updateDirection(float delta);
 	void updatePath(float delta);
     void updateMoveAnimation();
-    void didMoveStart();
-    void didMoveStop();
-	void didHit(CCPoint location);
+    void doMoveStart();
+    void doMoveStop();
+	void doHit(CCPoint location);
 
 	float getSpeed();
 	void setSpeed(float speed);
@@ -107,13 +101,11 @@ protected:
     float m_directionY;
     bool m_isDirectionDirty;
     
-
-
-    
 	bool m_moving;
     
     float m_nextDirection;
-    
+    //float m_lastDirection;
+
     CCPoint m_to;
     int m_directionFlagX;
     int m_directionFlagY;
@@ -122,8 +114,11 @@ protected:
     
     SEL_SCHEDULE m_update;
     
-        bool m_hasEndPosition;
-
+    bool m_hasEndPosition;
+	int m_iFromIndex;
+	CCArray* m_pCurrentPaths;
+	CCArray* m_pNextPaths;
+	int m_iPathIndex;
 };
 
 NS_YH_END
