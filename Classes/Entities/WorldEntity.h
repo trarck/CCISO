@@ -60,13 +60,21 @@ public:
         return coordinate;
     };
     
-    inline void setCoordinate3F(Vector3F coordinate)
+    inline void setCoordinate(Vector3F coordinate)
     {
         m_x=coordinate.x;
         m_y=coordinate.y;
         m_z=coordinate.z;
 		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
     }
+
+	inline void setCoordinate(float x,float y,float z){
+		m_x=x;
+        m_y=y;
+        m_z=z;
+		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
+	}
+
 
 	inline CCPoint getCoordinate()
     {
@@ -79,6 +87,13 @@ public:
         m_y=coordinate.y;
         m_z=0;
 		this->setPosition(isoGameToView2F(m_x,m_y));
+    }
+	inline void setCoordinate(float x,float y)
+    {
+        m_x=x;
+        m_y=y;
+        m_z=0;
+		this->setPosition(isoGameToView2F(x,y));
     }
     
     

@@ -12,6 +12,8 @@
     #define USING_NS_YH
 #endif 
 
+#define FLOAT_ZERO_FLAG 0.00001
+
 //tile width 
 #ifndef TileWidth
 #define TileWidth 64 

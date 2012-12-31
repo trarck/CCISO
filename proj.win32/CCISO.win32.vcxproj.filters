@@ -158,6 +158,9 @@
     <ClInclude Include="..\Classes\Components\MoveComponent.h">
       <Filter>Classes\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Components\GridMoveComponent.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +242,9 @@
       <Filter>Classes\Layers</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Components\MoveComponent.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Components\GridMoveComponent.cpp">
       <Filter>Classes\Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -136,6 +136,7 @@
     <ClInclude Include="..\Classes\Components\AttackComponent.h" />
     <ClInclude Include="..\Classes\Components\AutoAttackComponent.h" />
     <ClInclude Include="..\Classes\Components\Component.h" />
+    <ClInclude Include="..\Classes\Components\GridMoveComponent.h" />
     <ClInclude Include="..\Classes\Components\IComponent.h" />
     <ClInclude Include="..\Classes\Components\ManualAttackComponent.h" />
     <ClInclude Include="..\Classes\Components\MoveComponent.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\Classes\Components\AttackComponent.cpp" />
     <ClCompile Include="..\Classes\Components\AutoAttackComponent.cpp" />
     <ClCompile Include="..\Classes\Components\Component.cpp" />
+    <ClCompile Include="..\Classes\Components\GridMoveComponent.cpp" />
     <ClCompile Include="..\Classes\Components\ManualAttackComponent.cpp" />
     <ClCompile Include="..\Classes\Components\MoveComponent.cpp" />
     <ClCompile Include="..\Classes\Components\SimpleMoveComponent.cpp" />
