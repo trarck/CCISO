@@ -95,14 +95,14 @@ public:
         m_x=coordinate.x;
         m_y=coordinate.y;
         m_z=coordinate.z;
-		m_bCoordinate_dirty=true;
+		//m_bCoordinateDirty=true;
     }
 
 	inline void setCoordinate(float x,float y,float z){
 		m_x=x;
         m_y=y;
         m_z=z;
-		m_bCoordinate_dirty=true;
+		//m_bCoordinateDirty=true;
 	}
 
 
@@ -116,20 +116,20 @@ public:
         m_x=coordinate.x;
         m_y=coordinate.y;
         m_z=0;
-		m_bCoordinate_dirty=true;
+		//m_bCoordinateDirty=true;
     }
 	inline void setCoordinate(float x,float y)
     {
         m_x=x;
         m_y=y;
         m_z=0;
-		m_bCoordinate_dirty=true;
+		m_bCoordinateDirty=true;
     }
     
     
     inline void setX(float x){
         m_x=x;
-		m_bCoordinate_dirty=true;
+		//m_bCoordinateDirty=true;
     };
     
     inline float getX(){
@@ -138,7 +138,7 @@ public:
     
     inline void setY(float y){
         m_y=y;
-		m_bCoordinate_dirty=true;
+		//m_bCoordinateDirty=true;
     };
     
     inline float getY(){
@@ -147,7 +147,7 @@ public:
     
     inline void setZ(float z){
         m_z=z;
-		m_bCoordinate_dirty=true;
+		//m_bCoordinateDirty=true;
     };
     
     inline float getZ(){
@@ -198,7 +198,7 @@ protected:
     float m_z;
     
     Vector3F m_coordinate;
-	bool m_bCoordinate_dirty;
+	bool m_bCoordinateDirty;
     
     CCObject* m_gameWorld;
     

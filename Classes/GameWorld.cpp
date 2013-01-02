@@ -292,7 +292,7 @@ void GameWorld::addTeammateAtCoord(CCPoint coord)
 {
 	Player* player=new Player();
 	player->init(3);
-	player->setCoordinate(coord);
+	player->setCoordinateAndTranslate(coord);
 	player->setGameWorld(this);
 	player->setupComponents();
 	addInterMediateDynamicEntity(player);

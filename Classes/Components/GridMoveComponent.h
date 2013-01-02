@@ -35,11 +35,11 @@ public:
     
 	void calcMoveDuration(float directionX,float directionY);
     void calcSpeedVector(float directionX,float directionY);
+	void calcTo();
 
     bool checkMoveable();
 	void stop();
-    
-
+   
     //move with direction
     void moveWithDirection(float directionX,float directionY);
     void moveWithDirection(CCPoint direction);
@@ -103,6 +103,8 @@ public:
 protected:
 	void _startMove();
     void _stopMove();
+	void _prepareMove();
+	void _continueUpdate();
 
 	void continueMoveWithDirection(float directionX,float directionY);
     void continueMoveWithDirection(CCPoint direction);
