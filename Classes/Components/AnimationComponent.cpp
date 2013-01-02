@@ -68,7 +68,7 @@ void AnimationComponent::handleMessage(CCMessage *message)
             
             CCString* animationName=(CCString*)data->objectForKey("name");
             int direction=((CCInteger*) data->objectForKey("direction"))->getValue();
-            
+            //CCLOG("direction:%d name:%s",direction,animationName->getCString());
             CCAction* action=(CCAction*)actionForName(animationName->getCString(),direction);
             if(action && m_lastAction!=action){
 //                ((GameEntity*)m_owner)->view()->runAction(action);
@@ -78,12 +78,10 @@ void AnimationComponent::handleMessage(CCMessage *message)
 //                m_lastAction=action;
                 setLastAction(action);
             }else {
-                CCLOG("unknow animation name %s",animationName);
+                CCLOG("unknow animation name %s action is null:%d",animationName->getCString(),action==NULL);
             }
             break;
         }
-            
-         
 	}
 }
 

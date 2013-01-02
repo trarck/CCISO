@@ -196,6 +196,15 @@ void GridMoveComponent::_continueUpdate()
 	}
 }
 
+void GridMoveComponent::_resetState()
+{
+	m_directionX=0;
+	m_directionY=0;
+	m_lastDirectionX=0;
+	m_lastDirectionY=0;
+	m_nextDirectionX=0;
+    m_nextDirectionY=0;
+}
 #pragma mark -
 #pragma mark 按方向移动
 
@@ -207,6 +216,7 @@ void GridMoveComponent::moveWithDirection(float directionX ,float directionY)
     m_update=schedule_selector(GridMoveComponent::updateDirection);
 
 	if (m_moveState==MoveStop) {
+		_resetState();
 		prepareDirection(directionX, directionY);
 		if(checkMoveable()){
 			_prepareMove();
@@ -362,6 +372,7 @@ void GridMoveComponent::moveWithPaths(CCArray* paths,int fromIndex)
 	m_update=schedule_selector(GridMoveComponent::updatePath);
 
 	if(m_moveState==MoveStop){
+		_resetState();
 		m_iFromIndex=fromIndex;
 		this->setCurrentPaths(paths);
 		preparePath();

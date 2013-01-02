@@ -105,6 +105,7 @@ protected:
     void _stopMove();
 	void _prepareMove();
 	void _continueUpdate();
+	void _resetState();
 
 	void continueMoveWithDirection(float directionX,float directionY);
     void continueMoveWithDirection(CCPoint direction);
