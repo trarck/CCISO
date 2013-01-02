@@ -36,10 +36,9 @@ public:
 	void calcMoveDuration(float directionX,float directionY);
     void calcSpeedVector(float directionX,float directionY);
 
-    bool beforeMove();
-	void startMove();
-    void stopMove();
     bool checkMoveable();
+	void stop();
+    
 
     //move with direction
     void moveWithDirection(float directionX,float directionY);
@@ -56,13 +55,16 @@ public:
 	void moveWithPaths(CCArray* paths, int fromIndex);
     void continueMoveWithPaths(CCArray* paths);
     void continueMoveWithPaths(CCArray* paths, int fromIndex);
-	bool beforeMovePath();
 	void restartMove();
+	int getFirstPathIndex();
 	void preparePath();
+	void preparePath(int iPathIndex);
 	void updatePath(float delta);
     void updateMoveAnimation();
+
     void doMoveStart();
     void doMoveStop();
+
 	void doHit(CCPoint location);
 
 	float getSpeed();
@@ -84,6 +86,9 @@ public:
 	virtual void setNextDirectionY(float nextDirectionY);
 	virtual float getNextDirectionY();
 
+	virtual void setKeepMoveDirection(bool bKeepMoveDirection);
+	virtual bool isKeepMoveDirection();
+
 	int getPathIndex();
 	void setPathIndex(int pathIndex);
 
@@ -96,6 +101,9 @@ public:
 	CCPoint getTo();
 	void setTo(CCPoint to);
 protected:
+	void _startMove();
+    void _stopMove();
+
 	void continueMoveWithDirection(float directionX,float directionY);
     void continueMoveWithDirection(CCPoint direction);
 
@@ -108,13 +116,17 @@ protected:
 	float m_direction;//float 角度
     float m_directionX;//vector
     float m_directionY;
+	float m_lastDirectionX;
+	float m_lastDirectionY;
 	//只保留最后一个move direction。
 	//如果一个格子没有移动完成，接收移动消息是无效的，但是为了保持连贯性，
 	//把下一个移动消息保存起来。
 	float m_nextDirectionX;//vector
     float m_nextDirectionY;
     bool m_isDirectionDirty;
-    
+    //direction移动结束后，是否接着原来的方向继续移动。
+	bool m_bKeepMoveDirection;
+
 	bool m_moving;
 	//一次移动的时间
 	float m_movingDuration;

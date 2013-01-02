@@ -175,6 +175,7 @@ void GameWorld::setupUtil()
 	m_pAstar=new CCAstar();
 	m_pAstar->init();
 	m_pAstar->setBounding(0,0,m_iMapColumn,m_iMapRow);
+	m_pAstar->setCheckBarrierHandle(check_barrier_selector(GameWorld::isWorkable),this);
 	
 	CC_SAFE_RELEASE(m_pZIndex);
 	m_pZIndex=new CCZIndex();
@@ -396,9 +397,10 @@ void GameWorld::menuRunCallback(CCObject* pSender)
 //    CCMessageManager::defaultManager()->dispatchMessageWithType(CHANGE_ANIMATION, NULL, m_pPlayer,data);
 //    CCLOG("set begin action after");
     
-    CCInteger* degree=CCInteger::create(45);
+    CCPoint* direction=new CCPoint(1,1);
+	direction->autorelease();
     
-    CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_DIRECTION, NULL, m_pPlayer,degree);
+    CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_DIRECTION, NULL, m_pPlayer,direction);
 
 }
 
@@ -421,10 +423,12 @@ void GameWorld::menuMoveToCallback(CCObject* pSender)
    
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    CCPoint to=ccp(screenSize.width/2+50,screenSize.height/2+50);
+    CCPoint to=isoViewToGame2F(screenSize.width/2+50,screenSize.height/2+50);
+	CCPoint from=m_pPlayer->getCoordinate();
     
-    CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_TO, NULL, m_pPlayer,&to);
-    
+	CCArray* paths=searchPathsFrom(from,to);
+    CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
+	paths->release();
 }
 
 void  GameWorld::registerWithTouchDispatcher()
@@ -444,8 +448,13 @@ bool  GameWorld::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
 	 CCPoint touchPoint = pTouch->getLocation();
+	 CCPoint to=isoViewToGamePoint(touchPoint);
+	 //如果player正在移动，则此时取到的坐标和最终停下来的不一致。
+	 CCPoint from=m_pPlayer->getCoordinate();
     
-     CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_TO, NULL, m_pPlayer,&touchPoint);
+     CCArray* paths=searchPathsFrom(from,to);
+     CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
+	 paths->release();
 }
 void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
@@ -519,5 +528,8 @@ CCLayer* GameWorld::getForeground()
     return m_pForeground;
 }
 
-
+bool GameWorld::isWorkable(int x ,int y)
+{
+    return true;
+}
 NS_YH_END

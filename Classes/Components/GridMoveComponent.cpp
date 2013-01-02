@@ -4,15 +4,14 @@
  */
 #include "CCMessageManager.h"
 #include "GridMoveComponent.h"
-#include "GameEntity.h"
 #include "WorldEntity.h"
 #include "GameMessages.h"
 
 #define AXIS_VECTOR 1
 //sqrt(2)
-#define BEVEL_VECTOR 1.414213562373
-#define BEVEL_VECTOR_HALF 0.70710678
-#define MOVIE_TIME_UNIT 1000
+#define BEVEL_VECTOR 1.41421356f
+#define BEVEL_VECTOR_HALF 0.70710678f
+#define MOVIE_TIME_UNIT 1
 
 USING_NS_CC;
 
@@ -41,6 +40,8 @@ GridMoveComponent::GridMoveComponent()
 ,m_isDirectionDirty(true)
 ,m_pCurrentPaths(NULL)
 ,m_pNextPaths(NULL)
+,m_lastDirectionX(0)
+,m_lastDirectionY(0)
 {
     CCLOG("GridMoveComponent create");
 }
@@ -79,17 +80,24 @@ void GridMoveComponent::handleMessage(CCMessage *message)
             
 		case MOVE_DIRECTION :
         {
-            CCInteger* integer=(CCInteger*)message->getData();
-            moveWithDirection(kmDegreesToRadians(integer->getValue()));
+            CCPoint* direction=(CCPoint*)message->getData();
+            moveWithDirection(*direction);
             break;
         }
         case MOVE_DIRECTION_STOP:
-            stopMove();
+			stop();
             break;
         case MOVE_TO:
         {
             CCPoint to=*(CCPoint*)message->getData();
             //moveTo(to);
+            break;
+        }
+		case MOVE_PATH:
+        {
+			CCLOG("on Move_path");
+            CCArray* paths=(CCArray*)message->getData();
+			moveWithPaths(paths);
             break;
         }
 	}
@@ -104,7 +112,7 @@ bool GridMoveComponent::registerMessages()
     CCMessageManager::defaultManager()->registerReceiver(m_owner, handle, MOVE_DIRECTION, NULL,this); 
     CCMessageManager::defaultManager()->registerReceiver(m_owner, handle, MOVE_DIRECTION_STOP, NULL,this);
     CCMessageManager::defaultManager()->registerReceiver(m_owner, handle, MOVE_TO, NULL,this);
-    
+    CCMessageManager::defaultManager()->registerReceiver(m_owner, handle, MOVE_PATH, NULL,this);
     return true;
 }
 
@@ -130,24 +138,33 @@ CCPoint GridMoveComponent::movingCoordinate()
 	return coord;
 }
 
-
-
 /**
  * 移动之前进行检查
  */
 
-bool GridMoveComponent::beforeMove()
+bool GridMoveComponent::checkMoveable()
 {
 	return true;
+}
+
+/**
+ * 移动结束
+ */
+
+void GridMoveComponent::stop()
+{
+	m_moveState=MoveWillStop;
+    _stopMove();
 }
 
 /**
  * 开始移动
  * 设置移动动画的定时器
  */
-void GridMoveComponent::startMove()
+void GridMoveComponent::_startMove()
 {
-    CCLOG("startMove");
+	m_movingDeltaTime=0;
+    CCLOG("_startMove");
 	m_moveState=MoveStart;
     CCDirector* director = CCDirector::sharedDirector();
     CCScheduler* pScheduler = director->getScheduler();
@@ -159,7 +176,7 @@ void GridMoveComponent::startMove()
  * 停止移动
  * 取消移动动画的定时器
  */
-void GridMoveComponent::stopMove()
+void GridMoveComponent::_stopMove()
 {
 	if(m_moveState==MoveStart){
 		m_moveState=MoveWillStop;
@@ -188,7 +205,7 @@ void GridMoveComponent::moveWithDirection(float directionX ,float directionY)
 		prepareDirection(directionX, directionY);
     
 		if(checkMoveable()){
-			startMove();
+			_startMove();
 		}
 	}else {
 		continueMoveWithDirection(directionX,directionY);
@@ -229,8 +246,9 @@ void GridMoveComponent::calcMoveDuration(float directionX,float directionY)
 	int j=floor(directionY+0.5)+1;
 	CCAssert(i>=0 && i<=2,"prepareDirection error the direction out of range");
 	CCAssert(j>=0 && j<=2,"prepareDirection error the direction out of range");
-	float m_movingDuration=MoveDurationMap[i][j];
+	m_movingDuration=MoveDurationMap[i][j]/m_speed;
 
+	CCLOG("m_movingDuration:%f",m_movingDuration);
 	//float absDirX=abs(directionX);
 	//float absDirY=abs(directionY);
 
@@ -265,6 +283,7 @@ void GridMoveComponent::calcSpeedVector(float directionX,float directionY)
 		m_speedX=i*m_speed*BEVEL_VECTOR_HALF;
 		m_speedY=j*m_speed*BEVEL_VECTOR_HALF;
 	}
+	CCLOG("m_speedX:%f,m_speedY:%f",m_speedX,m_speedY);
 }
 
 /**
@@ -281,20 +300,35 @@ void GridMoveComponent::updateDirection( float delta)
 	if(m_movingDeltaTime<m_movingDuration){
 		mx+=delta*m_speedX;
 		my+=delta*m_speedY;
+		owner->setCoordinate(mx,my);
 	}else{
 		//一次移动完成
 		mx=m_to.x;
 		my=m_to.y;
+		owner->setCoordinate(mx,my);
 		if (m_moveState==MoveContinue) {
-
-		}else{
-			m_moveState=MoveWillStop;
-			stopMove();
-		}
-		
-	}
-	owner->setCoordinate(mx,my);
+			setDirection(m_nextDirectionX,m_nextDirectionY);
+			prepareDirection(m_nextDirectionX, m_nextDirectionY);
     
+			if(checkMoveable()){
+				m_movingDeltaTime=0;
+				m_moveState=MoveStart;
+				updateMoveAnimation();
+			}else{
+				stop();
+			}
+		}else{
+			if(m_bKeepMoveDirection){
+				if(checkMoveable()){
+					m_movingDeltaTime=0;
+				}else{
+					stop();
+				}
+			}else{
+				stop();
+			}
+		}
+	}
 }
 
 /**
@@ -307,18 +341,24 @@ void GridMoveComponent::moveWithPaths(CCArray* paths)
 
 void GridMoveComponent::moveWithPaths(CCArray* paths,int fromIndex)
 {
+	CCObject* pObj=NULL;
+	CCARRAY_FOREACH(paths,pObj){
+		CCPoint* pos=(CCPoint*)pObj;
+		CCLOG("x=%f,y=%f",pos->x,pos->y);
+	}
+
 	m_update=schedule_selector(GridMoveComponent::updatePath);
 
-	if (m_moveState==MoveStart) {
-		m_iFromIndex=fromIndex;
-		continueMoveWithPaths(paths);
-	}else if(m_moveState==MoveStop){
+	if(m_moveState==MoveStop){
 		m_iFromIndex=fromIndex;
 		this->setCurrentPaths(paths);
 		preparePath();
-		if (beforeMovePath()) {
-			startMove();
+		if (checkMoveable()) {
+			_startMove();
 		}
+	}else{
+		m_iFromIndex=fromIndex;
+		continueMoveWithPaths(paths);
 	}
 }
 /**
@@ -330,23 +370,15 @@ void GridMoveComponent::continueMoveWithPaths(CCArray* paths)
 	m_moveState=MoveContinue;
 }
 
-/**
- * 路径移动之前进行检查
- */
-bool GridMoveComponent::beforeMovePath()
-{
-	if(beforeMove()){
-		calcDirection();
-		return true;
-	}
-	return false;
-}
-
 void GridMoveComponent::restartMove()
 {
 	m_moveState=MoveStart;
 	preparePath();
-	beforeMovePath();
+}
+
+int GridMoveComponent::getFirstPathIndex(){
+	int iPathIndex=m_pCurrentPaths->count()-1 -m_iFromIndex;
+	return iPathIndex;
 }
 
 /**
@@ -354,13 +386,21 @@ void GridMoveComponent::restartMove()
  */
 void  GridMoveComponent::preparePath()
 {
-	m_iPathIndex=m_pCurrentPaths->count()-2-m_iFromIndex;
-	if (m_iPathIndex<0) {
-		CCAssert(m_iPathIndex<0,"paths length less 2");
-	}
-	
-	m_to=*(CCPoint*)m_pCurrentPaths->objectAtIndex(m_iPathIndex);
+	m_iPathIndex=getFirstPathIndex();
+	preparePath(m_iPathIndex);
+}
 
+/**
+ * 准备移动路径
+ */
+void  GridMoveComponent::preparePath(int iPathIndex)
+{
+	CCAssert(m_iPathIndex>=0,"paths length less 2");
+	CCLOG("preparePath.iPathIndex:%d",iPathIndex);
+	m_to=*(CCPoint*)m_pCurrentPaths->objectAtIndex(iPathIndex);
+
+	calcDirection();
+	prepareDirection(m_directionX,m_directionY);
 }
 
 /**
@@ -369,10 +409,10 @@ void  GridMoveComponent::preparePath()
  */
 void GridMoveComponent::calcDirection()
 {
-	GameEntity* owner=(GameEntity*)m_owner;
-	CCPoint pos=owner->getPosition();
-	m_directionX=m_to.x>pos.x?1:m_to.x<pos.y?-1:0;
-	m_directionY=m_to.y>pos.y?1:m_to.y<pos.y?-1:0;
+	WorldEntity* owner=(WorldEntity*)m_owner;
+	float mx=owner->getX();
+	float my=owner->getY();
+	setDirection(m_to.x>mx?1:m_to.x<mx?-1:0,m_to.y>my?1:m_to.y<my?-1:0);
 }
 
 
@@ -383,96 +423,57 @@ void GridMoveComponent::calcDirection()
  */
 void GridMoveComponent::updatePath(float delta)
 {
-    GameEntity* owner=(GameEntity*)m_owner;
+    WorldEntity* owner=(WorldEntity*)m_owner;
     
-    CCPoint pos=owner->getPosition();
-	//根据速度计算移动距离
-    float s=delta*10;
-	pos.x+=s*m_speedX;
-	pos.y+=s*m_speedY;
-    
-//    CCLOG("x:%f,y:%f",pos.x,pos.y);
-	//判断是否结束	
-	if (m_hasEndPosition && (m_directionFlagX * pos.x>m_directionFlagX*m_to.x  || fabs(pos.x-m_to.x)<0.00001) &&  (m_directionFlagY*pos.y> m_directionFlagY* m_to.y|| fabs(pos.y-m_to.y)<0.00001)) {
-		pos.x=m_to.x;
-		pos.y=m_to.y;
-
+    float mx=owner->getX(),my=owner->getY();
+	
+	m_movingDeltaTime+=delta;
+	//CCLOG("mx1:%f,my:%f,%f",mx,my,m_movingDeltaTime);
+	//CCLOG("upate:%f,%f,%f",delta,m_movingDeltaTime,m_movingDuration);
+	if(m_movingDeltaTime<m_movingDuration){
+		mx+=delta*m_speedX;
+		my+=delta*m_speedY;
+		owner->setCoordinate(mx,my);
+	}else{
+		//一个路径结点移动完成
+		mx=m_to.x;
+		my=m_to.y;
+		owner->setCoordinate(mx,my);
+		CCLOG("mx2.1:%f,my:%f",mx,my);
 		if (m_moveState==MoveContinue) {
 			if (m_pNextPaths!=NULL) {
 				m_moveState=MoveStart;
+				m_movingDeltaTime=0;
 				this->setCurrentPaths(m_pNextPaths);
 				preparePath();
-				beforeMovePath();
+				updateMoveAnimation();
 			}
 		}else if (--m_iPathIndex>=0 && m_moveState==MoveStart) {
+			m_movingDeltaTime=0;
+			CCLOG("next cell %d",m_iPathIndex);
+
 			//进行下一个格子
-			m_to=*(CCPoint*)m_pCurrentPaths->objectAtIndex(m_iPathIndex);
-			beforeMovePath();
+			preparePath(m_iPathIndex);
+			updateMoveAnimation();
+			//TODO check moveable
 		}else {
 			//stop move
 			this->setCurrentPaths(NULL);
-			m_moveState=MoveWillStop;//标记将要结束
-			stopMove();
+			stop();
 		}
 	}
-	owner->setPosition(pos);
 }
 
 
-
-///**
-// * 设置方向
-// * 用于按方向移动
-// */
-//void setDirection:(float) dirX dirY:(float)dirY
-//{
-//	m_lastDirection=m_direction;
-//	
-//	m_direction.x=dirX;
-//	m_direction.y=dirY;
-//	
-//	m_to.x=m_owner.mx+dirX;
-//	m_to.y=m_owner.my+dirY;
-//}
-//
-///**
-// * 设置方向
-// * 用于按方向移动
-// */
-//void setDirection:(CGPoint) dir
-//{
-//	m_lastDirection=m_direction;
-//	
-//	m_direction=dir;
-//	
-//	m_to.x=m_owner.mx+dir.x;
-//	m_to.y=m_owner.my+dir.y;
-//}
-//
-//void clearMapData
-//{
-//	MapData *mapData=[MapData sharedMapData];
-//	int x,y;
-//	if (m_moveState!=MoveStop) {
-//		x=(int)m_to.x;
-//		y=(int)m_to.y;
-//	}else {
-//		x=(int)mx;
-//		y=(int)my;
-//	}
-//	
-//	for ( int i=0; i<l_; i++) {
-//		for (int j=0; j<b_; j++) {
-//			[mapData removeMapInfoWithX:x+j y:y+i entity:self];
-//		}
-//	}
-//}
 /**
  * 方向改变
  * 人物在移动时要面向不同的方向
  */
 void GridMoveComponent::updateMoveAnimation()
 {
+	if (m_moveState!=MoveStop && m_lastDirectionX==m_directionX && m_lastDirectionY==m_directionY) {
+		return;
+	}
 	//+0.5四舍五入
 	int i=floor(m_directionX+0.5)+1;
 	int j=floor(m_directionY+0.5)+1;
@@ -530,6 +531,8 @@ void GridMoveComponent::setSpeed(float speed)
 
 void GridMoveComponent::setDirection(float directionX,float directionY)
 {
+	m_lastDirectionX=m_directionX;
+	m_lastDirectionY=m_directionY;
 	m_directionX=directionX;
 	m_directionY=directionY;
 
@@ -537,6 +540,9 @@ void GridMoveComponent::setDirection(float directionX,float directionY)
 
 void GridMoveComponent::setDirection(CCPoint direction)
 {
+	m_lastDirectionX=m_directionX;
+	m_lastDirectionY=m_directionY;
+
 	m_directionX=direction.x;
 	m_directionY=direction.y;
 }
@@ -548,6 +554,7 @@ CCPoint GridMoveComponent::getDirection()
 
 void GridMoveComponent::setDirectionX(float directionX)
 {
+	m_lastDirectionX=m_directionX;
     m_directionX = directionX;
 }
 
@@ -558,6 +565,7 @@ float GridMoveComponent::getDirectionX()
 
 void GridMoveComponent::setDirectionY(float directionY)
 {
+	m_lastDirectionY=m_directionY;
     m_directionY = directionY;
 }
 
@@ -594,6 +602,16 @@ void GridMoveComponent::setNextDirectionY(float nextDirectionY)
 float GridMoveComponent::getNextDirectionY()
 {
     return m_nextDirectionY;
+}
+
+void GridMoveComponent::setKeepMoveDirection(bool bKeepMoveDirection)
+{
+    m_bKeepMoveDirection = bKeepMoveDirection;
+}
+
+bool GridMoveComponent::isKeepMoveDirection()
+{
+    return m_bKeepMoveDirection;
 }
 
 CCPoint GridMoveComponent::getTo()

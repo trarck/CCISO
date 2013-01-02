@@ -68,6 +68,7 @@ public:
 
 	void showBarrier();
 	void showGameOver();
+	bool isWorkable(int x ,int y);
 
 	//get set
 	virtual void setMapColumn(int iMapColumn);

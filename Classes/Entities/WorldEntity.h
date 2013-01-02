@@ -53,6 +53,36 @@ public:
     };
 
     //coordinate
+
+	inline void setCoordinateAndTranslate(Vector3F coordinate)
+    {
+        m_x=coordinate.x;
+        m_y=coordinate.y;
+        m_z=coordinate.z;
+		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
+    }
+
+	inline void setCoordinateAndTranslate(float x,float y,float z){
+		m_x=x;
+        m_y=y;
+        m_z=z;
+		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
+	}
+    
+	inline void setCoordinateAndTranslate(CCPoint coordinate)
+    {
+        m_x=coordinate.x;
+        m_y=coordinate.y;
+        m_z=0;
+		this->setPosition(isoGameToView2F(m_x,m_y));
+    }
+	inline void setCoordinateAndTranslate(float x,float y)
+    {
+        m_x=x;
+        m_y=y;
+        m_z=0;
+		this->setPosition(isoGameToView2F(x,y));
+    }
     
     inline Vector3F getCoordinate3F()
     {
@@ -65,14 +95,12 @@ public:
         m_x=coordinate.x;
         m_y=coordinate.y;
         m_z=coordinate.z;
-		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
     }
 
 	inline void setCoordinate(float x,float y,float z){
 		m_x=x;
         m_y=y;
         m_z=z;
-		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
 	}
 
 
@@ -86,14 +114,12 @@ public:
         m_x=coordinate.x;
         m_y=coordinate.y;
         m_z=0;
-		this->setPosition(isoGameToView2F(m_x,m_y));
     }
 	inline void setCoordinate(float x,float y)
     {
         m_x=x;
         m_y=y;
         m_z=0;
-		this->setPosition(isoGameToView2F(x,y));
     }
     
     
@@ -138,6 +164,21 @@ public:
         return m_barrier;
     };
     
+	void setMoving(bool bMoving){
+		m_bMoving=bMoving;
+	};
+	bool isMoving(){
+		return m_bMoving;
+	};
+	void setMovend(float x,float y)
+	{
+		m_MovendX=x;
+		m_MovendY=y;
+	};
+	CCPoint getMovingCoorinate()
+	{
+		return ccp(m_MovendX,m_MovendY);
+	};
     
 protected:
     //斜45中的三维大小
@@ -155,6 +196,11 @@ protected:
     
     bool m_barrier;
     
+	//正在移动的作坐
+	bool m_bMoving;
+	//如果移动完成时候的坐标。
+	float m_MovendX;
+	float m_MovendY;
 };
 
 NS_YH_END

@@ -15,11 +15,11 @@ CCAstar::CCAstar(void)
 ,m_minY(0)
 ,m_maxX(0)
 ,m_maxY(0)
-,m_barriers(NULL)
-,m_barrierColumn(0)
 ,m_start(NULL)
 ,m_end(NULL)
 ,m_current(NULL)
+,m_checkBarrierHandle(NULL)
+,m_target(NULL)
 {
 	
 }
@@ -86,25 +86,6 @@ int CCAstar::getMaxY()
     return m_maxY;
 }
 
-void CCAstar::setBarriers(MapCellInfo* barriers)
-{
-    m_barriers = barriers;
-}
-
-MapCellInfo* CCAstar::getBarriers()
-{
-    return m_barriers;
-}
-
-void CCAstar::setBarrierColumn(int barrierColumn)
-{
-    m_barrierColumn = barrierColumn;
-}
-
-int CCAstar::getBarrierColumn()
-{
-    return m_barrierColumn;
-}
 
 static CCAstar * astarInstance=NULL;
 
@@ -159,14 +140,6 @@ void CCAstar::setEnd(int x ,int y)
 	CC_SAFE_RELEASE(m_end);
 	m_end=new CCAstarNode();
 	m_end->init(x,y);	
-}
-
-
-
-void CCAstar::setBarrier(MapCellInfo* barriers ,int column)
-{
-	m_barriers=barriers;
-	m_barrierColumn=column;
 }
 
 bool CCAstar::search()
@@ -349,12 +322,7 @@ bool CCAstar::isOut(int x ,int y)
 	//return y<m_minX||y>=m_maxY ||x<m_minX || x>=m_maxX;
 	return y<m_minY||y>m_maxY ||x<m_minX || x>m_maxX;
 }
-//本身是否可以通过
-bool CCAstar::isWorkable(int x,int y) 
-{
-	unsigned short barrier = (*(m_barriers+y*m_barrierColumn+x)).barrier;
-	return barrier==0;
-}
+
 //本身和到达时斜对角是否可以通过
 bool CCAstar::isWorkableWithCrossSide(int x ,int y ,int stepX ,int stepY)
 {
@@ -380,6 +348,24 @@ bool CCAstar::isEnd(int x ,int y ,int stepX ,int stepY)
 {
 	return m_end->getX()==x && m_end->getY()==y && isCrossSideWorkable(x,y ,stepX ,stepY);
 }
+
+//本身是否可以通过
+bool CCAstar::isWorkable(int x,int y) 
+{
+	return (m_target->*m_checkBarrierHandle)(x,y);
+}
+
+void  CCAstar::setCheckBarrierHandle(SEL_CheckBarrierHandler checkBarrierHandle,CCObject* target)
+{
+	m_checkBarrierHandle=checkBarrierHandle;
+	m_target=target;
+}
+
+// void setCheckBarrierHandle(FUN_CheckBarrierHandler isWorkable)
+// {
+// 	
+// }
+	
 
 //取得路径  路径是反向的，从终点指向起点，不包含终点和起点。
 CCArray* CCAstar::getPath()

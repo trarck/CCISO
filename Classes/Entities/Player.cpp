@@ -4,7 +4,8 @@
 #include "AttackComponent.h"
 #include "GameMessages.h"
 #include "AutoAttackComponent.h"
-#include "SimpleMoveComponent.h"
+//#include "SimpleMoveComponent.h"
+#include "GridMoveComponent.h"
 
 NS_YH_BEGIN
 
@@ -78,12 +79,19 @@ void Player::setupComponents()
     autoAttackComponent->release();
     
     
-    SimpleMoveComponent* simpleMoveComponent=new SimpleMoveComponent();
-    simpleMoveComponent->initWithSpeed(2);
-    simpleMoveComponent->setOwner(this);
-    simpleMoveComponent->registerMessages();
-    addComponent(simpleMoveComponent);
-    simpleMoveComponent->release();
+    //SimpleMoveComponent* simpleMoveComponent=new SimpleMoveComponent();
+    //simpleMoveComponent->initWithSpeed(2);
+    //simpleMoveComponent->setOwner(this);
+    //simpleMoveComponent->registerMessages();
+    //addComponent(simpleMoveComponent);
+    //simpleMoveComponent->release();
+
+	GridMoveComponent* gridMoveComponent=new GridMoveComponent();
+    gridMoveComponent->init(2);
+    gridMoveComponent->setOwner(this);
+    gridMoveComponent->registerMessages();
+    addComponent(gridMoveComponent);
+    gridMoveComponent->release();
 
 }
 
