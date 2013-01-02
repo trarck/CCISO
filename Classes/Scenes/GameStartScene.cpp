@@ -33,7 +33,11 @@ bool GameStartScene::init()
     {
         return false;
     }
-
+	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
+	CCLOG("winsize:%f,%f",screenSize.width,screenSize.height);
+	float scaleX=screenSize.width/480;
+	float scaleY=screenSize.height/320;
+	this->setScale(scaleX>scaleY?scaleY:scaleX);
     CCMenuItemFont::setFontName("Marker Felt");
     CCMenuItemFont::setFontSize(30);
     

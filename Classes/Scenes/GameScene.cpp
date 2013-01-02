@@ -28,7 +28,7 @@ bool GameScene::init()
     {
         return false;
     }
-    
+
     m_pGameWorld=new GameWorld();
 	m_pGameWorld->init();
 	m_pGameWorld->setup();

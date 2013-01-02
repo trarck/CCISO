@@ -57,7 +57,11 @@ bool GameWorld::init()
 	this->addChild(coordLayer);
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
+ //   float scaleX=screenSize.width/480;
+	//float scaleY=screenSize.height/320;
+	//this->setScale(scaleX>scaleY?scaleY:scaleX);
 
+	//screenSize=CCSizeMake(480,320);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -453,8 +457,10 @@ void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 	 CCPoint from=m_pPlayer->getCoordinate();
     
      CCArray* paths=searchPathsFrom(from,to);
-     CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
-	 paths->release();
+     if(paths){
+		 CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
+		 paths->release();
+	 }
 }
 void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
