@@ -17,6 +17,7 @@ WorldEntity::WorldEntity()
 ,m_z(0.0f)
 ,m_barrier(true)
 ,m_gameWorld(NULL)
+,m_bCoordinate_dirty(false)
 //,m_view(NULL)
 {
     CCLOG("WorldEntity create");
@@ -52,5 +53,13 @@ bool WorldEntity::init(int entityId, int l, int b, int h, bool barrier)
     
     return true;
 }
+
+//void WorldEntity::visit(void)
+//{
+//	if(m_bCoordinate_dirty)
+//		this->setPosition(isoGameToView3F(m_x,m_y,m_z));
+//
+//	CCNode::visit();
+//}
 
 NS_YH_END

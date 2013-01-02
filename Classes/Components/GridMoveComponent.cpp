@@ -234,7 +234,7 @@ void GridMoveComponent::prepareDirection(float directionX,float directionY)
 {
 	calcMoveDuration(directionX,directionY);
 	calcSpeedVector(directionX,directionY);
-
+	m_startMoveViewPosition=((WorldEntity*)m_owner)->getPosition();
 }
 
 void GridMoveComponent::calcMoveDuration(float directionX,float directionY)
@@ -283,7 +283,10 @@ void GridMoveComponent::calcSpeedVector(float directionX,float directionY)
 		m_speedX=i*m_speed*BEVEL_VECTOR_HALF;
 		m_speedY=j*m_speed*BEVEL_VECTOR_HALF;
 	}
-	CCLOG("m_speedX:%f,m_speedY:%f",m_speedX,m_speedY);
+	CCPoint viewSpeed=isoGameToView2F(m_speedX,m_speedY);
+	m_fViewSpeedX=viewSpeed.x;
+	m_fViewSpeedY=viewSpeed.y;
+	CCLOG("m_speedX:%f,m_speedY:%f,viewSpeed:%f,%f",m_speedX,m_speedY,m_fViewSpeedX,m_fViewSpeedY);
 }
 
 /**
@@ -298,14 +301,13 @@ void GridMoveComponent::updateDirection( float delta)
 
 	m_movingDeltaTime+=delta;
 	if(m_movingDeltaTime<m_movingDuration){
-		mx+=delta*m_speedX;
-		my+=delta*m_speedY;
-		owner->setCoordinate(mx,my);
+		mx=m_movingDeltaTime*m_speedX;
+		my=m_movingDeltaTime*m_speedY;
+		//owner->setCoordinate(mx,my);
+		owner->setPosition(isoGameToView2F(mx,my));
 	}else{
-		//一次移动完成
-		mx=m_to.x;
-		my=m_to.y;
-		owner->setCoordinate(mx,my);
+		//一个路径结点移动完成
+		owner->setPosition(isoGameToView2F(m_to.x,m_to.y));
 		if (m_moveState==MoveContinue) {
 			setDirection(m_nextDirectionX,m_nextDirectionY);
 			prepareDirection(m_nextDirectionX, m_nextDirectionY);
@@ -313,6 +315,7 @@ void GridMoveComponent::updateDirection( float delta)
 			if(checkMoveable()){
 				m_movingDeltaTime=0;
 				m_moveState=MoveStart;
+				owner->setCoordinate(m_to);
 				updateMoveAnimation();
 			}else{
 				stop();
@@ -398,9 +401,9 @@ void  GridMoveComponent::preparePath(int iPathIndex)
 	CCAssert(m_iPathIndex>=0,"paths length less 2");
 	CCLOG("preparePath.iPathIndex:%d",iPathIndex);
 	m_to=*(CCPoint*)m_pCurrentPaths->objectAtIndex(iPathIndex);
-
 	calcDirection();
 	prepareDirection(m_directionX,m_directionY);
+	((WorldEntity*) m_owner)->setCoordinate(m_to);
 }
 
 /**
@@ -425,21 +428,22 @@ void GridMoveComponent::updatePath(float delta)
 {
     WorldEntity* owner=(WorldEntity*)m_owner;
     
-    float mx=owner->getX(),my=owner->getY();
+    float sx=0,sy=0;
+	CCPoint pos=owner->getPosition();
 	
 	m_movingDeltaTime+=delta;
-	//CCLOG("mx1:%f,my:%f,%f",mx,my,m_movingDeltaTime);
+	
 	//CCLOG("upate:%f,%f,%f",delta,m_movingDeltaTime,m_movingDuration);
 	if(m_movingDeltaTime<m_movingDuration){
-		mx+=delta*m_speedX;
-		my+=delta*m_speedY;
-		owner->setCoordinate(mx,my);
+		CCLOG("posx1:%f,posy:%f:%f,%f:%f",pos.x,pos.y,m_fViewSpeedX,m_fViewSpeedY,delta);
+		pos.x+=delta*m_fViewSpeedX;
+		pos.y+=delta*m_fViewSpeedY;
+		//owner->setCoordinate(mx,my);
+		CCLOG("posx2:%f,posy:%f:%f,%f:%f",pos.x,pos.y,m_fViewSpeedX,m_fViewSpeedY,delta);
+		owner->setPosition(pos);
 	}else{
 		//一个路径结点移动完成
-		mx=m_to.x;
-		my=m_to.y;
-		owner->setCoordinate(mx,my);
-		CCLOG("mx2.1:%f,my:%f",mx,my);
+		owner->setPosition(isoGameToView2F(m_to.x,m_to.y));
 		if (m_moveState==MoveContinue) {
 			if (m_pNextPaths!=NULL) {
 				m_moveState=MoveStart;
@@ -454,6 +458,7 @@ void GridMoveComponent::updatePath(float delta)
 
 			//进行下一个格子
 			preparePath(m_iPathIndex);
+			owner->setCoordinate(m_to);
 			updateMoveAnimation();
 			//TODO check moveable
 		}else {

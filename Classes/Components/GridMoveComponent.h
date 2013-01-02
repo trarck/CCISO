@@ -107,6 +107,8 @@ protected:
 	void continueMoveWithDirection(float directionX,float directionY);
     void continueMoveWithDirection(CCPoint direction);
 
+	
+
 	//移动相关
 	//在地图坐标系的速度
 	float m_speed;
@@ -126,6 +128,11 @@ protected:
     bool m_isDirectionDirty;
     //direction移动结束后，是否接着原来的方向继续移动。
 	bool m_bKeepMoveDirection;
+
+
+	CCPoint m_startMoveViewPosition;
+	float m_fViewSpeedX;
+    float m_fViewSpeedY;
 
 	bool m_moving;
 	//一次移动的时间

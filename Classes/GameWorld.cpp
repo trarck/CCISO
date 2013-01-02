@@ -281,7 +281,7 @@ void GameWorld::addPlayerAtCoord(CCPoint coord)
 {
 	m_pPlayer=new Player();
 	m_pPlayer->init(2);
-	m_pPlayer->setCoordinate(coord);
+	m_pPlayer->setCoordinateAndTranslate(coord);
 	m_pPlayer->setGameWorld(this);
 	m_pPlayer->setupComponents();
 	addInterMediateDynamicEntity(m_pPlayer);
