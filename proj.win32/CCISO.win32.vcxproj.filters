@@ -164,6 +164,12 @@
     <ClInclude Include="..\Classes\GameCamera.h">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOTileLayer.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOTileMap.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -252,6 +258,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GameCamera.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOTileLayer.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOTileMap.cpp">
+      <Filter>Classes\Isometric</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
