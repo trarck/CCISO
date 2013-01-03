@@ -21,7 +21,7 @@ public:
     
     virtual bool registerMessages();
     virtual void handleMessage(CCMessage* message);
-    virtual void cleanupMessages();
+    //virtual void cleanupMessages();
     
 
 	//for myself

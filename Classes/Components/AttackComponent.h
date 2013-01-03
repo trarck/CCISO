@@ -19,7 +19,7 @@ public:
     
     virtual bool registerMessages();
     virtual void handleMessage(CCMessage* message);
-    virtual void cleanupMessages();
+    //virtual void cleanupMessages();
     
     virtual void attack();
     virtual void attackWithSkillId(int skillId);

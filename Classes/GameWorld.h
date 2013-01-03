@@ -5,7 +5,7 @@
 #include "GameConfig.h"
 #include "CCAstar.h"
 #include "CCZIndex.h"
-
+#include "GameCamera.h"
 #include "Player.h"
 
 #define Background_ZOrder -10
@@ -97,12 +97,16 @@ private:
 	CCAstar* m_pAstar;
 	//¥¶¿Ì’⁄µ≤
 	CCZIndex* m_pZIndex;
+	GameCamera* m_pGameCamera;
 
 	Player* m_pPlayer;
 
 	//touch
-	CCPoint m_oLastTouchLocation;
+	CCPoint m_startTouchLocation;
+	CCPoint m_lastTouchLocation;
 	bool m_bIsTouchMoved;
+
+	CCPoint m_startPoint;
 
 	//units
 	CCArray* m_pUnits;

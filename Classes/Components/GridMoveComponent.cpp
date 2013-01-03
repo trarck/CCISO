@@ -44,6 +44,7 @@ GridMoveComponent::GridMoveComponent()
 ,m_lastDirectionY(0)
 {
     CCLOG("GridMoveComponent create");
+	m_name="GridMoveComponent";
 }
 
 GridMoveComponent::~GridMoveComponent()

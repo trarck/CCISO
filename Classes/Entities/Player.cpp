@@ -40,12 +40,13 @@ void Player::setupComponents()
     animationComponent->addActionList(
                             AnimationComponent::eightDirectionActionListWithDir("characters/2/1", 8, CCSizeMake(74, 93), 0.1f, "%s/%02d%03d.png"), 
                             "move");
-    
+    CCLOG("animationComponent1 count=%d",animationComponent->retainCount());
     animationComponent->registerMessages();
-    
+    CCLOG("animationComponent2 count=%d",animationComponent->retainCount());
     addComponent(animationComponent);
+	CCLOG("animationComponent3 count=%d",animationComponent->retainCount());
     animationComponent->release();
-    
+    CCLOG("animationComponent4 count=%d",animationComponent->retainCount());
 //    CCDictionary* data=new CCDictionary();
 //    data->setObject(CCString::create("idle"), "name");
 //    data->setObject(CCInteger::create(0), "direction");

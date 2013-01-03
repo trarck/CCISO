@@ -146,6 +146,7 @@
     <ClInclude Include="..\Classes\Entities\Player.h" />
     <ClInclude Include="..\Classes\Entities\Unit.h" />
     <ClInclude Include="..\Classes\Entities\WorldEntity.h" />
+    <ClInclude Include="..\Classes\GameCamera.h" />
     <ClInclude Include="..\Classes\GameConfig.h" />
     <ClInclude Include="..\Classes\GameMacros.h" />
     <ClInclude Include="..\Classes\GameMessages.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\Classes\Entities\Player.cpp" />
     <ClCompile Include="..\Classes\Entities\Unit.cpp" />
     <ClCompile Include="..\Classes\Entities\WorldEntity.cpp" />
+    <ClCompile Include="..\Classes\GameCamera.cpp" />
     <ClCompile Include="..\Classes\GameWorld.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCAstar.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCAstarNode.cpp" />

@@ -1,13 +1,12 @@
-#include "GameWorld.h"
 #include "SimpleAudioEngine.h"
-#include "Player.h"
 #include "GameMessages.h"
 #include "CCMessageManager.h"
-#include "AttackComponent.h"
-
-#include "AutoAttackComponent.h"
-
 #include "ISOCoordinateLayer.h"
+#include "GameWorld.h"
+#include "AttackComponent.h"
+#include "AutoAttackComponent.h"
+#include "Player.h"
+
 
 USING_NS_CC;
 
@@ -28,12 +27,24 @@ GameWorld::GameWorld()
 ,m_bIsTouchMoved(true)
 ,m_pUnits(NULL)
 {
-
+	CCLOG("GameWorld create");
 }
 
 GameWorld::~GameWorld()
 {
-
+	CCLOG("GameWorld destroy begin");
+	CCLOG("player retain:%d",m_pPlayer->retainCount());
+	CC_SAFE_RELEASE(m_pGameCamera);
+	CC_SAFE_RELEASE(m_pAstar);
+	CC_SAFE_RELEASE(m_pZIndex);
+	//在创建的时候已经添加到自动释放池里了。
+	//CC_SAFE_RELEASE(m_pBackground);
+	//CC_SAFE_RELEASE(m_pIntermediate);
+	//CC_SAFE_RELEASE(m_pForeground);
+	CCLOG("player retain:%d",m_pPlayer->retainCount());
+	CC_SAFE_RELEASE(m_pPlayer);
+	CC_SAFE_RELEASE(m_pUnits);
+	CCLOG("GameWorld destroy end");
 }
 
 // on "init" you need to initialize your instance
@@ -151,8 +162,11 @@ bool GameWorld::init(int mapId)
 }
 void GameWorld::setup()
 {
-	m_pUnits=new CCArray(10);
+	//m_pUnits=new CCArray(10);
 
+	m_pGameCamera=new GameCamera();
+	m_pGameCamera->init();
+	m_pGameCamera->setGameWorld(this);
 	//base
 	setupGameWorlds();
 	setupUtil();
@@ -181,11 +195,11 @@ void GameWorld::setupUtil()
 	m_pAstar->setBounding(0,0,m_iMapColumn,m_iMapRow);
 	m_pAstar->setCheckBarrierHandle(check_barrier_selector(GameWorld::isWorkable),this);
 	
-	CC_SAFE_RELEASE(m_pZIndex);
-	m_pZIndex=new CCZIndex();
-	m_pZIndex->init(m_pIntermediate);
-	m_pZIndex->start();
-	m_pZIndex->release();
+	//CC_SAFE_RELEASE(m_pZIndex);
+	//m_pZIndex=new CCZIndex();
+	//m_pZIndex->init(m_pIntermediate);
+	//m_pZIndex->start();
+	//m_pZIndex->release();
 }
 
 /**
@@ -251,6 +265,7 @@ void GameWorld::loadInterMediate()
     data->setObject(CCString::create("idle"), "name");
     data->setObject(CCInteger::create(0), "direction");
     CCMessageManager::defaultManager()->dispatchMessageWithType(CHANGE_ANIMATION, NULL, m_pPlayer,data);
+	CCLOG("player retain:%d",m_pPlayer->retainCount());
 }
 
 void GameWorld::addInterMediateDynamicEntity(Unit* entity)
@@ -289,6 +304,7 @@ void GameWorld::addPlayerAtCoord(CCPoint coord)
 	m_pPlayer->setGameWorld(this);
 	m_pPlayer->setupComponents();
 	addInterMediateDynamicEntity(m_pPlayer);
+	CCLOG("m_pPlayer count:%d",m_pPlayer->retainCount());
 }
 
 
@@ -383,7 +399,9 @@ void GameWorld::showGameOver()
 
 void GameWorld::menuCloseCallback(CCObject* pSender)
 {
+	CCLOG("m_pPlayer1 count:%d",m_pPlayer->retainCount());
     this->removeAllChildrenWithCleanup(true);
+	CCLOG("m_pPlayer2 count:%d",m_pPlayer->retainCount());
     CCDirector::sharedDirector()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -445,26 +463,42 @@ bool  GameWorld::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
     //GL coordinates
     CCPoint touchPoint = pTouch->getLocation(); 
-	CCPoint mapCoord=isoViewToGame2F(touchPoint.x,touchPoint.y);
+	
+	m_bIsTouchMoved=false;
+	m_startTouchLocation=touchPoint;
+	m_startPoint=this->getPosition();
+	m_lastTouchLocation=touchPoint;
+
+	CCPoint mapCoord=isoViewToGamePoint(m_pGameCamera->getLocationInWorld(touchPoint));
 	CCLOG("touch began view cood:%f,%f,map:%f,%f",touchPoint.x,touchPoint.y,mapCoord.x,mapCoord.y);
 	return true;
 }
 void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-	 CCPoint touchPoint = pTouch->getLocation();
-	 CCPoint to=isoViewToGamePoint(touchPoint);
-	 //如果player正在移动，则此时取到的坐标和最终停下来的不一致。
-	 CCPoint from=m_pPlayer->getCoordinate();
+	if(!m_bIsTouchMoved){
+		 CCPoint touchPoint = pTouch->getLocation();
+		 touchPoint=m_pGameCamera->getLocationInWorld(touchPoint);
+		 CCPoint to=isoViewToGamePoint(touchPoint);
+		 //如果player正在移动，则此时取到的坐标和最终停下来的不一致。
+		 CCPoint from=m_pPlayer->getCoordinate();
     
-     CCArray* paths=searchPathsFrom(from,to);
-     if(paths){
-		 CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
-		 paths->release();
-	 }
+		 CCArray* paths=searchPathsFrom(from,to);
+		 if(paths){
+			 CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
+			 paths->release();
+		 }
+	}
 }
 void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
-
+	CCPoint touchPoint = pTouch->getLocation();
+	float dx=touchPoint.x-m_startTouchLocation.x;
+	float dy=touchPoint.y-m_startTouchLocation.y;
+	if(abs(dx)>10 || abs(dy)>10){
+		m_bIsTouchMoved=true;
+		m_pGameCamera->moveOpposite(touchPoint.x-m_lastTouchLocation.x,touchPoint.y-m_lastTouchLocation.y);
+		m_lastTouchLocation=touchPoint;
+	}
 }
 
 

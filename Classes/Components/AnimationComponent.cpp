@@ -12,6 +12,7 @@ AnimationComponent::AnimationComponent()
 ,m_lastAction(NULL)
 {
 	CCLOG("AnimationComponent create");
+	m_name="AnimationComponent";
 }
 
 AnimationComponent::~AnimationComponent()
@@ -56,8 +57,7 @@ void AnimationComponent::setLastAction(CCAction* action)
 
 void AnimationComponent::handleMessage(CCMessage *message)
 {
-    CCLOG("AnimationComponent::handleMessage");
-    CCLOG("get message %d",message->getType());
+    CCLOG("AnimationComponent::handleMessage::get message %d",message->getType());
     
 
 	switch(message->getType()){
@@ -68,7 +68,7 @@ void AnimationComponent::handleMessage(CCMessage *message)
             
             CCString* animationName=(CCString*)data->objectForKey("name");
             int direction=((CCInteger*) data->objectForKey("direction"))->getValue();
-            //CCLOG("direction:%d name:%s",direction,animationName->getCString());
+            CCLOG("direction:%d name:%s",direction,animationName->getCString());
             CCAction* action=(CCAction*)actionForName(animationName->getCString(),direction);
             if(action && m_lastAction!=action){
 //                ((GameEntity*)m_owner)->view()->runAction(action);
@@ -94,11 +94,12 @@ bool AnimationComponent::registerMessages()
     
     return true;
 }
-
-void AnimationComponent::cleanupMessages()
-{
-    CCMessageManager::defaultManager()->removeReceiver(this);
-}
+//
+//void AnimationComponent::cleanupMessages()
+//{
+//	CCLOG("AnimationComponent::cleanupMessages");
+//    CCMessageManager::defaultManager()->removeReceiver(this);
+//}
 
 
 

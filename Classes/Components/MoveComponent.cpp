@@ -30,6 +30,7 @@ MoveComponent::MoveComponent()
 ,m_pNextPaths(NULL)
 {
     CCLOG("MoveComponent create");
+	m_name="MoveComponent";
 }
 
 MoveComponent::~MoveComponent()

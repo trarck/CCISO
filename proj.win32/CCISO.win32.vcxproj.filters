@@ -161,6 +161,9 @@
     <ClInclude Include="..\Classes\Components\GridMoveComponent.h">
       <Filter>Classes\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameCamera.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -246,6 +249,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Components\GridMoveComponent.cpp">
       <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameCamera.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

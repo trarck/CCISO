@@ -28,6 +28,7 @@ SimpleMoveComponent::SimpleMoveComponent()
 ,m_isDirectionDirty(true)
 {
     CCLOG("SimpleMoveComponent create");
+	m_name="SimpleMoveComponent";
 }
 
 SimpleMoveComponent::~SimpleMoveComponent()

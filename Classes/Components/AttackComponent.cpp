@@ -61,10 +61,11 @@ bool AttackComponent::registerMessages()
     return true;
 }
 
-void AttackComponent::cleanupMessages()
-{
-    CCMessageManager::defaultManager()->removeReceiver(this);
-}
+//void AttackComponent::cleanupMessages()
+//{
+//	CCLOG("AttackComponent::cleanupMessages");
+//    CCMessageManager::defaultManager()->removeReceiver(this);
+//}
 
 
 

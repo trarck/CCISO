@@ -18,7 +18,7 @@ GameEntity::GameEntity()
 
 GameEntity::~GameEntity()
 {
-    CCLOG("GameEntity destroy");
+    CCLOG("GameEntity destroy begin");
     
 //    CC_SAFE_RELEASE(m_view);
     
@@ -28,7 +28,7 @@ GameEntity::~GameEntity()
         component->cleanupMessages();
     }
     CC_SAFE_RELEASE(m_components);
-    
+    CCLOG("GameEntity destroy end");
 }
 
 bool GameEntity::init()
