@@ -57,7 +57,7 @@ static inline CCPoint isoViewToGame2F(float x,float y)
 	return p;
 }
 
-static inline CCPoint isoViewToGamePoint(CCPoint point)
+static inline CCPoint isoViewToGamePoint(const CCPoint& point)
 {
 	return isoViewToGame2F(point.x,point.y);
 }
@@ -70,7 +70,7 @@ static inline CCPoint isoViewToGameGrid2F (float x,float  y)
 	return p;
 }
 
-static inline CCPoint isoViewToGameGridPoint (CCPoint point)
+static inline CCPoint isoViewToGameGridPoint (const CCPoint& point)
 {
 	return isoViewToGameGrid2F(point.x,point.y);
 }
@@ -102,7 +102,7 @@ static inline CCPoint isoGameToView2F(float x, float y)
 	return p;
 }
 
-static inline CCPoint isoGameToViewPoint(CCPoint  point)
+static inline CCPoint isoGameToViewPoint(const CCPoint&  point)
 {
 	return isoGameToView2F(point.x,point.y);
 }
@@ -120,7 +120,7 @@ static inline CCPoint* isoViewToGame2FP(float x,float y)
 	return p;
 }
 
-static inline CCPoint* isoViewToGamePointP(CCPoint point)
+static inline CCPoint* isoViewToGamePointP(const CCPoint& point)
 {
 	return isoViewToGame2FP(point.x,point.y);
 }
@@ -133,7 +133,7 @@ static inline CCPoint* isoViewToGameGrid2FP(float x,float  y)
 	return p;
 }
 
-static inline CCPoint* isoViewToGameGridPointP (CCPoint point)
+static inline CCPoint* isoViewToGameGridPointP (const CCPoint& point)
 {
 	return isoViewToGameGrid2FP(point.x,point.y);
 }
@@ -167,7 +167,7 @@ static inline CCPoint* isoGameToView2FP(float x, float y)
 	return p;
 }
 
-static inline CCPoint* isoGameToViewPointP(CCPoint  point)
+static inline CCPoint* isoGameToViewPointP(const CCPoint&  point)
 {
 	return isoGameToView2FP(point.x,point.y);
 }
