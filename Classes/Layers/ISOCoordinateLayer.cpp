@@ -34,14 +34,14 @@ void ISOCoordinateLayer::draw()
 
 		ccDrawColor4B(255,0,0,255);
 		//draw xias
-		for(i=0;i<m_iMapWidth;i++){
+		for(i=0;i<=m_iMapWidth;i++){
 			from=isoGameToView2F(i,0);
 			to=isoGameToView2F(i,m_iMapHeight);
 			
 			ccDrawLine( from, to );
 		}
 		//draw yias
-		for(j=0;j<m_iMapHeight;j++){
+		for(j=0;j<=m_iMapHeight;j++){
 			from=isoGameToView2F(0,j);
 			to=isoGameToView2F(m_iMapWidth,j);
 			
