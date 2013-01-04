@@ -162,6 +162,10 @@
 		57851AA71696B27800BB6701 /* CCZIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCZIndex.h; sourceTree = "<group>"; };
 		57851AA81696B27800BB6701 /* CCZIndexNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCZIndexNode.cpp; sourceTree = "<group>"; };
 		57851AA91696B27800BB6701 /* CCZIndexNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCZIndexNode.h; sourceTree = "<group>"; };
+		57851AB11696D1A900BB6701 /* CCISOTileLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileLayer.cpp; sourceTree = "<group>"; };
+		57851AB21696D1A900BB6701 /* CCISOTileLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCISOTileLayer.h; sourceTree = "<group>"; };
+		57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileMap.cpp; sourceTree = "<group>"; };
+		57851AB41696D1A900BB6701 /* CCISOTileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCISOTileMap.h; sourceTree = "<group>"; };
 		5785793516412FB6001AFB30 /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOverScene.cpp; sourceTree = "<group>"; };
 		5785793616412FB6001AFB30 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		5785793716412FB6001AFB30 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
@@ -371,6 +375,10 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				57851AB11696D1A900BB6701 /* CCISOTileLayer.cpp */,
+				57851AB21696D1A900BB6701 /* CCISOTileLayer.h */,
+				57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */,
+				57851AB41696D1A900BB6701 /* CCISOTileMap.h */,
 				57851A9B1696B27800BB6701 /* CCAstar.cpp */,
 				57851A9C1696B27800BB6701 /* CCAstar.h */,
 				57851A9D1696B27800BB6701 /* CCAstarNode.cpp */,
