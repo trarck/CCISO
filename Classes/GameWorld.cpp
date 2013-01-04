@@ -56,7 +56,7 @@ bool GameWorld::init()
     {
         return false;
     }
-	m_bIsTouchEnabled=true;
+	this->setTouchEnabled(true);
 
 	m_iMapColumn=20;
 	m_iMapRow=20;

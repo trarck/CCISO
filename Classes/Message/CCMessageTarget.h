@@ -7,7 +7,7 @@
 
 NS_CC_BEGIN
 
-class CCMessageTarget : public CCSprite {
+class CCMessageTarget : public CCObject {
 public:
     
   
@@ -17,9 +17,7 @@ public:
     virtual void sendMessage(MessageType type ,CCObject* receiver ,CCObject* data);
     virtual void sendMessage(MessageType type ,CCObject* receiver);
 	virtual void cleanupMessages();
-    
-    virtual void cleanup();
-   
+
     
     
 protected:

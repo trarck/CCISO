@@ -28,14 +28,14 @@ public:
 
 	virtual void setLayerSize(CCSize tLayerSize);
 	virtual CCSize getLayerSize();
-	virtual void setContentSize(CCSize tContentSize);
-	virtual CCSize getContentSize();
+//	virtual void setContentSize(CCSize tContentSize);
+//	virtual CCSize getContentSize();
 	virtual void setName(const char* pName);
 	virtual const char* getName();
 
 protected:
 	CCSize m_tLayerSize;
-	CCSize m_tContentSize;
+//	CCSize m_tContentSize;
 	const char* m_pName;
 
 };

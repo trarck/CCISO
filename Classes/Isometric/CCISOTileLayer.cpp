@@ -116,20 +116,18 @@ CCSize CCISOTileLayer::getLayerSize()
     return m_tLayerSize;
 }
 
-void CCISOTileLayer::setContentSize(CCSize tContentSize)
-{
-    m_tContentSize = tContentSize;
-}
-
-CCSize CCISOTileLayer::getContentSize()
-{
-    return m_tContentSize;
-}
+//void CCISOTileLayer::setContentSize(CCSize tContentSize)
+//{
+//    m_tContentSize = tContentSize;
+//}
+//
+//CCSize CCISOTileLayer::getContentSize()
+//{
+//    return m_tContentSize;
+//}
 
 void CCISOTileLayer::setName(const char* pName)
 {
-    CC_SAFE_RETAIN(pName);
-    CC_SAFE_RELEASE(m_pName);
     m_pName = pName;
 }
 
