@@ -31,6 +31,7 @@ Classes/Scenes/GameStartScene.cpp \
 Classes/Scenes/GameScene.cpp \
 Classes/Scenes/GameOverScene.cpp  \
 Classes/AppDelegate.cpp \
+Classes/GameCamera.cpp \
 Classes/GameWorld.cpp 
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
