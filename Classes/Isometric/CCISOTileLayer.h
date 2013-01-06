@@ -24,19 +24,26 @@ public:
 	void removeTileAt(float x,float y);
     void removeTileAt(const CCPoint& pos);
 
-	void visitShowTile();
-
-	virtual void setLayerSize(CCSize tLayerSize);
+    void visitTileShowable();
+    void visitTileShowable2();
+    
+    virtual void draw();
+    
+	virtual void setLayerSize(const CCSize& tLayerSize);
 	virtual CCSize getLayerSize();
 //	virtual void setContentSize(CCSize tContentSize);
 //	virtual CCSize getContentSize();
 	virtual void setName(const char* pName);
 	virtual const char* getName();
+    
+    void setTileSize(const CCSize&  tileSize);
+    void setTileSize(float width,float height);
 
 protected:
 	CCSize m_tLayerSize;
 //	CCSize m_tContentSize;
 	const char* m_pName;
+    CCSize m_tTileSize;
 
 };
 

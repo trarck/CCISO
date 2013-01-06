@@ -7,6 +7,7 @@
 #include "AutoAttackComponent.h"
 #include "Player.h"
 
+#include "CCISOTileLayer.h"
 
 USING_NS_CC;
 
@@ -37,7 +38,7 @@ GameWorld::~GameWorld()
 	CC_SAFE_RELEASE(m_pGameCamera);
 	CC_SAFE_RELEASE(m_pAstar);
 	CC_SAFE_RELEASE(m_pZIndex);
-	//ÔÚ´´½¨µÄÊ±ºòÒÑ¾­Ìí¼Óµ½×Ô¶¯ÊÍ·Å³ØÀïÁË¡£
+	//åœ¨åˆ›å»ºçš„æ—¶å€™å·²ç»æ·»åŠ åˆ°è‡ªåŠ¨é‡Šæ”¾æ± é‡Œäº†ã€‚
 	//CC_SAFE_RELEASE(m_pBackground);
 	//CC_SAFE_RELEASE(m_pIntermediate);
 	//CC_SAFE_RELEASE(m_pForeground);
@@ -183,8 +184,8 @@ void GameWorld::loadMapData()
 }
 
 /**
- * ³õÊ¼»¯Ò»Ð©¹¤¾ß·½·¨
- * Ñ°Â·£¬×ø±ê×ª»»
+ * åˆå§‹åŒ–ä¸€äº›å·¥å…·æ–¹æ³•
+ * å¯»è·¯ï¼Œåæ ‡è½¬æ¢
  */
 void GameWorld::setupUtil()
 {
@@ -203,10 +204,17 @@ void GameWorld::setupUtil()
 }
 
 /**
- * ³õÊ¼»¯µØÍ¼²ã
+ * åˆå§‹åŒ–åœ°å›¾å±‚
  */
 void GameWorld::setupGameWorlds()
 {
+    CCISOTileLayer* testLayer=new CCISOTileLayer();
+    testLayer->init();
+    testLayer->setTileSize(TileWidth,TileHeight);
+    this->addChild(testLayer);
+    testLayer->visitTileShowable();
+    
+    
 	m_pBackground=CCLayer::create();
 	m_pBackground->setPosition(ccp(0,0));
 	this->addChild(m_pBackground,Background_ZOrder);
@@ -244,7 +252,7 @@ void GameWorld::setupGameWorlds()
 //}
 
 /**
- * ÊäÈëµØÍ¼±³¾°²ã
+ * è¾“å…¥åœ°å›¾èƒŒæ™¯å±‚
  */
 void GameWorld::loadBackground()
 {	
@@ -254,7 +262,7 @@ void GameWorld::loadBackground()
 }
 
 /**
- * ÔØÈëÓÎÏ·ÄÚÈÝ
+ * è½½å…¥æ¸¸æˆå†…å®¹
  *
  */
 void GameWorld::loadInterMediate()
@@ -293,8 +301,8 @@ void GameWorld::removeInterMediateStaticEntity(WorldEntity* entity)
 }
 
 /**
- * Ôö¼ÓÒ»¸öÖ÷½Ç
- * @param {CCPoint} coord µØÍ¼×ø±ê
+ * å¢žåŠ ä¸€ä¸ªä¸»è§’
+ * @param {CCPoint} coord åœ°å›¾åæ ‡
  */
 void GameWorld::addPlayerAtCoord(CCPoint coord)
 {
@@ -325,8 +333,8 @@ void GameWorld::removeTeammate(Player* player)
 }
 
 /**
- * ÒÆ¶¯Ö÷½Ç
- * @param {CCPoint} location ÊÓÍ¼×ø±ê
+ * ç§»åŠ¨ä¸»è§’
+ * @param {CCPoint} location è§†å›¾åæ ‡
  */
 void GameWorld::movePlayerToViewLocation(CCPoint location)
 {
@@ -345,7 +353,7 @@ void GameWorld::moveEntity(Unit* entity,CCPoint coord)
 }
 
 /**
- * ¶ÔÑ°Â·Ëã·¨µÄ·â×°
+ * å¯¹å¯»è·¯ç®—æ³•çš„å°è£…
  */
 CCArray* GameWorld::searchPathsFrom(int fromX ,int fromY ,int toX ,int toY)
 {
@@ -357,8 +365,8 @@ CCArray* GameWorld::searchPathsFrom(int fromX ,int fromY ,int toX ,int toY)
 }
 
 /**
- * ¶ÔÑ°Â·Ëã·¨µÄ·â×°
- * ·µ»ØµÄÊý×éÒªÊÖ¶¯ÊÍ·Å
+ * å¯¹å¯»è·¯ç®—æ³•çš„å°è£…
+ * è¿”å›žçš„æ•°ç»„è¦æ‰‹åŠ¨é‡Šæ”¾
  */
 CCArray* GameWorld::searchPathsFrom(CCPoint from ,CCPoint to )
 {
@@ -370,8 +378,8 @@ CCArray* GameWorld::searchPathsFrom(CCPoint from ,CCPoint to )
 }
 
 /**
- * µØÍ¼¸ñ×Ó×ª³ÉÊÓÍ¼×ø±ê(ÊÓÍ¼×ø±ê²»Í¬ÓÚÆÁÄ»×ø±ê)
- * ·µ»ØµÄÊý×éÒªÊÖ¶¯ÊÍ·Å
+ * åœ°å›¾æ ¼å­è½¬æˆè§†å›¾åæ ‡(è§†å›¾åæ ‡ä¸åŒäºŽå±å¹•åæ ‡)
+ * è¿”å›žçš„æ•°ç»„è¦æ‰‹åŠ¨é‡Šæ”¾
  */
 CCArray* GameWorld::mapPathsToViewPaths(CCArray* paths)
 {
@@ -479,7 +487,7 @@ void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 		 CCPoint touchPoint = pTouch->getLocation();
 		 touchPoint=m_pGameCamera->getLocationInWorld(touchPoint);
 		 CCPoint to=isoViewToGamePoint(touchPoint);
-		 //Èç¹ûplayerÕýÔÚÒÆ¶¯£¬Ôò´ËÊ±È¡µ½µÄ×ø±êºÍ×îÖÕÍ£ÏÂÀ´µÄ²»Ò»ÖÂ¡£
+		 //å¦‚æžœplayeræ­£åœ¨ç§»åŠ¨ï¼Œåˆ™æ­¤æ—¶å–åˆ°çš„åæ ‡å’Œæœ€ç»ˆåœä¸‹æ¥çš„ä¸ä¸€è‡´ã€‚
 		 CCPoint from=m_pPlayer->getCoordinate();
     
 		 CCArray* paths=searchPathsFrom(from,to);

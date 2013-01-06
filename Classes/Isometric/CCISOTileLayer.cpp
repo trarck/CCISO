@@ -1,4 +1,5 @@
 #include "CCISOTileLayer.h"
+#include "CCISOCoordinate.h"
 
 NS_CC_BEGIN
 
@@ -9,27 +10,42 @@ CCISOTileLayer::CCISOTileLayer()
 
 CCISOTileLayer::~CCISOTileLayer()
 {
-	CC_SAFE_RELEASE();
+//	CC_SAFE_RELEASE();
 }
 
 bool CCISOTileLayer::init()
 {
-
+    m_tTileSize=CCSizeZero;
 	return true;
 }
 
-void CCISOTileLayer::visitShowTile()
+void CCISOTileLayer::addTileAt(float x,float y)
 {
+    CCSprite* testGrid=CCSprite::create("grid1.png");
+    testGrid->setPosition(isoGameToView2F(x,y));
+    testGrid->setAnchorPoint(ccp(0.5,0));
+    testGrid->setOpacity(40);
+    this->addChild(testGrid);
+}
+
+void CCISOTileLayer::visitTileShowable()
+{
+    CCLOG("in visit#########");
 	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-	//ÒÆ¶¯µÄ¸ñ×ÓÊı.ÎªÁËÈ·±£ÏÔÊ¾µÄÍêÈ«£¬Ã¿¸ö½ÇÏàÓ¦ÒÆ¶¯Ò»¸ö¸ñ×Ó¡£×óÓÒ¾Í¼Ó2£¬Í¬ÑùÉÏÏÂÒ²Òª¼Ó2
-	int columnCount=floor(screenSize.width/TileWidth)+2;
-	int rowCount=(fllor(screenSize.hight/TileHeight)+2)*2;
-	//ÆÁÄ»µÄËÄ¸öµã¡£Ä¿Ç°°´Ô­µãÔÚ×óÉÏ½Ç£¬ĞèÒª×ª³Égl×ø±êÏµ¡£
-	CCPoint screeOriginal=isoViewToGame2F(0,0);
-	//ÓÉÓÚÊÇ°´¶Ô½ÇÒÆ¶¯£¬Ö»ĞèÒªxÒÆÖá
-	screenOriginal.x-=1;
-	int oggColumnCount=columnCount+1;
-	int startX=(int)screenOriginal.x,startY=(int)screenOriginal.y;
+    screenSize=CCSizeMake(320,160);
+	//ç§»åŠ¨çš„æ ¼å­æ•°.ä¸ºäº†ç¡®ä¿æ˜¾ç¤ºçš„å®Œå…¨ï¼Œæ¯ä¸ªè§’ç›¸åº”ç§»åŠ¨ä¸€ä¸ªæ ¼å­ã€‚å·¦å³åœ¨ä¸€èµ·å°±åŠ 2ï¼ŒåŒæ ·ä¸Šä¸‹åœ¨ä¸€èµ·ä¹Ÿè¦åŠ 2
+	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
+	int rowCount=(floor(screenSize.height/m_tTileSize.height)+2)*2;
+    int oggColumnCount=columnCount+1;
+	//å±å¹•çš„å››ä¸ªç‚¹ã€‚ä½¿ç”¨glåæ ‡ç³»ç»Ÿï¼Œåœ°å›¾åæ ‡xæ­£æ–¹å‘å³ä¸Šï¼Œyæ­£æ–¹å‘å·¦ä¸Šã€‚åˆå§‹ç‚¹ä¸ºå±å¹•å·¦ä¸‹è§’ã€‚ä¹Ÿå°±æ˜¯glåæ ‡çš„åŸç‚¹
+	CCPoint startMapCoord=isoViewToGame2F(0,0);
+	
+    //åç§»ä¸€æ­¥.ç”±äºæ˜¯åœ¨å·¦ä¸‹è§’ï¼Œåˆ™åªéœ€ç§»åŠ¨xè½´
+	startMapCoord.x-=1;
+    
+    CCLOG("state:column=%d,rowCount=%d,start=%f,%f",columnCount,rowCount,startMapCoord.x,startMapCoord.y);
+
+	int startX=(int)startMapCoord.x,startY=(int)startMapCoord.y;
 	int mx=0,my=0;
 	for(int j=0;j<rowCount;j++){
 		//if(j>0){
@@ -44,7 +60,9 @@ void CCISOTileLayer::visitShowTile()
 		for(int i=0;i<columnCount;i++){
 			mx=startX+i;
 			my=startY-i;
-			//ÓĞÁËmap×ø±ê¾Í¿ÉÒÔÏÔÊ¾ÄÚÈİ¡£
+            CCLOG("visit:%f,%f",mx,my);
+			//æœ‰äº†mapåæ ‡å°±å¯ä»¥æ˜¾ç¤ºå†…å®¹ã€‚
+            addTileAt(mx,my);
 		}
 		//if((j+1)&1){
 		//	columnCount++;
@@ -53,30 +71,30 @@ void CCISOTileLayer::visitShowTile()
 		//	columnCount--;
 		//	startX++;
 		//}
-		//ÕâÀï¿ÉÒÔÊ¹j+1£¬ÔÙµ÷»»trueºÍfalseµÄbody,¾ÍÊÇÕı³£Âß¼­
+		//è¿™é‡Œå¯ä»¥ä½¿j+1ï¼Œå†è°ƒæ¢trueå’Œfalseçš„body,å°±æ˜¯æ­£å¸¸é€»è¾‘
 		if(j&1){
-			//ÏÂ¸öÑ­»·ÎªÅ¼
+			//ä¸‹ä¸ªå¾ªç¯ä¸ºå¶
 			columnCount--;
 			startX++;
 		}else{
-			//ÏÂ¸öÑ­»·ÎªÆæ
+			//ä¸‹ä¸ªå¾ªç¯ä¸ºå¥‡
 			columnCount++;
 			startY++;
 		}
 	}
 }
 
-//ios game book ÉÏµÄ·½·¨
-void CCISOTileLayer::visitShowTile2()
+//ios game book ä¸Šçš„æ–¹æ³•
+void CCISOTileLayer::visitTileShowable2()
 {
 	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-	//ÆÁÄ»µÄËÄ¸öµã¡£Ä¿Ç°°´Ô­µãÔÚ×óÉÏ½Ç£¬ĞèÒª×ª³Égl×ø±êÏµ¡£
+	//å±å¹•çš„å››ä¸ªç‚¹ã€‚ç›®å‰æŒ‰åŸç‚¹åœ¨å·¦ä¸Šè§’ï¼Œéœ€è¦è½¬æˆglåæ ‡ç³»ã€‚
 	CCPoint screenLeftTop=isoViewToGame2F(0,0);
 	CCPoint screenRightTop=isoViewToGame2F(screenSize.width,0);
 	CCPoint screenLeftBottom=isoViewToGame2F(0,screenSize.height);
 	CCPoint screenRightBottom=isoViewToGame2F(screenSize.width,screenSize.height);
 
-	screenLeftTop.x-=1
+	screenLeftTop.x-=1;
 	screenRightBottom.x+=1;
 	screenRightTop.y-=1;
 	screenLeftBottom.y+=1;
@@ -85,16 +103,18 @@ void CCISOTileLayer::visitShowTile2()
 	CCPoint rowStart=screenLeftTop;
 	CCPoint rowEnd=screenRightTop;
 
-	//ÓÉÓÚÊÇ°´¶Ô½ÇÒÆ¶¯£¬Ö»ĞèÒªxÒÆÖá
+	//ç”±äºæ˜¯æŒ‰å¯¹è§’ç§»åŠ¨ï¼Œåªéœ€è¦xç§»è½´
 	
 	int mx=0,my=0;
 	float x=rowStart.x,y=rowStart.y;
 	int rowCount=0;
-	//ÔÚ×óÏÂ½ÇÖ®ÉÏ
+	//åœ¨å·¦ä¸‹è§’ä¹‹ä¸Š
 	while(rowStart.x<screenLeftBottom.x||rowStart.y<screenLeftBottom.y){
 		while(x!=rowEnd.x && y!=rowEnd.y){
 			mx=x;
 			my=y;
+            x+=1;
+            y-=1;
 		}
 		if(++rowCount&1){
 			rowStart.y+=1;
@@ -106,7 +126,18 @@ void CCISOTileLayer::visitShowTile2()
 	}
 }
 
-void CCISOTileLayer::setLayerSize(CCSize tLayerSize)
+
+
+
+void CCISOTileLayer::draw()
+{
+	
+	ccDrawColor4B(255,0,0,255);
+    ccDrawRect(ccp(0,0), ccp(320,160));
+}
+
+
+void CCISOTileLayer::setLayerSize(const CCSize& tLayerSize)
 {
     m_tLayerSize = tLayerSize;
 }
@@ -134,6 +165,17 @@ void CCISOTileLayer::setName(const char* pName)
 const char* CCISOTileLayer::getName()
 {
     return m_pName;
+}
+
+void CCISOTileLayer::setTileSize(const CCSize& tileSize)
+{
+    m_tTileSize=tileSize;
+}
+
+void CCISOTileLayer::setTileSize(float width,float height)
+{
+    m_tTileSize.width=width;
+    m_tTileSize.height=height;
 }
 
 

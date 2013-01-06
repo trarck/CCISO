@@ -57,6 +57,8 @@
 		5785793C16412FB6001AFB30 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785793716412FB6001AFB30 /* GameScene.cpp */; };
 		5785793D16412FB6001AFB30 /* GameStartScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785793A16412FB6001AFB30 /* GameStartScene.cpp */; };
 		578747431630083D002A6E3F /* AnimationComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 578747411630083D002A6E3F /* AnimationComponent.cpp */; };
+		578A6B67169936C9000BCC72 /* CCISOTileLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851AB11696D1A900BB6701 /* CCISOTileLayer.cpp */; };
+		578A6B6916993B30000BCC72 /* grid1.png in Resources */ = {isa = PBXBuildFile; fileRef = 578A6B6816993B30000BCC72 /* grid1.png */; };
 		5791DDD81609703E00D996E9 /* AttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDD31609703E00D996E9 /* AttackComponent.cpp */; };
 		5791DDD91609703E00D996E9 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDD51609703E00D996E9 /* Component.cpp */; };
 		5791DDE5160982EE00D996E9 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE3160982EE00D996E9 /* Player.cpp */; };
@@ -175,6 +177,7 @@
 		5785793E164130AD001AFB30 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		578747411630083D002A6E3F /* AnimationComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationComponent.cpp; sourceTree = "<group>"; };
 		578747421630083D002A6E3F /* AnimationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationComponent.h; sourceTree = "<group>"; };
+		578A6B6816993B30000BCC72 /* grid1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid1.png; sourceTree = "<group>"; };
 		5791DDD31609703E00D996E9 /* AttackComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AttackComponent.cpp; sourceTree = "<group>"; };
 		5791DDD41609703E00D996E9 /* AttackComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttackComponent.h; sourceTree = "<group>"; };
 		5791DDD51609703E00D996E9 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
@@ -295,6 +298,7 @@
 		5763C24B160856E20068D420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				578A6B6816993B30000BCC72 /* grid1.png */,
 				57B0C70B16353F400002A0CD /* characters */,
 				5763C24C160856E20068D420 /* CloseNormal.png */,
 				5763C24D160856E20068D420 /* CloseSelected.png */,
@@ -523,6 +527,7 @@
 				5763C25E160856E20068D420 /* Icon.png in Resources */,
 				5763C25F160856E20068D420 /* Icon@2x.png in Resources */,
 				57B0C70C16353F400002A0CD /* characters in Resources */,
+				578A6B6916993B30000BCC72 /* grid1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +574,7 @@
 				57851AAC1696B27800BB6701 /* CCCoordinate.cpp in Sources */,
 				57851AAF1696B27800BB6701 /* CCZIndex.cpp in Sources */,
 				57851AB01696B27800BB6701 /* CCZIndexNode.cpp in Sources */,
+				578A6B67169936C9000BCC72 /* CCISOTileLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
