@@ -24,6 +24,13 @@ public:
 	void removeTileAt(float x,float y);
     void removeTileAt(const CCPoint& pos);
 
+	virtual void setPosition(const CCPoint& newPosition);
+	virtual void setPosition(float x,float y);
+
+	bool beforeUpdateContent();
+	void doUpdateContent();
+
+	bool isCellChange();
     void visitTileShowable();
     void visitTileShowable2();
     
@@ -39,12 +46,20 @@ public:
     void setTileSize(const CCSize&  tileSize);
     void setTileSize(float width,float height);
 
+	virtual void setOffset(const CCPoint& tOffset);
+	virtual void setOffset(float x,float y);
+	virtual CCPoint getOffset();
+
+
 protected:
 	CCSize m_tLayerSize;
 //	CCSize m_tContentSize;
 	const char* m_pName;
     CCSize m_tTileSize;
-
+	CCPoint m_tOffset;
+	CCPoint m_tLastStartPoint;
+	int m_iStartX;
+	int m_iStartY;
 };
 
 

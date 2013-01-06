@@ -13,6 +13,9 @@ USING_NS_CC;
 
 NS_YH_BEGIN
 
+enum{
+	kLayerTagTestIsoLayer=1
+};
 int mapItemGid=0;
 
 GameWorld::GameWorld()
@@ -106,52 +109,7 @@ bool GameWorld::init()
     pMenu->setPosition( CCPointZero );
     this->addChild(pMenu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
-//    Player* player=new Player();
-//    CCLOG("player count=%d",player->retainCount());
-//    player->init();
-//    CCLOG("player count=%d",player->retainCount());
-//    player->setupComponents();
-//    CCLOG("player count=%d",player->retainCount());
-//    
-//    player->setPosition(ccp(screenSize.width/2, screenSize.height/2));
-//    
-////    this->addChild(player->view());
-//    this->addChild(player);
-//    
-//    CCDictionary* data=new CCDictionary();
-//    data->setObject(CCString::create("idle"), "name");
-//    data->setObject(CCInteger::create(0), "direction");
-//    
-//    CCLOG("set begin action");
-//    CCMessageManager::defaultManager()->dispatchMessageWithType(CHANGE_ANIMATION, NULL, player,data);
-//    CCLOG("set begin action after");
-//    
-//    
-//    Unit* target=new Unit();
-//    target->setHealth(10);
-//    
-////    player->sendMessage(SET_ATTACK_TARGET, NULL, target);
-//    
-//    CCLOG("send attack message");
-//    
-//    CCMessageManager::defaultManager()->dispatchMessageWithType(ATTACK, NULL, player,target);
-//    
-//    CCMessageManager::defaultManager()->dispatchMessageWithType(ATTACK, NULL, player,target);
-//    
-//    for(int i=0;i<1;i++){
-//        CCMessageManager::defaultManager()->dispatchMessageWithType(ATTACK, NULL, player);
-//    }
-//    
-////    AttackComponent* attackComponent=(AttackComponent*)player->getComponent("AttackComponent");
-//    
-//        
-//    target->release();
-//    player->release();
-//    
-//    m_pPlayer=player;
-    
+      
 	return true;
 }
 
@@ -211,7 +169,7 @@ void GameWorld::setupGameWorlds()
     CCISOTileLayer* testLayer=new CCISOTileLayer();
     testLayer->init();
     testLayer->setTileSize(TileWidth,TileHeight);
-    this->addChild(testLayer);
+    this->addChild(testLayer,0,kLayerTagTestIsoLayer);
     testLayer->visitTileShowable();
     
     
@@ -495,6 +453,13 @@ void  GameWorld::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 			 CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_PATH, NULL, m_pPlayer,paths);
 			 paths->release();
 		 }
+	}else{
+		//CCISOTileLayer* tileLayer=(CCISOTileLayer*)this->getChildByTag(kLayerTagTestIsoLayer);
+		//if(tileLayer->isCellChange()){
+		//	CCLOG("do visit");
+		//	tileLayer->removeAllChildrenWithCleanup(true);
+		//	tileLayer->visitTileShowable();
+		//}
 	}
 }
 void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
@@ -504,7 +469,21 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	float dy=touchPoint.y-m_startTouchLocation.y;
 	if(abs(dx)>10 || abs(dy)>10){
 		m_bIsTouchMoved=true;
-		m_pGameCamera->moveOpposite(touchPoint.x-m_lastTouchLocation.x,touchPoint.y-m_lastTouchLocation.y);
+		//m_pGameCamera->moveOpposite(touchPoint.x-m_lastTouchLocation.x,touchPoint.y-m_lastTouchLocation.y);
+		
+		CCISOTileLayer* tileLayer=(CCISOTileLayer*)this->getChildByTag(kLayerTagTestIsoLayer);
+		CCPoint pos=tileLayer->getPosition();
+		pos.x+=touchPoint.x-m_lastTouchLocation.x;
+		pos.y+=touchPoint.y-m_lastTouchLocation.y;
+		tileLayer->setPosition(pos);
+		/*if(tileLayer->isCellChange()){
+			CCLOG("do visit");
+			tileLayer->removeAllChildrenWithCleanup(true);
+			tileLayer->visitTileShowable();
+		}*/
+		//tileLayer->removeAllChildrenWithCleanup(true);
+		//tileLayer->visitTileShowable();
+
 		m_lastTouchLocation=touchPoint;
 	}
 }
