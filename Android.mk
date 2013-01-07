@@ -15,6 +15,7 @@ Classes/Isometric/CCAstarNode.cpp \
 Classes/Isometric/CCAstar.cpp \
 Classes/Isometric/CCZIndexNode.cpp \
 Classes/Isometric/CCZIndex.cpp \
+Classes/Isometric/CCISOTileLayer.cpp \
 Classes/Components/Component.cpp \
 Classes/Components/AttackComponent.cpp \
 Classes/Components/AutoAttackComponent.cpp \
