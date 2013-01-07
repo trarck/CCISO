@@ -28,6 +28,20 @@ bool GameScene::init()
     {
         return false;
     }
+    CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
+    
+    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+                                                          "CloseNormal.png",
+                                                          "CloseSelected.png",
+                                                          this,
+                                                          menu_selector(GameScene::menuCloseCallback) );
+    pCloseItem->setPosition( ccp(screenSize.width - 20, 20) );
+    
+        // create menu, it's an autorelease object
+    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
+    pMenu->setPosition( CCPointZero );
+    this->addChild(pMenu, 1);
+
 
     m_pGameWorld=new GameWorld();
 	m_pGameWorld->init();
@@ -44,5 +58,13 @@ GameWorld*  GameScene::getGameWorld()
     return m_pGameWorld;
 }
 
+void GameScene::menuCloseCallback(CCObject* pSender)
+{
+    this->removeAllChildrenWithCleanup(true);
+    CCDirector::sharedDirector()->end();
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    exit(0);
+#endif
+}
 
 NS_YH_END

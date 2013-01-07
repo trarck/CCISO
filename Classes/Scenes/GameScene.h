@@ -21,6 +21,9 @@ public:
     CREATE_FUNC(GameScene);
 
 	GameWorld* getGameWorld();
+    
+    void menuCloseCallback(CCObject* pSender);
+    
 private:
     GameWorld* m_pGameWorld;
 };

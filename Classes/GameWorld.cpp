@@ -82,32 +82,32 @@ bool GameWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        this,
-                                        menu_selector(GameWorld::menuCloseCallback) );
-    pCloseItem->setPosition( ccp(screenSize.width - 20, 20) );
-    
-    CCMenuItemLabel *pRunItem=CCMenuItemLabel::create(CCLabelTTF::create("run", "Arial", 12),
-                                                      this, 
-                                                      menu_selector(GameWorld::menuRunCallback));
-    pRunItem->setPosition(ccp(screenSize.width-60,20));
-    
-    CCMenuItemLabel *pStopItem=CCMenuItemLabel::create(CCLabelTTF::create("stop", "Arial", 12),
-                                                      this, 
-                                                      menu_selector(GameWorld::menuStopCallback));
-    pStopItem->setPosition(ccp(screenSize.width-90,20));
-    
-    CCMenuItemLabel *pMoveToItem=CCMenuItemLabel::create(CCLabelTTF::create("moveTo", "Arial", 12),
-                                                       this, 
-                                                       menu_selector(GameWorld::menuMoveToCallback));
-    pMoveToItem->setPosition(ccp(screenSize.width-120,20));
-    
-    // create menu, it's an autorelease object
-    CCMenu* pMenu = CCMenu::create(pCloseItem,pRunItem,pStopItem,pMoveToItem, NULL);
-    pMenu->setPosition( CCPointZero );
-    this->addChild(pMenu, 1);
+//    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+//                                        "CloseNormal.png",
+//                                        "CloseSelected.png",
+//                                        this,
+//                                        menu_selector(GameWorld::menuCloseCallback) );
+//    pCloseItem->setPosition( ccp(screenSize.width - 20, 20) );
+//    
+//    CCMenuItemLabel *pRunItem=CCMenuItemLabel::create(CCLabelTTF::create("run", "Arial", 12),
+//                                                      this, 
+//                                                      menu_selector(GameWorld::menuRunCallback));
+//    pRunItem->setPosition(ccp(screenSize.width-60,20));
+//    
+//    CCMenuItemLabel *pStopItem=CCMenuItemLabel::create(CCLabelTTF::create("stop", "Arial", 12),
+//                                                      this, 
+//                                                      menu_selector(GameWorld::menuStopCallback));
+//    pStopItem->setPosition(ccp(screenSize.width-90,20));
+//    
+//    CCMenuItemLabel *pMoveToItem=CCMenuItemLabel::create(CCLabelTTF::create("moveTo", "Arial", 12),
+//                                                       this, 
+//                                                       menu_selector(GameWorld::menuMoveToCallback));
+//    pMoveToItem->setPosition(ccp(screenSize.width-120,20));
+//    
+//    // create menu, it's an autorelease object
+//    CCMenu* pMenu = CCMenu::create(pCloseItem,pRunItem,pStopItem,pMoveToItem, NULL);
+//    pMenu->setPosition( CCPointZero );
+//    this->addChild(pMenu, 1);
 
       
 	return true;
@@ -121,11 +121,13 @@ bool GameWorld::init(int mapId)
 }
 void GameWorld::setup()
 {
+    CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 	//m_pUnits=new CCArray(10);
 
 	m_pGameCamera=new GameCamera();
 	m_pGameCamera->init();
 	m_pGameCamera->setGameWorld(this);
+    m_pGameCamera->moveTo(-screenSize.width/2, 0);
 	//base
 	setupGameWorlds();
 	setupUtil();
