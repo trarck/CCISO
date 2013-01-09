@@ -13,7 +13,7 @@ public:
 	CCISOTileLayer();
 	~CCISOTileLayer(void);
 	
-    bool init();
+    virtual bool init();
 
 	void addTileAt(float x,float y);
 	void addTileAt(const CCPoint& pos);
