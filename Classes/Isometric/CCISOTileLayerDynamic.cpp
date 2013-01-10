@@ -1,5 +1,5 @@
 #include "CCISOCoordinate.h"
-#include "CCISOTileLayerDynamicDynamic.h"
+#include "CCISOTileLayerDynamic.h"
 
 
 NS_CC_BEGIN
@@ -109,8 +109,15 @@ void CCISOTileLayerDynamic::doUpdateContent()
 	}
 }
 
-int calcComponentTilesCount();
-void createComponentTiles();
+int CCISOTileLayerDynamic::calcComponentTilesCount()
+{
+    
+}
+
+void CCISOTileLayerDynamic::createComponentTiles()
+{
+    
+}
 
 
 void CCISOTileLayerDynamic::draw()

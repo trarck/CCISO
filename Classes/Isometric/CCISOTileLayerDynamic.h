@@ -27,7 +27,7 @@ public:
     virtual void draw();
 
 protected:
-
+    int 
 };
 
 

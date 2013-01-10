@@ -64,6 +64,7 @@
 		5791DDE5160982EE00D996E9 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE3160982EE00D996E9 /* Player.cpp */; };
 		5791DE181609B7AE00D996E9 /* GameEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE0160982C200D996E9 /* GameEntity.cpp */; };
 		57B0C70C16353F400002A0CD /* characters in Resources */ = {isa = PBXBuildFile; fileRef = 57B0C70B16353F400002A0CD /* characters */; };
+		57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamic.cpp */; };
 		57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */; };
 /* End PBXBuildFile section */
 
@@ -189,6 +190,8 @@
 		5791DDE4160982EE00D996E9 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		5791DE141609935600D996E9 /* GameMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMessages.h; sourceTree = "<group>"; };
 		57B0C70B16353F400002A0CD /* characters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = characters; sourceTree = "<group>"; };
+		57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileLayerDynamic.cpp; sourceTree = "<group>"; };
+		57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileLayerDynamic.h; sourceTree = "<group>"; };
 		57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleMoveComponent.cpp; sourceTree = "<group>"; };
 		57FE5A3F1636A0ED00FCD88B /* SimpleMoveComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMoveComponent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -379,6 +382,8 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamic.cpp */,
+				57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamic.h */,
 				57851AB11696D1A900BB6701 /* CCISOTileLayer.cpp */,
 				57851AB21696D1A900BB6701 /* CCISOTileLayer.h */,
 				57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */,
@@ -575,6 +580,7 @@
 				57851AAF1696B27800BB6701 /* CCZIndex.cpp in Sources */,
 				57851AB01696B27800BB6701 /* CCZIndexNode.cpp in Sources */,
 				578A6B67169936C9000BCC72 /* CCISOTileLayer.cpp in Sources */,
+				57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
