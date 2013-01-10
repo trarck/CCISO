@@ -2,7 +2,7 @@
 #define ISO_CCISOTileLayerDynamic_H_
 
 #include "cocos2d.h"
-#include "CCISOTileLayer"
+#include "CCISOTileLayer.h"
 
 NS_CC_BEGIN
 
@@ -25,9 +25,20 @@ public:
 	void createComponentTiles();
 	
     virtual void draw();
+    
+    virtual void setComponentTileColumn(int iComponentTileColumn);
+    virtual int getComponentTileColumn();
+    virtual void setComponentTileRow(int iComponentTileRow);
+    virtual int getComponentTileRow();
+    virtual void setComponenTileExtendCount(int iComponenTileExtendCount);
+    virtual int getComponenTileExtendCount();
+
 
 protected:
-    int 
+    int m_iComponentTileColumn;
+    int m_iComponentTileRow;
+    //x,y增加相同的格子数
+    int m_iComponenTileExtendCount;
 };
 
 

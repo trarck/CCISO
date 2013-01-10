@@ -111,6 +111,13 @@ void CCISOTileLayerDynamic::doUpdateContent()
 
 int CCISOTileLayerDynamic::calcComponentTilesCount()
 {
+    CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
+    screenSize=testSize;
+    
+    
+    m_iComponentTileColumn=floor(screenSize.width/m_tTileSize.width)+2;
+    m_iComponentTileRow=floor(screenSize.height/m_tTileSize.height)+2;
+    
     
 }
 
@@ -127,5 +134,34 @@ void CCISOTileLayerDynamic::draw()
     ccDrawRect(m_tPosition,ccp(m_tPosition.x+testSize.width,m_tPosition.y+testSize.height));
 }
 
+void CCISOTileLayerDynamic::setComponentTileColumn(int iComponentTileColumn)
+{
+    m_iComponentTileColumn = iComponentTileColumn;
+}
+
+int CCISOTileLayerDynamic::getComponentTileColumn()
+{
+    return m_iComponentTileColumn;
+}
+
+void CCISOTileLayerDynamic::setComponentTileRow(int iComponentTileRow)
+{
+    m_iComponentTileRow = iComponentTileRow;
+}
+
+int CCISOTileLayerDynamic::getComponentTileRow()
+{
+    return m_iComponentTileRow;
+}
+
+void CCISOTileLayerDynamic::setComponenTileExtendCount(int iComponenTileExtendCount)
+{
+    m_iComponenTileExtendCount = iComponenTileExtendCount;
+}
+
+int CCISOTileLayerDynamic::getComponenTileExtendCount()
+{
+    return m_iComponenTileExtendCount;
+}
 
 NS_CC_END

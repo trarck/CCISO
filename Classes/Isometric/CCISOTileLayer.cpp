@@ -38,7 +38,7 @@ void CCISOTileLayer::setPosition(const CCPoint& newPosition)
 	if(this->beforeUpdateContent()){
 		//TODO 不删除所有tile,只修改改变的tile.
 		this->removeAllChildrenWithCleanup(true);
-		this->doUpdateContent();
+		this->doUpdateContent2();
 	}
 }
 
@@ -78,7 +78,9 @@ void CCISOTileLayer::doUpdateContent()
 	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
 	int rowCount=(floor(screenSize.height/m_tTileSize.height)+2)*2-1;
-	int oggColumnCount=columnCount+1;
+    
+    int evenColumnCount=columnCount;
+	int oddColumnCount=columnCount-1;
 	//后移一步.由于是在左下角，则只需移动x轴
 	startX-=1;
     
@@ -119,6 +121,57 @@ void CCISOTileLayer::doUpdateContent()
 		}
 	}
 }
+
+void CCISOTileLayer::doUpdateContent2()
+{
+    CCLOG("doVisit#########");
+	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
+    screenSize=testSize;
+	
+	int startX=m_iStartX,startY=m_iStartY;
+    
+	m_tLastStartPoint.x=startX;
+	m_tLastStartPoint.y=startY;
+	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
+	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
+	//会有一行浪费掉的。所以要减去1.
+	int rowCount=(floor(screenSize.height/m_tTileSize.height)+2)*2-1;
+    
+    int evenColumnCount=columnCount;
+	int oddColumnCount=columnCount-1;
+	//后移一步.由于是在左下角，则只需移动x轴
+	startX-=1;
+    
+	int mx=0,my=0;
+	for(int j=0;j<rowCount;j++){
+	
+		for(int i=0;i<columnCount;i++){
+			mx=startX+i;
+			my=startY-i;
+			//CCLOG("visit:%f,%f",mx,my);
+			//有了map坐标就可以显示内容。
+			addTileAt(mx,my);
+		}
+		//if((j+1)&1){
+		//	columnCount++;
+		//	startY++;
+		//}else{
+		//	columnCount--;
+		//	startX++;
+		//}
+		//这里可以使j+1，再调换true和false的body,就是正常逻辑
+		if(j&1){
+			//下个循环为偶
+			columnCount=evenColumnCount;
+			startY++;
+		}else{
+			//下个循环为奇
+			columnCount=oddColumnCount;
+            startX++;
+		}
+	}
+}
+
 
 bool CCISOTileLayer::isCellChange()
 {

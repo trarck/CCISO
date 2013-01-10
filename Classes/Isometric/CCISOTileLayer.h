@@ -29,6 +29,7 @@ public:
 
 	bool beforeUpdateContent();
 	void doUpdateContent();
+    void doUpdateContent2();
 
 	bool isCellChange();
     void visitTileShowable();
