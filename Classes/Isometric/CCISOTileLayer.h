@@ -37,6 +37,7 @@ public:
     
     virtual void draw();
     
+    
 	virtual void setLayerSize(const CCSize& tLayerSize);
 	virtual CCSize getLayerSize();
 //	virtual void setContentSize(CCSize tContentSize);
@@ -47,6 +48,9 @@ public:
     void setTileSize(const CCSize&  tileSize);
     void setTileSize(float width,float height);
 
+    //只作判断使用，不改变显示位置
+    virtual void scroll(const CCPoint& tOffset);
+    virtual void scroll(float x,float y);
 	virtual void setOffset(const CCPoint& tOffset);
 	virtual void setOffset(float x,float y);
 	virtual CCPoint getOffset();

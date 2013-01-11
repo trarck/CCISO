@@ -18,8 +18,8 @@ public:
 
 	virtual void setPosition(const CCPoint& newPosition);
 
-	bool beforeUpdateContent();
-	void doUpdateContent();
+//	bool beforeUpdateContent();
+//	void doUpdateContent();
 
 	int calcComponentTilesCount();
 	void createComponentTiles();
@@ -28,8 +28,10 @@ public:
     
     virtual void setComponentTileColumn(int iComponentTileColumn);
     virtual int getComponentTileColumn();
+    
     virtual void setComponentTileRow(int iComponentTileRow);
     virtual int getComponentTileRow();
+    
     virtual void setComponenTileExtendCount(int iComponenTileExtendCount);
     virtual int getComponenTileExtendCount();
 
@@ -39,6 +41,7 @@ protected:
     int m_iComponentTileRow;
     //x,y增加相同的格子数
     int m_iComponenTileExtendCount;
+    
 };
 
 
