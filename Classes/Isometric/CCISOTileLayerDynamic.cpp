@@ -7,19 +7,20 @@ NS_CC_BEGIN
 const CCSize testSize=CCSizeMake(320,160);
 
 CCISOTileLayerDynamic::CCISOTileLayerDynamic()
+:m_pComponents(NULL)
 {
 	
 }
 
 CCISOTileLayerDynamic::~CCISOTileLayerDynamic()
 {
-//	CC_SAFE_RELEASE();
+	CC_SAFE_RELEASE(m_pComponents);
 }
 
 bool CCISOTileLayerDynamic::init()
 {
 	if(CCISOTileLayer::init()){
-		m_iComponenTileExtendCount=0;
+		m_iComponentTileExtendCount=0;
 	}
 	return true;
 }
@@ -50,7 +51,7 @@ void CCISOTileLayerDynamic::setPosition(const CCPoint& newPosition)
 //   
 //}
 
-int CCISOTileLayerDynamic::calcComponentTilesCount()
+void CCISOTileLayerDynamic::calcComponentsCount()
 {
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
     screenSize=testSize;
@@ -59,17 +60,45 @@ int CCISOTileLayerDynamic::calcComponentTilesCount()
     m_iComponentTileColumn=floor(screenSize.width/m_tTileSize.width)+2;
     m_iComponentTileRow=floor(screenSize.height/m_tTileSize.height)+2;
     
-    m_iComponentTileColumn+=m_iComponenTileExtendCount;
-    m_iComponentTileRow+=m_iComponenTileExtendCount;
-    
+    m_iComponentTileColumn+=m_iComponentTileExtendCount;
+    m_iComponentTileRow+=m_iComponentTileExtendCount;
+	
 }
 
-void CCISOTileLayerDynamic::createComponentTiles()
+void CCISOTileLayerDynamic::createComponents()
 {
-    for(int j=0;j<m_iComponentTileRow;j++){
-        for(int i=0;i<m_iComponentTileColumn;i++){
-            
-        }
+	int totalColumn=2*m_iComponentTileColumn;
+	int totalRow=2*m_iComponentTileRow;
+	m_pComponents=new CCArray(totalColumn*totalRow);
+
+	CCISOComponentNode* tile;
+    for(int j=0;j<totalRow;j++){
+		for(int i=0;i<m_iComponentTileColumn;i++){
+			tile=new CCISOComponentNode();
+			tile->setColumn(i*2+(j&1));
+			tile->setRow(j);
+			m_pComponents->addObject(tile);
+			tile->release();
+		}
+		//if(j&1){
+		//	//奇
+		//	for(int i=0;i<m_iComponentTileColumn;i++){
+		//		tile=new CCISOComponentNode();
+		//		tile->setColumn(i*2+1);
+		//		tile->setRow(j);
+		//		m_pComponents->addObject(tile);
+		//		tile->release();
+		//	}
+		//}else{
+		//	//偶
+		//	for(int i=0;i<m_iComponentTileColumn;i++){
+		//		tile=new CCISOComponentNode();
+		//		tile->setColumn(i*2);
+		//		tile->setRow(j);
+		//		m_pComponents->addObject(tile);
+		//		tile->release();
+		//	}
+		//}
     }
 }
 
@@ -101,14 +130,14 @@ int CCISOTileLayerDynamic::getComponentTileRow()
     return m_iComponentTileRow;
 }
 
-void CCISOTileLayerDynamic::setComponenTileExtendCount(int iComponenTileExtendCount)
+void CCISOTileLayerDynamic::setComponentTileExtendCount(int iComponentTileExtendCount)
 {
-    m_iComponenTileExtendCount = iComponenTileExtendCount;
+    m_iComponentTileExtendCount = iComponentTileExtendCount;
 }
 
-int CCISOTileLayerDynamic::getComponenTileExtendCount()
+int CCISOTileLayerDynamic::getComponentTileExtendCount()
 {
-    return m_iComponenTileExtendCount;
+    return m_iComponentTileExtendCount;
 }
 
 NS_CC_END

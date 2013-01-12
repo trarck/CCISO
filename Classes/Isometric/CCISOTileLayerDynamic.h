@@ -6,6 +6,33 @@
 
 NS_CC_BEGIN
 
+class CCISOComponentNode : public CCSprite{
+
+public:
+	void setColumn(int iColumn)
+	{
+		m_iColumn = iColumn;
+	};
+
+	int getColumn()
+	{
+		return m_iColumn;
+	};
+
+	void setRow(int iRow)
+	{
+		m_iRow = iRow;
+	};
+
+	int getRow()
+	{
+		return m_iRow;
+	};
+
+private:
+	int m_iColumn;
+	int m_iRow;
+};
 
 class CCISOTileLayerDynamic : public CCISOTileLayer {
 
@@ -21,8 +48,8 @@ public:
 //	bool beforeUpdateContent();
 //	void doUpdateContent();
 
-	int calcComponentTilesCount();
-	void createComponentTiles();
+	void calcComponentsCount();
+	void createComponents();
 	
     virtual void draw();
     
@@ -32,16 +59,18 @@ public:
     virtual void setComponentTileRow(int iComponentTileRow);
     virtual int getComponentTileRow();
     
-    virtual void setComponenTileExtendCount(int iComponenTileExtendCount);
-    virtual int getComponenTileExtendCount();
+    virtual void setComponentTileExtendCount(int iComponentTileExtendCount);
+    virtual int getComponentTileExtendCount();
 
 
 protected:
     int m_iComponentTileColumn;
     int m_iComponentTileRow;
     //x,y增加相同的格子数
-    int m_iComponenTileExtendCount;
+    int m_iComponentTileExtendCount;
     
+	//CCISOComponentNode** m_pComponents;
+	CCArray* m_pComponents;
 };
 
 

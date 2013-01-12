@@ -345,6 +345,16 @@ void CCISOTileLayer::setTileSize(float width,float height)
     m_tTileSize.height=height;
 }
 
+void CCISOTileLayer::scroll(const CCPoint& tOffset)
+{
+
+}
+
+void CCISOTileLayer::scroll(float x,float y)
+{
+
+}
+
 void CCISOTileLayer::setOffset(const CCPoint& tOffset)
 {
     m_tOffset = tOffset;
