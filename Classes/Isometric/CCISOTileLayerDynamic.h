@@ -9,6 +9,8 @@ NS_CC_BEGIN
 class CCISOComponentNode : public CCSprite{
 
 public:
+    CCISOComponentNode();
+    
 	void setColumn(int iColumn)
 	{
 		m_iColumn = iColumn;
@@ -28,10 +30,32 @@ public:
 	{
 		return m_iRow;
 	};
+    
+    void setMapCellX(int iMapCellX)
+    {
+        m_iMapCellX = iMapCellX;
+    }
+    
+    int getMapCellX()
+    {
+        return m_iMapCellX;
+    }
+    
+    void setMapCellY(int iMapCellY)
+    {
+        m_iMapCellY = iMapCellY;
+    }
+    
+    int getMapCellY()
+    {
+        return m_iMapCellY;
+    }
 
 private:
 	int m_iColumn;
 	int m_iRow;
+    int m_iMapCellX;
+    int m_iMapCellY;
 };
 
 class CCISOTileLayerDynamic : public CCISOTileLayer {
@@ -45,11 +69,12 @@ public:
 
 	virtual void setPosition(const CCPoint& newPosition);
 
-//	bool beforeUpdateContent();
-//	void doUpdateContent();
+	bool beforeUpdateContent();
+	void doUpdateContent();
 
 	void calcComponentsCount();
 	void createComponents();
+    void setupComponents();
 	
     virtual void draw();
     

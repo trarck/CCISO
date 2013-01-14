@@ -6,6 +6,16 @@ NS_CC_BEGIN
 
 const CCSize testSize=CCSizeMake(320,160);
 
+CCISOComponentNode::CCISOComponentNode()
+:m_iColumn(0)
+,m_iRow(0)
+,m_iMapCellX(0)
+,m_iMapCellY(0)
+{
+    
+}
+
+
 CCISOTileLayerDynamic::CCISOTileLayerDynamic()
 :m_pComponents(NULL)
 {
@@ -41,15 +51,23 @@ void CCISOTileLayerDynamic::setPosition(const CCPoint& newPosition)
  * 检查是否需要由于位置的改变而更新显示内容。
  * 并记录新位置对应的地图坐标，为更新使用。
  */
-//bool CCISOTileLayerDynamic::beforeUpdateContent()
-//{
-//
-//}
-//
-//void CCISOTileLayerDynamic::doUpdateContent()
-//{
-//   
-//}
+bool CCISOTileLayerDynamic::beforeUpdateContent()
+{
+	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
+    screenSize=testSize;
+	
+	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
+	//CCPoint startMapCoord=isoViewToGame2F(0,0);
+	//only for test
+	CCPoint startMapCoord=isoViewToGamePoint(m_tPosition);
+	m_iStartX=(int)startMapCoord.x,m_iStartY=(int)startMapCoord.y;
+	return m_iStartX!=(int)m_tLastStartPoint.x || m_iStartY!=(int)m_tLastStartPoint.y;
+}
+
+void CCISOTileLayerDynamic::doUpdateContent()
+{
+   
+}
 
 void CCISOTileLayerDynamic::calcComponentsCount()
 {
@@ -102,6 +120,22 @@ void CCISOTileLayerDynamic::createComponents()
     }
 }
 
+void CCISOTileLayerDynamic::setupComponents()
+{
+	int totalColumn=2*m_iComponentTileColumn;
+	int totalRow=2*m_iComponentTileRow;
+	m_pComponents=new CCArray(totalColumn*totalRow);
+    
+	CCISOComponentNode* tile;
+    int row=0,col=0;
+    for(int j=0;j<totalRow;j++){
+		for(int i=0;i<m_iComponentTileColumn;i++){
+            col=(i*2+(j&1));
+            row=j;
+			tile=(CCISOComponentNode*)m_pComponents->objectAtIndex(j*m_iComponentTileColumn+col/2);
+		}
+    }
+}
 
 void CCISOTileLayerDynamic::draw()
 {
