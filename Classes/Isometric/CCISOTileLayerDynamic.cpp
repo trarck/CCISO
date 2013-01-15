@@ -39,6 +39,17 @@ bool CCISOTileLayerDynamic::init()
 	return true;
 }
 
+void CCISOTileLayerDynamic::initOffset(const CCPoint& tOffset)
+{
+	CCISOTileLayer::initOffset(tOffset);
+	m_iLastStartX=m_iStartX;
+	m_iLastStartY=m_iStartY;
+}
+
+void CCISOTileLayerDynamic::initOffset(float x,float y)
+{
+	this->initOffset(ccp(x,y));
+}
 
 /**
  * 检查是否需要由于位置的改变而更新显示内容。
@@ -53,8 +64,9 @@ bool CCISOTileLayerDynamic::beforeUpdateContent()
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
 	//only for test
 	CCPoint startMapCoord=isoViewToGamePoint(m_tOffset);
-	m_iStartX=(int)startMapCoord.x,m_iStartY=(int)startMapCoord.y;
-    CCLOG("start:%d,%d %f,%f",m_iStartX,m_iStartY,m_tPosition.x,m_tPosition.y);
+	m_iStartX=(int)startMapCoord.x;
+	m_iStartY=(int)startMapCoord.y;
+    //CCLOG("start:%d,%d %f,%f",m_iStartX,m_iStartY,m_tPosition.x,m_tPosition.y);
 	return m_iStartX!=(int)m_tLastStartPoint.x || m_iStartY!=(int)m_tLastStartPoint.y;
 }
 
@@ -65,7 +77,7 @@ void CCISOTileLayerDynamic::doUpdateContent()
     
     int startX=m_iStartX-m_iComponentNodeExtendCount-1;
     int startY=m_iStartY;
-    CCLOG("start:%d,%d",startX,startY);
+    CCLOG("doUpdateContent start:%d,%d",startX,startY);
 	CCISOComponentNode* tile;
     int row=0,col=0,index=0;
     int mx=0,my=0;
@@ -79,7 +91,7 @@ void CCISOTileLayerDynamic::doUpdateContent()
             mx=startX+i;
             my=startY-i;
             this->addTileAt(mx,my);
-            CCLOG("index:%d,%d,%d:%d,%d",index,i,j,mx,my);
+            //CCLOG("index:%d,%d,%d:%d,%d",index,i,j,mx,my);
 		}
         if(j&1){
 			//下个循环为偶
@@ -107,30 +119,86 @@ void CCISOTileLayerDynamic::doUpdateComponents()
     int loopX=abs(dx);
     int loopY=abs(dy);
     
-
+	CCLOG("updateCompoents:%d,%d",dx,dy);
     int moveComponentIndex=0;
     int index,row,col;
     if(dx>0){
         //横向移动
         moveComponentIndex=m_iComponentIndexX;
         for(int j=0;j<m_iComponentTileRow;j++){
-            row=j*2+moveComponentIndex&1;
-            index=j*m_iComponentTileColumn+moveComponentIndex/2;
-            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,j);
+            row=j*2+(moveComponentIndex&1);
+            index=row*m_iComponentTileColumn+moveComponentIndex/2;
+            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
         }
         m_iComponentIndexX=(m_iComponentIndexX+1)%totalColumn;
         
         //纵向移动
         moveComponentIndex=m_iComponentIndexY;
         for(int i=0;i<m_iComponentTileColumn;i++){
-            col=i*2+moveComponentIndex&1;
+            col=(m_iComponentIndexX+i*2+(moveComponentIndex&1))%totalColumn;
             index=moveComponentIndex*m_iComponentTileColumn+col/2;
             CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
         }
         m_iComponentIndexY=(m_iComponentIndexY+1)%totalRow;
         
-    }else{
+    }else if(dx<0){
+         //横向移动
+        moveComponentIndex=m_iComponentIndexX;
+        for(int j=0;j<m_iComponentTileRow;j++){
+            row=j*2+(moveComponentIndex&1);
+            index=row*m_iComponentTileColumn+moveComponentIndex/2;
+            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
+        }
+        m_iComponentIndexX=(m_iComponentIndexX-1)%totalColumn;
         
+        //纵向移动
+        moveComponentIndex=m_iComponentIndexY;
+        for(int i=0;i<m_iComponentTileColumn;i++){
+            col=i*2+(moveComponentIndex&1);
+            index=moveComponentIndex*m_iComponentTileColumn+col/2;
+            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
+        }
+        m_iComponentIndexY=(m_iComponentIndexY-1)%totalRow;
+        
+    }
+
+	if(dy>0){
+        //横向移动
+        moveComponentIndex=m_iComponentIndexY;
+        for(int j=0;j<m_iComponentTileRow;j++){
+            row=j*2+(moveComponentIndex&1);
+            index=row*m_iComponentTileColumn+moveComponentIndex/2;
+            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
+        }
+        m_iComponentIndexX=(m_iComponentIndexX+1)%totalColumn;
+        
+        //纵向移动
+        moveComponentIndex=m_iComponentIndexY;
+        for(int i=0;i<m_iComponentTileColumn;i++){
+            col=i*2+(moveComponentIndex&1);
+            index=moveComponentIndex*m_iComponentTileColumn+col/2;
+            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
+        }
+        m_iComponentIndexY=(m_iComponentIndexY-1)%totalRow;
+        
+    }else if(dy<0){
+         //横向移动
+        moveComponentIndex=m_iComponentIndexX;
+        for(int j=0;j<m_iComponentTileRow;j++){
+            row=j*2+(moveComponentIndex&1);
+            index=row*m_iComponentTileColumn+moveComponentIndex/2;
+            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
+        }
+        m_iComponentIndexX=(m_iComponentIndexX-1)%totalColumn;
+        
+        //纵向移动
+        moveComponentIndex=m_iComponentIndexY;
+        for(int i=0;i<m_iComponentTileColumn;i++){
+            col=i*2+(moveComponentIndex&1);
+            index=moveComponentIndex*m_iComponentTileColumn+col/2;
+            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
+        }
+        m_iComponentIndexY=(m_iComponentIndexY+1)%totalRow;
         
     }
     
@@ -194,6 +262,7 @@ void CCISOTileLayerDynamic::createComponents()
 
 void CCISOTileLayerDynamic::initComponents()
 {
+	CCLOG("initComponents:");
     this->doUpdateContent();
 }
 
@@ -202,7 +271,16 @@ void CCISOTileLayerDynamic::setupComponents(int iComponentNodeExtendCount)
 	this->setComponentTileExtendCount(iComponentNodeExtendCount);
     this->calcComponentsCount();
     this->createComponents();
-//    this->initComponents();
+    this->initComponents();
+}
+void CCISOTileLayerDynamic::setupComponents(int iComponentNodeExtendCount,const CCPoint& position)
+{
+	this->setComponentTileExtendCount(iComponentNodeExtendCount);
+    this->calcComponentsCount();
+    this->createComponents();
+	//this->setOffset(position);
+	this->initOffset(position);
+    this->initComponents();	
 }
 
 void CCISOTileLayerDynamic::setComponentTileColumn(int iComponentTileColumn)
@@ -239,9 +317,13 @@ void CCISOTileLayerDynamic::scroll(const CCPoint& tOffset)
 {
     this->setOffset(tOffset);
 	if(this->beforeUpdateContent()){
+		m_tLastStartPoint.x=m_iStartX;
+		m_tLastStartPoint.y=m_iStartY;
 		//TODO 不删除所有tile,只修改改变的tile.
-		this->removeAllChildrenWithCleanup(true);
-		this->doUpdateContent();
+		//this->removeAllChildrenWithCleanup(true);
+		//this->doUpdateContent();
+		this->doUpdateComponents();
+
 	}
 }
 

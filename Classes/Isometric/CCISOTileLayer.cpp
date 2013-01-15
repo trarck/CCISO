@@ -25,6 +25,21 @@ bool CCISOTileLayer::init()
 	return true;
 }
 
+void CCISOTileLayer::initOffset(const CCPoint& tOffset)
+{
+	this->setOffset(tOffset);
+	CCPoint startMapCoord=isoViewToGamePoint(tOffset);
+	m_iStartX=(int)startMapCoord.x;
+	m_iStartY=(int)startMapCoord.y;
+	m_tLastStartPoint.x=m_iStartX;
+	m_tLastStartPoint.y=m_iStartY;
+}
+
+void CCISOTileLayer::initOffset(float x,float y)
+{
+	this->initOffset(ccp(x,y));
+}
+
 void CCISOTileLayer::addTileAt(float x,float y)
 {
     CCSprite* testGrid=CCSprite::create("grid1.png");
@@ -48,7 +63,8 @@ bool CCISOTileLayer::beforeUpdateContent()
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
 	//only for test
 	CCPoint startMapCoord=isoViewToGamePoint(m_tOffset);
-	m_iStartX=(int)startMapCoord.x,m_iStartY=(int)startMapCoord.y;
+	m_iStartX=(int)startMapCoord.x;
+	m_iStartY=(int)startMapCoord.y;
 	return m_iStartX!=(int)m_tLastStartPoint.x || m_iStartY!=(int)m_tLastStartPoint.y;
 }
 
@@ -60,8 +76,6 @@ void CCISOTileLayer::doUpdateContent()
 	
 	int startX=m_iStartX,startY=m_iStartY;
 
-	m_tLastStartPoint.x=startX;
-	m_tLastStartPoint.y=startY;
 	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
 	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
@@ -118,8 +132,6 @@ void CCISOTileLayer::doUpdateContent2()
 	
 	int startX=m_iStartX,startY=m_iStartY;
     
-	m_tLastStartPoint.x=startX;
-	m_tLastStartPoint.y=startY;
 	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
 	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
@@ -337,6 +349,8 @@ void CCISOTileLayer::scroll(const CCPoint& tOffset)
 {
     this->setOffset(tOffset);
 	if(this->beforeUpdateContent()){
+		m_tLastStartPoint.x=m_iStartX;
+		m_tLastStartPoint.y=m_iStartY;
 		//TODO 不删除所有tile,只修改改变的tile.
 		this->removeAllChildrenWithCleanup(true);
 		this->doUpdateContent2();

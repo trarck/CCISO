@@ -15,6 +15,9 @@ public:
 	
     virtual bool init();
 
+	virtual void initOffset(const CCPoint& tOffset);
+    virtual void initOffset(float x,float y);
+
 	void addTileAt(float x,float y);
 	void addTileAt(const CCPoint& pos);
 

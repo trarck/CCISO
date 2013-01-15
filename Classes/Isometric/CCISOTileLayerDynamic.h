@@ -68,6 +68,8 @@ public:
 	~CCISOTileLayerDynamic(void);
 	
     virtual bool init();
+	virtual void initOffset(const CCPoint& tOffset);
+    virtual void initOffset(float x,float y);
 
 	bool beforeUpdateContent();
 	void doUpdateContent();
@@ -77,7 +79,7 @@ public:
 	void createComponents();
     void initComponents();
     void setupComponents(int iComponentNodeExtendCount);
-	
+	void setupComponents(int iComponentNodeExtendCount,const CCPoint& position);
 //    virtual void draw();
     
     virtual void setComponentTileColumn(int iComponentTileColumn);
@@ -92,7 +94,8 @@ public:
 
     virtual void scroll(const CCPoint& tOffset);
     virtual void scroll(float x,float y);
-    
+
+
 protected:
     int m_iComponentTileColumn;
     int m_iComponentTileRow;
