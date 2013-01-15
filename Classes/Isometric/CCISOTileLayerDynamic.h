@@ -58,6 +58,8 @@ private:
     int m_iMapCellY;
 };
 
+
+
 class CCISOTileLayerDynamic : public CCISOTileLayer {
 
 public:
@@ -67,16 +69,16 @@ public:
 	
     virtual bool init();
 
-	virtual void setPosition(const CCPoint& newPosition);
-
 	bool beforeUpdateContent();
 	void doUpdateContent();
+    void doUpdateComponents();
 
 	void calcComponentsCount();
 	void createComponents();
-    void setupComponents();
+    void initComponents();
+    void setupComponents(int iComponentNodeExtendCount);
 	
-    virtual void draw();
+//    virtual void draw();
     
     virtual void setComponentTileColumn(int iComponentTileColumn);
     virtual int getComponentTileColumn();
@@ -84,18 +86,31 @@ public:
     virtual void setComponentTileRow(int iComponentTileRow);
     virtual int getComponentTileRow();
     
-    virtual void setComponentTileExtendCount(int iComponentTileExtendCount);
+    virtual void setComponentTileExtendCount(int iComponentNodeExtendCount);
     virtual int getComponentTileExtendCount();
 
 
+    virtual void scroll(const CCPoint& tOffset);
+    virtual void scroll(float x,float y);
+    
 protected:
     int m_iComponentTileColumn;
     int m_iComponentTileRow;
+    
+    int m_iComponentTileTotalColumn;
+    int m_iComponentTileTotalRow;
     //x,y增加相同的格子数
-    int m_iComponentTileExtendCount;
+    int m_iComponentNodeExtendCount;
     
 	//CCISOComponentNode** m_pComponents;
 	CCArray* m_pComponents;
+    
+    int m_iLastStartX;
+    int m_iLastStartY;
+    
+    int m_iComponentIndexX;
+    int m_iComponentIndexY;
+    
 };
 
 

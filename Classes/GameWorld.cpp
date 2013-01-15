@@ -8,15 +8,18 @@
 #include "Player.h"
 
 #include "CCISOTileLayer.h"
+#include "CCISOTileLayerDynamic.h"
 
 USING_NS_CC;
 
 NS_YH_BEGIN
 
 enum{
-	kLayerTagTestIsoLayer=1
+	kLayerTagTestIsoLayer=1,
+    kLayerTagTestIsoLayerDynamic
 };
 int mapItemGid=0;
+const float MoveSmallDistance=3;
 
 GameWorld::GameWorld()
 :m_iMapColumn(0)
@@ -168,12 +171,20 @@ void GameWorld::setupUtil()
  */
 void GameWorld::setupGameWorlds()
 {
-    CCISOTileLayer* testLayer=new CCISOTileLayer();
+//    CCISOTileLayer* testLayer=new CCISOTileLayer();
+//    testLayer->init();
+//    testLayer->setTileSize(TileWidth,TileHeight);
+//    this->addChild(testLayer,0,kLayerTagTestIsoLayer);
+//    testLayer->visitTileShowable();
+    
+    CCISOTileLayerDynamic* testLayer=new CCISOTileLayerDynamic();
     testLayer->init();
     testLayer->setTileSize(TileWidth,TileHeight);
-    this->addChild(testLayer,0,kLayerTagTestIsoLayer);
-    testLayer->visitTileShowable();
     
+    testLayer->setupComponents(2);
+//    testLayer->visitTileShowable();
+    testLayer->scroll(ccp(0,166));
+    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
     
 	m_pBackground=CCLayer::create();
 	m_pBackground->setPosition(ccp(0,0));
@@ -469,15 +480,22 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	CCPoint touchPoint = pTouch->getLocation();
 	float dx=touchPoint.x-m_startTouchLocation.x;
 	float dy=touchPoint.y-m_startTouchLocation.y;
-	if(abs(dx)>10 || abs(dy)>10){
+	if(abs(dx)>MoveSmallDistance || abs(dy)>MoveSmallDistance){
 		m_bIsTouchMoved=true;
 		//m_pGameCamera->moveOpposite(touchPoint.x-m_lastTouchLocation.x,touchPoint.y-m_lastTouchLocation.y);
 		
-		CCISOTileLayer* tileLayer=(CCISOTileLayer*)this->getChildByTag(kLayerTagTestIsoLayer);
-		CCPoint pos=tileLayer->getPosition();
+//		CCISOTileLayer* tileLayer=(CCISOTileLayer*)this->getChildByTag(kLayerTagTestIsoLayer);
+//		CCPoint pos=tileLayer->getOffset();
+//		pos.x+=touchPoint.x-m_lastTouchLocation.x;
+//		pos.y+=touchPoint.y-m_lastTouchLocation.y;
+//		tileLayer->scroll(pos);
+        
+        CCISOTileLayerDynamic* tileLayer=(CCISOTileLayerDynamic*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+		CCPoint pos=tileLayer->getOffset();
 		pos.x+=touchPoint.x-m_lastTouchLocation.x;
 		pos.y+=touchPoint.y-m_lastTouchLocation.y;
-		tileLayer->setPosition(pos);
+		tileLayer->scroll(pos);
+
 		/*if(tileLayer->isCellChange()){
 			CCLOG("do visit");
 			tileLayer->removeAllChildrenWithCleanup(true);

@@ -24,9 +24,6 @@ public:
 	void removeTileAt(float x,float y);
     void removeTileAt(const CCPoint& pos);
 
-	virtual void setPosition(const CCPoint& newPosition);
-	virtual void setPosition(float x,float y);
-
 	bool beforeUpdateContent();
 	void doUpdateContent();
     void doUpdateContent2();

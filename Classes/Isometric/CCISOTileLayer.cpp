@@ -6,6 +6,8 @@ NS_CC_BEGIN
 const CCSize testSize=CCSizeMake(320,160);
 
 CCISOTileLayer::CCISOTileLayer()
+:m_iStartX(0)
+,m_iStartY(0)
 {
 	
 }
@@ -32,20 +34,6 @@ void CCISOTileLayer::addTileAt(float x,float y)
     this->addChild(testGrid);
 }
 
-void CCISOTileLayer::setPosition(const CCPoint& newPosition)
-{
-	m_tPosition=newPosition;
-	if(this->beforeUpdateContent()){
-		//TODO 不删除所有tile,只修改改变的tile.
-		this->removeAllChildrenWithCleanup(true);
-		this->doUpdateContent2();
-	}
-}
-
-void CCISOTileLayer::setPosition(float x,float y)
-{
-	this->setPosition(ccp(x,y));
-}
 
 /**
  * 检查是否需要由于位置的改变而更新显示内容。
@@ -59,7 +47,7 @@ bool CCISOTileLayer::beforeUpdateContent()
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
 	//only for test
-	CCPoint startMapCoord=isoViewToGamePoint(m_tPosition);
+	CCPoint startMapCoord=isoViewToGamePoint(m_tOffset);
 	m_iStartX=(int)startMapCoord.x,m_iStartY=(int)startMapCoord.y;
 	return m_iStartX!=(int)m_tLastStartPoint.x || m_iStartY!=(int)m_tLastStartPoint.y;
 }
@@ -300,7 +288,7 @@ void CCISOTileLayer::draw()
 {
 	
 	ccDrawColor4B(255,0,0,255);
-    ccDrawRect(m_tPosition,ccp(m_tPosition.x+testSize.width,m_tPosition.y+testSize.height));
+    ccDrawRect(m_tOffset,ccp(m_tOffset.x+testSize.width,m_tOffset.y+testSize.height));
 }
 
 
@@ -347,12 +335,17 @@ void CCISOTileLayer::setTileSize(float width,float height)
 
 void CCISOTileLayer::scroll(const CCPoint& tOffset)
 {
-
+    this->setOffset(tOffset);
+	if(this->beforeUpdateContent()){
+		//TODO 不删除所有tile,只修改改变的tile.
+		this->removeAllChildrenWithCleanup(true);
+		this->doUpdateContent2();
+	}
 }
 
 void CCISOTileLayer::scroll(float x,float y)
 {
-
+    this->scroll(ccp(x,y));
 }
 
 void CCISOTileLayer::setOffset(const CCPoint& tOffset)
