@@ -6,30 +6,6 @@ NS_CC_BEGIN
 
 //const CCSize testSize=CCSizeMake(256,160);
 
-CCISOComponentNode::CCISOComponentNode()
-:m_iColumn(0)
-,m_iRow(0)
-,m_iMapCellX(0)
-,m_iMapCellY(0)
-,m_pTile(NULL)
-{
-
-}
-
-CCISOComponentNode::~CCISOComponentNode()
-{
-    CCLOG("CCISOComponentNode destroy");
-    CC_SAFE_RELEASE(m_pTile);
-}
-
-void CCISOComponentNode::updateMapCoordinate(float mapX,float mapY)
-{
-    m_fMapX=mapX;
-    m_fMapY=mapY;
-    m_pTile->setPosition(isoGameToView2F(mapX, mapY));
-}
-
-
 CCISOTileLayerDynamic::CCISOTileLayerDynamic()
 :m_pComponents(NULL)
 ,m_iLastStartX(0)
