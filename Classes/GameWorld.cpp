@@ -181,7 +181,7 @@ void GameWorld::setupGameWorlds()
     testLayer->init();
     testLayer->setTileSize(TileWidth,TileHeight);
     
-    testLayer->setupComponents(2,ccp(-160,234));
+    testLayer->setupComponents(2,ccp(-160,234));//ccp(-160,234)
 //    testLayer->visitTileShowable();
     //testLayer->scroll(ccp(-160,234));
     this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);

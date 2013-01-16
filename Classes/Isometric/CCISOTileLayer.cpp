@@ -3,7 +3,7 @@
 
 NS_CC_BEGIN
 
-const CCSize testSize=CCSizeMake(320,160);
+
 
 CCISOTileLayer::CCISOTileLayer()
 :m_iStartX(0)

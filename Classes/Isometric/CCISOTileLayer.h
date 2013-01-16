@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 
 NS_CC_BEGIN
-
+static const CCSize testSize=CCSizeMake(480,320);
 
 class CCISOTileLayer : public CCNode {
 

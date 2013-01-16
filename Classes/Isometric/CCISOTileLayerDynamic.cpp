@@ -4,7 +4,7 @@
 
 NS_CC_BEGIN
 
-const CCSize testSize=CCSizeMake(320,160);
+//const CCSize testSize=CCSizeMake(256,160);
 
 CCISOComponentNode::CCISOComponentNode()
 :m_iColumn(0)
@@ -232,7 +232,7 @@ void CCISOTileLayerDynamic::doUpdateComponents()
                 node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
                 mx=node->getMapX();
                 my=node->getMapY();
-                node->updateMapCoordinate(mx+dirY*m_iComponentTileColumn, my+dirY*m_iComponentTileColumn);
+                node->updateMapCoordinate(mx+dirY*m_iComponentTileRow, my+dirY*m_iComponentTileRow);
             }
         }
     }
