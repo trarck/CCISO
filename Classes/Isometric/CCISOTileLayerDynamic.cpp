@@ -11,8 +11,22 @@ CCISOComponentNode::CCISOComponentNode()
 ,m_iRow(0)
 ,m_iMapCellX(0)
 ,m_iMapCellY(0)
+,m_pTile(NULL)
 {
 
+}
+
+CCISOComponentNode::~CCISOComponentNode()
+{
+    CCLOG("CCISOComponentNode destroy");
+    CC_SAFE_RELEASE(m_pTile);
+}
+
+void CCISOComponentNode::updateMapCoordinate(float mapX,float mapY)
+{
+    m_fMapX=mapX;
+    m_fMapY=mapY;
+    m_pTile->setPosition(isoGameToView2F(mapX, mapY));
 }
 
 
@@ -51,6 +65,14 @@ void CCISOTileLayerDynamic::initOffset(float x,float y)
 	this->initOffset(ccp(x,y));
 }
 
+CCSprite* CCISOTileLayerDynamic::createTile()
+{
+    CCSprite* cellTile=CCSprite::create("grid1.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    cellTile->setOpacity(60);
+    this->addChild(cellTile);
+    return cellTile;
+}
 /**
  * 检查是否需要由于位置的改变而更新显示内容。
  * 并记录新位置对应的地图坐标，为更新使用。
@@ -78,7 +100,7 @@ void CCISOTileLayerDynamic::doUpdateContent()
     int startX=m_iStartX-m_iComponentNodeExtendCount-1;
     int startY=m_iStartY;
     CCLOG("doUpdateContent start:%d,%d",startX,startY);
-	CCISOComponentNode* tile;
+	CCISOComponentNode* node;
     int row=0,col=0,index=0;
     int mx=0,my=0;
     for(int j=0;j<totalRow;j++){
@@ -87,7 +109,7 @@ void CCISOTileLayerDynamic::doUpdateContent()
             row=j;
             index=j*m_iComponentTileColumn+col/2;
             
-			tile=(CCISOComponentNode*)m_pComponents->objectAtIndex(j*m_iComponentTileColumn+col/2);
+			node=(CCISOComponentNode*)m_pComponents->objectAtIndex(j*m_iComponentTileColumn+col/2);
             mx=startX+i;
             my=startY-i;
             this->addTileAt(mx,my);
@@ -113,95 +135,105 @@ void CCISOTileLayerDynamic::doUpdateComponents()
     int dx=m_iStartX-m_iLastStartX;
     int dy=m_iStartY-m_iLastStartY;
     
-    int dirX=dx>0?1:-1;
-    int dirY=dy>0?1:-1;
+    int dirX=dx>0?1:dx<0?-1:0;
+    int dirY=dy>0?1:dy<0?-1:0;
     
     int loopX=abs(dx);
     int loopY=abs(dy);
     
 	CCLOG("updateCompoents:%d,%d",dx,dy);
-    int moveComponentIndex=0;
+    int moveComponentIndexX=0,moveComponentIndexY=0;
     int index,row,col;
-    if(dx>0){
-        //横向移动
-        moveComponentIndex=m_iComponentIndexX;
-        for(int j=0;j<m_iComponentTileRow;j++){
-            row=j*2+(moveComponentIndex&1);
-            index=row*m_iComponentTileColumn+moveComponentIndex/2;
-            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
-        }
-        m_iComponentIndexX=(m_iComponentIndexX+1)%totalColumn;
-        
-        //纵向移动
-        moveComponentIndex=m_iComponentIndexY;
-        for(int i=0;i<m_iComponentTileColumn;i++){
-            col=(m_iComponentIndexX+i*2+(moveComponentIndex&1))%totalColumn;
-            index=moveComponentIndex*m_iComponentTileColumn+col/2;
-            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
-        }
-        m_iComponentIndexY=(m_iComponentIndexY+1)%totalRow;
-        
-    }else if(dx<0){
-         //横向移动
-        moveComponentIndex=m_iComponentIndexX;
-        for(int j=0;j<m_iComponentTileRow;j++){
-            row=j*2+(moveComponentIndex&1);
-            index=row*m_iComponentTileColumn+moveComponentIndex/2;
-            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
-        }
-        m_iComponentIndexX=(m_iComponentIndexX-1)%totalColumn;
-        
-        //纵向移动
-        moveComponentIndex=m_iComponentIndexY;
-        for(int i=0;i<m_iComponentTileColumn;i++){
-            col=i*2+(moveComponentIndex&1);
-            index=moveComponentIndex*m_iComponentTileColumn+col/2;
-            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
-        }
-        m_iComponentIndexY=(m_iComponentIndexY-1)%totalRow;
-        
-    }
+    
+    float mx=0,my=0;
+    CCISOComponentNode* node=NULL;
+    
+    //注意正向，反向node移动的序列位置
+    if(dx!=0){
+        //横向移动 移动列
+        if(dirX>0){
+            moveComponentIndexX=m_iComponentIndexX;
+            m_iComponentIndexX=(m_iComponentIndexX+dirX)%totalColumn;
 
-	if(dy>0){
-        //横向移动
-        moveComponentIndex=m_iComponentIndexY;
+        }else if(dirX<0){
+            m_iComponentIndexX=(m_iComponentIndexX+dirX+totalColumn)%totalColumn;
+            moveComponentIndexX=m_iComponentIndexX;
+        }
+        
         for(int j=0;j<m_iComponentTileRow;j++){
-            row=j*2+(moveComponentIndex&1);
-            index=row*m_iComponentTileColumn+moveComponentIndex/2;
-            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
+            //如果行列的奇偶性一至，则从当前位置开始。如果互为奇奇偶，则要把行加1，变为奇或偶。
+            row=(j*2+m_iComponentIndexY+((m_iComponentIndexY&1)^(moveComponentIndexX&1)))%totalRow;
+            index=row*m_iComponentTileColumn+moveComponentIndexX/2;
+            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndexX,row);
+            node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
+            mx=node->getMapX();
+            my=node->getMapY();
+            node->updateMapCoordinate(mx+dirX*m_iComponentTileColumn, my-dirX*m_iComponentTileColumn);
         }
-        m_iComponentIndexX=(m_iComponentIndexX+1)%totalColumn;
+                
+        //纵向移动 移动行
+        if(dirX>0){
+            moveComponentIndexY=m_iComponentIndexY;
+            m_iComponentIndexY=(m_iComponentIndexY+dirX)%totalRow;
+            
+        }else if(dirX<0){
+            m_iComponentIndexY=(m_iComponentIndexY+dirX+totalRow)%totalRow;
+            moveComponentIndexY=m_iComponentIndexY;
+        }
         
-        //纵向移动
-        moveComponentIndex=m_iComponentIndexY;
         for(int i=0;i<m_iComponentTileColumn;i++){
-            col=i*2+(moveComponentIndex&1);
-            index=moveComponentIndex*m_iComponentTileColumn+col/2;
-            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
+            //如果行列的奇偶性一至，则从当前位置开始。如果互为奇奇偶，则要把行加1，变为奇或偶。
+            col=(i*2+m_iComponentIndexX+((m_iComponentIndexX & 1)^(moveComponentIndexY & 1)))%totalColumn;
+            index=moveComponentIndexY*m_iComponentTileColumn+col/2;
+            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndexY);
+            node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
+            mx=node->getMapX();
+            my=node->getMapY();
+            node->updateMapCoordinate(mx+dirX*m_iComponentTileRow, my+dirX*m_iComponentTileRow);
         }
-        m_iComponentIndexY=(m_iComponentIndexY-1)%totalRow;
-        
-    }else if(dy<0){
-         //横向移动
-        moveComponentIndex=m_iComponentIndexX;
-        for(int j=0;j<m_iComponentTileRow;j++){
-            row=j*2+(moveComponentIndex&1);
-            index=row*m_iComponentTileColumn+moveComponentIndex/2;
-            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndex,row);
-        }
-        m_iComponentIndexX=(m_iComponentIndexX-1)%totalColumn;
-        
-        //纵向移动
-        moveComponentIndex=m_iComponentIndexY;
-        for(int i=0;i<m_iComponentTileColumn;i++){
-            col=i*2+(moveComponentIndex&1);
-            index=moveComponentIndex*m_iComponentTileColumn+col/2;
-            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndex);
-        }
-        m_iComponentIndexY=(m_iComponentIndexY+1)%totalRow;
         
     }
     
+	if(dy!=0){
+        //横向移动
+        if(dirY>0){
+            m_iComponentIndexX=(m_iComponentIndexX-1+totalColumn)%totalColumn;
+            moveComponentIndexX=m_iComponentIndexX;
+        }else if(dirY<0){
+            moveComponentIndexX=m_iComponentIndexX;
+            m_iComponentIndexX=(m_iComponentIndexX+1)%totalColumn;
+        }
+
+        
+        for(int j=0;j<m_iComponentTileRow;j++){
+            row=(j*2+m_iComponentIndexY+((m_iComponentIndexY&1)^(moveComponentIndexX&1)))%totalRow;
+            index=row*m_iComponentTileColumn+moveComponentIndexX/2;
+            CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndexX,row);
+            node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
+            mx=node->getMapX();
+            my=node->getMapY();
+            node->updateMapCoordinate(mx-dirY*m_iComponentTileColumn, my+dirY*m_iComponentTileColumn);
+        }
+        
+        if(dirY>0){
+            moveComponentIndexY=m_iComponentIndexY;
+            m_iComponentIndexY=(m_iComponentIndexY+1)%totalRow;
+        }else if(dirY<0){
+            m_iComponentIndexY=(m_iComponentIndexY-1+totalRow)%totalRow;
+            moveComponentIndexY=m_iComponentIndexY;
+        }
+        //纵向移动
+        
+        for(int i=0;i<m_iComponentTileColumn;i++){
+            col=(i*2+m_iComponentIndexX+((m_iComponentIndexX & 1)^(moveComponentIndexY & 1)))%totalColumn;
+            index=moveComponentIndexY*m_iComponentTileColumn+col/2;
+            CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndexY);
+            node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
+            mx=node->getMapX();
+            my=node->getMapY();
+            node->updateMapCoordinate(mx+dirY*m_iComponentTileColumn, my+dirY*m_iComponentTileColumn);
+        }
+    }
     
     m_iLastStartX=m_iStartX;
     m_iLastStartY=m_iStartY;
@@ -229,32 +261,33 @@ void CCISOTileLayerDynamic::createComponents()
 	int totalRow=2*m_iComponentTileRow;
 	m_pComponents=new CCArray(totalColumn*totalRow);
 
-	CCISOComponentNode* tile;
+	CCISOComponentNode* node;
     for(int j=0;j<totalRow;j++){
 		for(int i=0;i<m_iComponentTileColumn;i++){
-			tile=new CCISOComponentNode();
-			tile->setColumn(i*2+(j&1));
-			tile->setRow(j);
-			m_pComponents->addObject(tile);
-			tile->release();
+			node=new CCISOComponentNode();
+			node->setColumn(i*2+(j&1));
+			node->setRow(j);
+            node->setTile(this->createTile());
+			m_pComponents->addObject(node);
+			node->release();
 		}
 		//if(j&1){
 		//	//奇
 		//	for(int i=0;i<m_iComponentTileColumn;i++){
-		//		tile=new CCISOComponentNode();
-		//		tile->setColumn(i*2+1);
-		//		tile->setRow(j);
-		//		m_pComponents->addObject(tile);
-		//		tile->release();
+		//		node=new CCISOComponentNode();
+		//		node->setColumn(i*2+1);
+		//		node->setRow(j);
+		//		m_pComponents->addObject(node);
+		//		node->release();
 		//	}
 		//}else{
 		//	//偶
 		//	for(int i=0;i<m_iComponentTileColumn;i++){
-		//		tile=new CCISOComponentNode();
-		//		tile->setColumn(i*2);
-		//		tile->setRow(j);
-		//		m_pComponents->addObject(tile);
-		//		tile->release();
+		//		node=new CCISOComponentNode();
+		//		node->setColumn(i*2);
+		//		node->setRow(j);
+		//		m_pComponents->addObject(node);
+		//		node->release();
 		//	}
 		//}
     }
@@ -262,8 +295,35 @@ void CCISOTileLayerDynamic::createComponents()
 
 void CCISOTileLayerDynamic::initComponents()
 {
-	CCLOG("initComponents:");
-    this->doUpdateContent();
+    int totalRow=2*m_iComponentTileRow;
+    
+    
+    int startX=m_iStartX-m_iComponentNodeExtendCount-1;
+    int startY=m_iStartY;
+    CCLOG("initComponents start:%d,%d",startX,startY);
+	CCISOComponentNode* node;
+    int row=0,col=0,index=0;
+    int mx=0,my=0;
+    for(int j=0;j<totalRow;j++){
+		for(int i=0;i<m_iComponentTileColumn;i++){
+            col=(i*2+(j&1));
+            row=j;
+            index=j*m_iComponentTileColumn+col/2;
+            
+			node=(CCISOComponentNode*)m_pComponents->objectAtIndex(j*m_iComponentTileColumn+col/2);
+            mx=startX+i;
+            my=startY-i;
+            node->updateMapCoordinate(mx,my);
+            //CCLOG("index:%d,%d,%d:%d,%d",index,i,j,mx,my);
+		}
+        if(j&1){
+			//下个循环为偶
+			startY++;
+		}else{
+			//下个循环为奇
+            startX++;
+		}
+    }
 }
 
 void CCISOTileLayerDynamic::setupComponents(int iComponentNodeExtendCount)

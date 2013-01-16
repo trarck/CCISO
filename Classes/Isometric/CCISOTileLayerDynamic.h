@@ -9,7 +9,11 @@ NS_CC_BEGIN
 class CCISOComponentNode : public CCSprite{
 
 public:
+    
     CCISOComponentNode();
+    ~CCISOComponentNode();
+    
+    void updateMapCoordinate(float mapX,float mapY);
     
 	void setColumn(int iColumn)
 	{
@@ -31,31 +35,69 @@ public:
 		return m_iRow;
 	};
     
+    void setMapX(float fMapX)
+    {
+        m_fMapX = fMapX;
+    };
+    
+    float getMapX()
+    {
+        return m_fMapX;
+    };
+    
+    void setMapY(float fMapY)
+    {
+        m_fMapY = fMapY;
+    };
+    
+    float getMapY()
+    {
+        return m_fMapY;
+    };
+        
     void setMapCellX(int iMapCellX)
     {
         m_iMapCellX = iMapCellX;
-    }
+    };
     
     int getMapCellX()
     {
         return m_iMapCellX;
-    }
+    };
     
     void setMapCellY(int iMapCellY)
     {
         m_iMapCellY = iMapCellY;
-    }
+    };
     
     int getMapCellY()
     {
         return m_iMapCellY;
-    }
+    };
+    
+    void setTile( CCSprite* pTile)
+    {
+        CC_SAFE_RETAIN(pTile);
+        CC_SAFE_RELEASE(m_pTile);
+        m_pTile = pTile;
+    };
+    
+    CCSprite* getTile()
+    {
+        return m_pTile;
+    };
 
 private:
 	int m_iColumn;
 	int m_iRow;
+    float m_fMapX;
+    float m_fMapY;
+
+    CCSprite* m_pTile;
+    
     int m_iMapCellX;
     int m_iMapCellY;
+    
 };
 
 
@@ -70,6 +112,8 @@ public:
     virtual bool init();
 	virtual void initOffset(const CCPoint& tOffset);
     virtual void initOffset(float x,float y);
+    
+    CCSprite* createTile();
 
 	bool beforeUpdateContent();
 	void doUpdateContent();
