@@ -15,26 +15,55 @@ public:
 	
     virtual bool init();
 
+    /**
+     * 初始化偏移
+     */
 	virtual void initOffset(const CCPoint& tOffset);
     virtual void initOffset(float x,float y);
 
+    /**
+     * 添加tile
+     */
 	void addTileAt(float x,float y);
 	void addTileAt(const CCPoint& pos);
 
+    /**
+     * 获取tile
+     */
 	CCObject* getTileAt(float x,float y);
 	CCObject* getTileAt(const CCPoint& pos);
 
+    /**
+     * 删除tile
+     */
 	void removeTileAt(float x,float y);
     void removeTileAt(const CCPoint& pos);
 
+    /**
+     * 更新前检查
+     */
 	bool beforeUpdateContent();
+    
+    /**
+     * 更新内容
+     */
 	void doUpdateContent();
     void doUpdateContent2();
 
+    /**
+     * 移动位置
+     * 只作判断使用，不改变显示位置
+     */
+    virtual void scroll(const CCPoint& tOffset);
+    virtual void scroll(float x,float y);
+    
 	bool isCellChange();
     void visitTileShowable();
     void visitTileShowable2();
     
+    /**
+     * test bounding
+     */
     virtual void draw();
     
     
@@ -48,9 +77,7 @@ public:
     void setTileSize(const CCSize&  tileSize);
     void setTileSize(float width,float height);
 
-    //只作判断使用，不改变显示位置
-    virtual void scroll(const CCPoint& tOffset);
-    virtual void scroll(float x,float y);
+
 	virtual void setOffset(const CCPoint& tOffset);
 	virtual void setOffset(float x,float y);
 	virtual CCPoint getOffset();
