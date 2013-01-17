@@ -37,14 +37,7 @@ void CCISOTileLayer::initOffset(float x,float y)
 	this->initOffset(ccp(x,y));
 }
 
-void CCISOTileLayer::addTileAt(float x,float y)
-{
-    CCSprite* testGrid=CCSprite::create("grid1.png");
-    testGrid->setPosition(isoGameToView2F(x,y));
-    testGrid->setAnchorPoint(ccp(0.5,0));
-    testGrid->setOpacity(60);
-    this->addChild(testGrid);
-}
+
 
 void CCISOTileLayer::setLayerSize(const CCSize& tLayerSize)
 {
@@ -65,16 +58,6 @@ CCSize CCISOTileLayer::getLayerSize()
 //{
 //    return m_tContentSize;
 //}
-
-void CCISOTileLayer::setName(const char* pName)
-{
-    m_pName = pName;
-}
-
-const char* CCISOTileLayer::getName()
-{
-    return m_pName;
-}
 
 void CCISOTileLayer::setTileSize(const CCSize& tileSize)
 {

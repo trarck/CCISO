@@ -59,9 +59,6 @@ public:
 	virtual void setLayerSize(const CCSize& tLayerSize);
 	virtual CCSize getLayerSize();
 
-	virtual void setName(const char* pName);
-	virtual const char* getName();
-    
     void setTileSize(const CCSize&  tileSize);
     void setTileSize(float width,float height);
 

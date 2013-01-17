@@ -52,6 +52,7 @@ public:
      */
     virtual void draw();
     
+	void addTileAt(float x,float y);
 
 protected:
 

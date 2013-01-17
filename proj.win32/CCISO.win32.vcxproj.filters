@@ -167,7 +167,13 @@
     <ClInclude Include="..\Classes\Isometric\CCISOTileLayer.h">
       <Filter>Classes\Isometric</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Isometric\CCISOTileLayerDynamic.h">
+    <ClInclude Include="..\Classes\Isometric\CCISOTileLayerDynamicComponent.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOTileLayerOptimization.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOComponentNode.h">
       <Filter>Classes\Isometric</Filter>
     </ClInclude>
   </ItemGroup>
@@ -262,7 +268,13 @@
     <ClCompile Include="..\Classes\Isometric\CCISOTileLayer.cpp">
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Isometric\CCISOTileLayerDynamic.cpp">
+    <ClCompile Include="..\Classes\Isometric\CCISOTileLayerDynamicComponent.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOTileLayerOptimization.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOComponentNode.cpp">
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
   </ItemGroup>
