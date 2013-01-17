@@ -8,7 +8,7 @@
 #include "Player.h"
 
 #include "CCISOTileLayer.h"
-#include "CCISOTileLayerDynamic.h"
+#include "CCISOTileLayerDynamicComponent.h"
 
 USING_NS_CC;
 
@@ -177,7 +177,7 @@ void GameWorld::setupGameWorlds()
 //    this->addChild(testLayer,0,kLayerTagTestIsoLayer);
 //    testLayer->visitTileShowable();
     
-    CCISOTileLayerDynamic* testLayer=new CCISOTileLayerDynamic();
+    CCISOTileLayerDynamicComponent* testLayer=new CCISOTileLayerDynamicComponent();
     testLayer->init();
     testLayer->setTileSize(TileWidth,TileHeight);
     
@@ -490,7 +490,7 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 //		pos.y+=touchPoint.y-m_lastTouchLocation.y;
 //		tileLayer->scroll(pos);
         
-        CCISOTileLayerDynamic* tileLayer=(CCISOTileLayerDynamic*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+        CCISOTileLayerDynamicComponent* tileLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
 		CCPoint pos=tileLayer->getOffset();
 		pos.x+=touchPoint.x-m_lastTouchLocation.x;
 		pos.y+=touchPoint.y-m_lastTouchLocation.y;

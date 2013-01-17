@@ -4,7 +4,6 @@
 #include "cocos2d.h"
 
 NS_CC_BEGIN
-static const CCSize testSize=CCSizeMake(480,320);
 
 class CCISOTileLayer : public CCNode {
 
@@ -44,42 +43,22 @@ public:
      */
 	bool beforeUpdateContent();
     
-    /**
-     * 更新内容
-     */
-	void doUpdateContent();
-    void doUpdateContent2();
-
-    /**
-     * 移动位置
-     * 只作判断使用，不改变显示位置
-     */
-    virtual void scroll(const CCPoint& tOffset);
-    virtual void scroll(float x,float y);
-    
-	bool isCellChange();
-    void visitTileShowable();
-    void visitTileShowable2();
-    
-    /**
-     * test bounding
-     */
-    virtual void draw();
-    
-    
+   
 	virtual void setLayerSize(const CCSize& tLayerSize);
+    
 	virtual CCSize getLayerSize();
 //	virtual void setContentSize(CCSize tContentSize);
 //	virtual CCSize getContentSize();
 	virtual void setName(const char* pName);
+    
 	virtual const char* getName();
     
     void setTileSize(const CCSize&  tileSize);
     void setTileSize(float width,float height);
 
-
 	virtual void setOffset(const CCPoint& tOffset);
 	virtual void setOffset(float x,float y);
+    
 	virtual CCPoint getOffset();
 
 
@@ -89,7 +68,6 @@ protected:
 	const char* m_pName;
     CCSize m_tTileSize;
 	CCPoint m_tOffset;
-	CCPoint m_tLastStartPoint;
 	int m_iStartX;
 	int m_iStartY;
 };
