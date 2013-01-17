@@ -21,16 +21,22 @@ public:
     virtual void initOffset(float x,float y);
 
     /**
-     * 添加tile
-     */
-	void addTileAt(float x,float y);
-	void addTileAt(const CCPoint& pos);
-
-    /**
      * 获取tile
      */
-	CCObject* getTileAt(float x,float y);
-	CCObject* getTileAt(const CCPoint& pos);
+	CCSprite* tileAt(float x,float y);
+	CCSprite* tileAt(const CCPoint& tileCoordinate);
+    
+    /**
+     * 获取tile gid
+     */
+    unsigned int  tileGIDAt(float x,float y);
+    unsigned int  tileGIDAt(const CCPoint& tileCoordinate);
+    
+    /**
+     * 设置tile gid
+     */
+    void setTileGID(unsigned int gid, float x,float y);
+    void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
 
     /**
      * 删除tile
@@ -39,18 +45,21 @@ public:
     void removeTileAt(const CCPoint& pos);
 
     /**
-     * 更新前检查
+     * 获取属性名称
      */
-	bool beforeUpdateContent();
+    CCString *propertyNamed(const char *propertyName);
     
-   
+    /**
+     * 初始化显示tiles
+     */
+    void setupTiles();
+    
+    //get set 属性
+    
 	virtual void setLayerSize(const CCSize& tLayerSize);
-    
 	virtual CCSize getLayerSize();
-//	virtual void setContentSize(CCSize tContentSize);
-//	virtual CCSize getContentSize();
+
 	virtual void setName(const char* pName);
-    
 	virtual const char* getName();
     
     void setTileSize(const CCSize&  tileSize);
@@ -60,16 +69,55 @@ public:
 	virtual void setOffset(float x,float y);
     
 	virtual CCPoint getOffset();
-
+    
+    inline const char* getLayerName(){ return m_sLayerName.c_str(); }
+    inline void setLayerName(const char *layerName){ m_sLayerName = layerName; }
 
 protected:
+    
+    /**
+     * 添加tile
+     */
+	CCSprite* appendTile(unsigned int gid, const CCPoint& pos);
+    CCSprite* appendTile(unsigned int gid, float x,float y);
+    
+    /**
+     * 插入tile
+     */
+    CCSprite* insertTile(unsigned int gid, const CCPoint& pos);
+    CCSprite* insertTile(unsigned int gid, float x,float y);
+    
+    /**
+     * 更新tile
+     */
+    CCSprite* updateTile(unsigned int gid, const CCPoint& pos);
+    CCSprite* updateTile(unsigned int gid, float x,float y);
+    
+    /**
+     * 处理扩展属性
+     */
+    void parseInternalProperties();
+    
+    /**
+     * 设置tile
+     */
+    void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
+    CCSprite* reusedTileWithRect(CCRect rect);
+    
+    /**
+     * 取得z值，处理遮挡使用
+     */
+    int vertexZForPos(const CCPoint& pos);
+    
+    
+    std::string m_sLayerName;
 	CCSize m_tLayerSize;
-//	CCSize m_tContentSize;
-	const char* m_pName;
     CCSize m_tTileSize;
 	CCPoint m_tOffset;
 	int m_iStartX;
 	int m_iStartY;
+    
+    CCSprite* m_pReusedTile;
 };
 
 

@@ -18,7 +18,7 @@ Classes/Isometric/CCZIndex.cpp \
 Classes/Isometric/CCISOTileLayer.cpp \
 Classes/Isometric/CCISOTileLayerOptimization.cpp \
 Classes/Isometric/CCISOComponentNode.cpp \
-Classes/Isometric/CCISOTileLayerDynamic.cpp \
+Classes/Isometric/CCISOTileLayerDynamicComponent.cpp \
 Classes/Components/Component.cpp \
 Classes/Components/AttackComponent.cpp \
 Classes/Components/AutoAttackComponent.cpp \
