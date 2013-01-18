@@ -2,6 +2,9 @@
 #define ISO_CCISOTileLayer_H_
 
 #include "cocos2d.h"
+#include "CCISOMapInfo.h"
+#include "CCISOTilesetInfo.h"
+#include "CCISOLayerInfo.h"
 
 NS_CC_BEGIN
 
@@ -13,6 +16,24 @@ public:
 	~CCISOTileLayer(void);
 	
     virtual bool init();
+    virtual bool init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    /** creates a CCISOTileLayer with an tileset info, a layer info and a map info
+     @deprecated: This interface will be deprecated sooner or later.
+     */
+    CC_DEPRECATED_ATTRIBUTE static CCISOTileLayer * layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    /** creates a CCISOTileLayer with an tileset info, a layer info and a map info */
+    static CCISOTileLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    /** initializes a CCISOTileLayer with a tileset info, a layer info and a map info */
+    bool initWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    /** dealloc the map that contains the tile position from memory.
+     Unless you want to know at runtime the tiles positions, you can safely call this method.
+     If you are going to call layer->tileGIDAt() then, don't release the map
+     */
+    void releaseMap();
 
     /**
      * 初始化偏移
@@ -101,11 +122,30 @@ protected:
     void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
     CCSprite* reusedTileWithRect(CCRect rect);
     
+    virtual void setMapTileSize(const CCSize& tMapTileSize);
+    virtual const CCSize& getMapTileSize();
+    
+    virtual void setTiles(unsigned int* pTiles);
+    virtual unsigned int* getTiles();
+    
+    virtual void setTileSet(CCISOTilesetInfo* pTileSet);
+    virtual CCISOTilesetInfo* getTileSet();
+    
+    virtual void setLayerOrientation(unsigned int uLayerOrientation);
+    virtual unsigned int getLayerOrientation();
+    
+    virtual void setProperties(CCDictionary* pProperties);
+    virtual CCDictionary* getProperties();
+    
+    virtual void setTileSets(CCArray* pTileSets);
+    virtual CCArray* getTileSets();
+    
     /**
      * 取得z值，处理遮挡使用
      */
     int vertexZForPos(const CCPoint& pos);
     
+protected:
     
     std::string m_sLayerName;
 	CCSize m_tLayerSize;
@@ -114,7 +154,35 @@ protected:
 	int m_iStartX;
 	int m_iStartY;
     
-    CCSprite* m_pReusedTile;
+   
+    CCSize m_tMapTileSize;
+    unsigned int* m_pTiles;
+    CCISOTilesetInfo* m_pTileSet;
+    unsigned int m_uLayerOrientation;
+    CCDictionary* m_pProperties;
+    //对于多个tileSet的支持。这样就不能使用batch node。所以最好一个layer使用一个tileSet
+    CCArray* m_pTileSets;
+    
+    CCSpriteBatchNode* m_pSpriteBatchNode;
+    
+    
+    //! TMX Layer supports opacity
+    unsigned char        m_cOpacity;
+    
+    unsigned int        m_uMinGID;
+    unsigned int        m_uMaxGID;
+    
+    //! Only used when vertexZ is used
+    int                    m_nVertexZvalue;
+    bool                m_bUseAutomaticVertexZ;
+    
+    //! used for optimization
+    CCSprite*           m_pReusedTile;
+    ccCArray*           m_pAtlasIndexArray;
+    
+    // used for retina display
+    float               m_fContentScaleFactor;
+
 };
 
 

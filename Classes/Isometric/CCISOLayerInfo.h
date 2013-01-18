@@ -6,18 +6,28 @@
 
 NS_CC_BEGIN
 
-class CCISOLayerInfo : public CCSprite{
+class CCISOLayerInfo : public CCObject{
 
 public:
     
     CCISOLayerInfo();
     ~CCISOLayerInfo();
     
-    
+    virtual void setProperties(CCDictionary* pProperties);
+    virtual CCDictionary* getProperties();
 
-private:
-	
-    
+public:
+    std::string         m_sName;
+    CCSize              m_tLayerSize;
+    unsigned int*       m_pTiles;
+    bool                m_bVisible;
+    unsigned char       m_cOpacity;
+    bool                m_bOwnTiles;
+    unsigned int        m_uMinGID;
+    unsigned int        m_uMaxGID;
+    CCPoint             m_tOffset;
+
+    CCDictionary* m_pProperties;
 };
 
 

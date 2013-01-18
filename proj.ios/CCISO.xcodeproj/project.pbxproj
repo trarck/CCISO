@@ -41,6 +41,10 @@
 		5763C2E01608570A0068D420 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2801608570A0068D420 /* CocosDenshion.m */; };
 		5763C2E11608570A0068D420 /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2811608570A0068D420 /* SimpleAudioEngine.mm */; };
 		5763C2E21608570A0068D420 /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2831608570A0068D420 /* SimpleAudioEngine_objc.m */; };
+		577D8C7A16A8E28D007C45E3 /* CCISOLayerInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577D8C7416A8E28D007C45E3 /* CCISOLayerInfo.cpp */; };
+		577D8C7B16A8E28D007C45E3 /* CCISOMapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577D8C7616A8E28D007C45E3 /* CCISOMapInfo.cpp */; };
+		577D8C7C16A8E28D007C45E3 /* CCISOTilesetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577D8C7816A8E28D007C45E3 /* CCISOTilesetInfo.cpp */; };
+		577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */; };
 		57851A6E16968B1300BB6701 /* ISOCoordinateLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851A6C16968B1300BB6701 /* ISOCoordinateLayer.cpp */; };
 		57851A7116968BF200BB6701 /* GridMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851A6F16968BF200BB6701 /* GridMoveComponent.cpp */; };
 		57851A7F1696A1D800BB6701 /* CCMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851A771696A1D800BB6701 /* CCMessage.cpp */; };
@@ -141,6 +145,14 @@
 		5763C2811608570A0068D420 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
 		5763C2821608570A0068D420 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
 		5763C2831608570A0068D420 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
+		577D8C7416A8E28D007C45E3 /* CCISOLayerInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOLayerInfo.cpp; sourceTree = "<group>"; };
+		577D8C7516A8E28D007C45E3 /* CCISOLayerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOLayerInfo.h; sourceTree = "<group>"; };
+		577D8C7616A8E28D007C45E3 /* CCISOMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOMapInfo.cpp; sourceTree = "<group>"; };
+		577D8C7716A8E28D007C45E3 /* CCISOMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOMapInfo.h; sourceTree = "<group>"; };
+		577D8C7816A8E28D007C45E3 /* CCISOTilesetInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTilesetInfo.cpp; sourceTree = "<group>"; };
+		577D8C7916A8E28D007C45E3 /* CCISOTilesetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTilesetInfo.h; sourceTree = "<group>"; };
+		577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOXMLParser.cpp; sourceTree = "<group>"; };
+		577D8C7E16A8E6B3007C45E3 /* CCISOXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOXMLParser.h; sourceTree = "<group>"; };
 		57851A6C16968B1300BB6701 /* ISOCoordinateLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ISOCoordinateLayer.cpp; sourceTree = "<group>"; };
 		57851A6D16968B1300BB6701 /* ISOCoordinateLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOCoordinateLayer.h; sourceTree = "<group>"; };
 		57851A6F16968BF200BB6701 /* GridMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridMoveComponent.cpp; sourceTree = "<group>"; };
@@ -388,6 +400,14 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */,
+				577D8C7E16A8E6B3007C45E3 /* CCISOXMLParser.h */,
+				577D8C7416A8E28D007C45E3 /* CCISOLayerInfo.cpp */,
+				577D8C7516A8E28D007C45E3 /* CCISOLayerInfo.h */,
+				577D8C7616A8E28D007C45E3 /* CCISOMapInfo.cpp */,
+				577D8C7716A8E28D007C45E3 /* CCISOMapInfo.h */,
+				577D8C7816A8E28D007C45E3 /* CCISOTilesetInfo.cpp */,
+				577D8C7916A8E28D007C45E3 /* CCISOTilesetInfo.h */,
 				5743428916A7CDD40054C272 /* CCISOTileLayerOptimization.cpp */,
 				5743428A16A7CDD40054C272 /* CCISOTileLayerOptimization.h */,
 				57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */,
@@ -593,6 +613,10 @@
 				57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp in Sources */,
 				57A25D8016A69C7F00DCEA93 /* CCISOComponentNode.cpp in Sources */,
 				5743428B16A7CDD40054C272 /* CCISOTileLayerOptimization.cpp in Sources */,
+				577D8C7A16A8E28D007C45E3 /* CCISOLayerInfo.cpp in Sources */,
+				577D8C7B16A8E28D007C45E3 /* CCISOMapInfo.cpp in Sources */,
+				577D8C7C16A8E28D007C45E3 /* CCISOTilesetInfo.cpp in Sources */,
+				577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
