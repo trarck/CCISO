@@ -71,6 +71,7 @@
 		57A25D8016A69C7F00DCEA93 /* CCISOComponentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */; };
 		57B0C70C16353F400002A0CD /* characters in Resources */ = {isa = PBXBuildFile; fileRef = 57B0C70B16353F400002A0CD /* characters */; };
 		57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */; };
+		57F7F14A16AD229500247E7F /* CCISOTileSimpleGroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */; };
 		57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +211,8 @@
 		57B0C70B16353F400002A0CD /* characters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = characters; sourceTree = "<group>"; };
 		57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileLayerDynamicComponent.cpp; sourceTree = "<group>"; };
 		57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileLayerDynamicComponent.h; sourceTree = "<group>"; };
+		57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileSimpleGroundLayer.cpp; sourceTree = "<group>"; };
+		57F7F14916AD229500247E7F /* CCISOTileSimpleGroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileSimpleGroundLayer.h; sourceTree = "<group>"; };
 		57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleMoveComponent.cpp; sourceTree = "<group>"; };
 		57FE5A3F1636A0ED00FCD88B /* SimpleMoveComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMoveComponent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -400,6 +403,8 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */,
+				57F7F14916AD229500247E7F /* CCISOTileSimpleGroundLayer.h */,
 				577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */,
 				577D8C7E16A8E6B3007C45E3 /* CCISOXMLParser.h */,
 				577D8C7416A8E28D007C45E3 /* CCISOLayerInfo.cpp */,
@@ -617,6 +622,7 @@
 				577D8C7B16A8E28D007C45E3 /* CCISOMapInfo.cpp in Sources */,
 				577D8C7C16A8E28D007C45E3 /* CCISOTilesetInfo.cpp in Sources */,
 				577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */,
+				57F7F14A16AD229500247E7F /* CCISOTileSimpleGroundLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

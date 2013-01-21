@@ -2,13 +2,14 @@
 #define ISO_CCISOTileSimpleGroundLayer_H_
 
 #include "cocos2d.h"
+#include "CCISOTileLayer.h"
 #include "CCISOMapInfo.h"
 #include "CCISOTilesetInfo.h"
 #include "CCISOLayerInfo.h"
 
 NS_CC_BEGIN
 
-class CCISOTileSimpleGroundLayer : public CCNode {
+class CCISOTileSimpleGroundLayer : public CCISOTileLayer {
 
 public:
 	
@@ -26,14 +27,11 @@ public:
     /** creates a CCISOTileSimpleGroundLayer with an tileset info, a layer info and a map info */
     static CCISOTileSimpleGroundLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
-    /** initializes a CCISOTileSimpleGroundLayer with a tileset info, a layer info and a map info */
-    bool initWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
     /** dealloc the map that contains the tile position from memory.
      Unless you want to know at runtime the tiles positions, you can safely call this method.
      If you are going to call layer->tileGIDAt() then, don't release the map
      */
-    void releaseMap();
+    virtual void releaseMap();
 
     /**
      * 初始化偏移
@@ -44,8 +42,8 @@ public:
     /**
      * 获取tile
      */
-	CCSprite* tileAt(float x,float y);
-	CCSprite* tileAt(const CCPoint& tileCoordinate);
+	virtual CCSprite* tileAt(float x,float y);
+	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
     
     /**
      * 获取tile gid
@@ -56,40 +54,21 @@ public:
     /**
      * 设置tile gid
      */
-    void setTileGID(unsigned int gid, float x,float y);
-    void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
+    virtual void setTileGID(unsigned int gid, float x,float y);
+    virtual void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
 
     /**
      * 删除tile
      */
-	void removeTileAt(float x,float y);
-    void removeTileAt(const CCPoint& pos);
+	virtual void removeTileAt(float x,float y);
+    virtual void removeTileAt(const CCPoint& pos);
 
-    /**
-     * 获取属性名称
-     */
-    CCString *propertyNamed(const char *propertyName);
     
     /**
      * 初始化显示tiles
      */
-    void setupTiles();
+    virtual void setupTiles();
     
-    //get set 属性
-    
-	virtual void setLayerSize(const CCSize& tLayerSize);
-	virtual CCSize getLayerSize();
-
-    void setTileSize(const CCSize&  tileSize);
-    void setTileSize(float width,float height);
-
-	virtual void setOffset(const CCPoint& tOffset);
-	virtual void setOffset(float x,float y);
-    
-	virtual CCPoint getOffset();
-    
-    inline const char* getLayerName(){ return m_sLayerName.c_str(); }
-    inline void setLayerName(const char *layerName){ m_sLayerName = layerName; }
 
 protected:
     
@@ -119,7 +98,7 @@ protected:
     /**
      * 设置tile
      */
-    void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
+    void setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid);
     CCSprite* reusedTileWithRect(CCRect rect);
     
     virtual void setMapTileSize(const CCSize& tMapTileSize);

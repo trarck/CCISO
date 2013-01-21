@@ -16,24 +16,8 @@ public:
 	~CCISOTileLayer(void);
 	
     virtual bool init();
-    virtual bool init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
-    /** creates a CCISOTileLayer with an tileset info, a layer info and a map info
-     @deprecated: This interface will be deprecated sooner or later.
-     */
-    CC_DEPRECATED_ATTRIBUTE static CCISOTileLayer * layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** creates a CCISOTileLayer with an tileset info, a layer info and a map info */
-    static CCISOTileLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** initializes a CCISOTileLayer with a tileset info, a layer info and a map info */
-    bool initWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** dealloc the map that contains the tile position from memory.
-     Unless you want to know at runtime the tiles positions, you can safely call this method.
-     If you are going to call layer->tileGIDAt() then, don't release the map
-     */
-    void releaseMap();
+    virtual void releaseMap();
 
     /**
      * 初始化偏移
@@ -44,36 +28,24 @@ public:
     /**
      * 获取tile
      */
-	CCSprite* tileAt(float x,float y);
-	CCSprite* tileAt(const CCPoint& tileCoordinate);
+	virtual CCSprite* tileAt(float x,float y);
+	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
     
-    /**
-     * 获取tile gid
-     */
-    unsigned int  tileGIDAt(float x,float y);
-    unsigned int  tileGIDAt(const CCPoint& tileCoordinate);
-    
-    /**
-     * 设置tile gid
-     */
-    void setTileGID(unsigned int gid, float x,float y);
-    void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
-
     /**
      * 删除tile
      */
-	void removeTileAt(float x,float y);
-    void removeTileAt(const CCPoint& pos);
-
+	virtual void removeTileAt(float x,float y);
+    virtual void removeTileAt(const CCPoint& pos);
+ 
+    /**
+     * 初始化显示tiles
+     */
+    virtual void setupTiles();
+    
     /**
      * 获取属性名称
      */
     CCString *propertyNamed(const char *propertyName);
-    
-    /**
-     * 初始化显示tiles
-     */
-    void setupTiles();
     
     //get set 属性
     
@@ -114,12 +86,9 @@ protected:
     /**
      * 处理扩展属性
      */
-    void parseInternalProperties();
+    virtual void parseInternalProperties();
     
-    /**
-     * 设置tile
-     */
-    void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
+//    void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
     CCSprite* reusedTileWithRect(CCRect rect);
     
     virtual void setMapTileSize(const CCSize& tMapTileSize);

@@ -12,7 +12,7 @@ CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::layerWithTilesetInfo(CC
 CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
     CCISOTileSimpleGroundLayer *pRet = new CCISOTileSimpleGroundLayer();
-    if (pRet->initWithTilesetInfo(tilesetInfo, layerInfo, mapInfo))
+    if (pRet->init(tilesetInfo, layerInfo, mapInfo))
     {
         pRet->autorelease();
         return pRet;
@@ -190,122 +190,263 @@ void CCISOTileSimpleGroundLayer::setupTiles()
              m_uMinGID >= m_pTileSet->m_uFirstGid, "TMX: Only 1 tileset per layer is supported");
 }
 
-
-
-void CCISOTileSimpleGroundLayer::setLayerSize(const CCSize& tLayerSize)
+void CCISOTileSimpleGroundLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid)
 {
-    m_tLayerSize = tLayerSize;
+    sprite->setPosition(isoGameToViewPoint(mapCoord));
+    sprite->setVertexZ((float)this->vertexZForPos(pos));
+    sprite->setAnchorPoint(CCPointZero);
+    sprite->setOpacity(m_cOpacity);
+    
+    sprite->setFlipX(false);
+    sprite->setFlipX(false);
+    sprite->setRotation(0.0f);
+    sprite->setAnchorPoint(ccp(0,0));
+    
+    // Rotation in tiled is achieved using 3 flipped states, flipping across the horizontal, vertical, and diagonal axes of the tiles.
+    if (gid & kCCTMXTileDiagonalFlag)
+    {
+        // put the anchor in the middle for ease of rotation.
+        sprite->setAnchorPoint(ccp(0.5f,0.5f));
+        sprite->setPosition(ccp(positionAt(pos).x + sprite->getContentSize().height/2,
+                                positionAt(pos).y + sprite->getContentSize().width/2 ) );
+        
+        unsigned int flag = gid & (kCCTMXTileHorizontalFlag | kCCTMXTileVerticalFlag );
+        
+        // handle the 4 diagonally flipped states.
+        if (flag == kCCTMXTileHorizontalFlag)
+        {
+            sprite->setRotation(90.0f);
+        }
+        else if (flag == kCCTMXTileVerticalFlag)
+        {
+            sprite->setRotation(270.0f);
+        }
+        else if (flag == (kCCTMXTileVerticalFlag | kCCTMXTileHorizontalFlag) )
+        {
+            sprite->setRotation(90.0f);
+            sprite->setFlipX(true);
+        }
+        else
+        {
+            sprite->setRotation(270.0f);
+            sprite->setFlipX(true);
+        }
+    }
+    else
+    {
+        if (gid & kCCTMXTileHorizontalFlag)
+        {
+            sprite->setFlipX(true);
+        }
+        
+        if (gid & kCCTMXTileVerticalFlag)
+        {
+            sprite->setFlipY(true);
+        }
+    }
 }
 
-CCSize CCISOTileSimpleGroundLayer::getLayerSize()
+CCSprite* CCISOTileSimpleGroundLayer::reusedTileWithRect(CCRect rect)
 {
-    return m_tLayerSize;
+    if (! m_pReusedTile)
+    {
+        m_pReusedTile = new CCSprite();
+        m_pReusedTile->initWithTexture(m_pSpriteBatchNode->getTextureAtlas()->getTexture(), rect, false);
+        m_pReusedTile->setBatchNode(m_pSpriteBatchNode);
+    }
+    else
+    {
+        // XXX: should not be re-init. Potential memory leak. Not following best practices
+        // XXX: it shall call directory  [setRect:rect]
+        m_pReusedTile->initWithTexture(m_pSpriteBatchNode->getTextureAtlas()->getTexture(), rect, false);
+        
+        // Since initWithTexture resets the batchNode, we need to re add it.
+        // but should be removed once initWithTexture is not called again
+        m_pReusedTile->setBatchNode(m_pSpriteBatchNode);
+    }
+    
+    return m_pReusedTile;
 }
 
-//void CCISOTileSimpleGroundLayer::setContentSize(CCSize tContentSize)
-//{
-//    m_tContentSize = tContentSize;
-//}
-//
-//CCSize CCISOTileSimpleGroundLayer::getContentSize()
-//{
-//    return m_tContentSize;
-//}
-
-void CCISOTileSimpleGroundLayer::setTileSize(const CCSize& tileSize)
+CCSprite * CCISOTileSimpleGroundLayer::tileAt(const CCPoint& pos)
 {
-    m_tTileSize=tileSize;
+    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "ISOTileLayer: invalid position");
+    CCAssert(m_pTiles && m_pAtlasIndexArray, "ISOTileLayer: the tiles map has been released");
+    
+    CCSprite *tile = NULL;
+    unsigned int gid = this->tileGIDAt(pos);
+    
+    // if GID == 0, then no tile is present
+    if (gid)
+    {
+        int z = (int)(pos.x + pos.y * m_tLayerSize.width);
+        tile = (CCSprite*) this->getChildByTag(z);
+        
+        // tile not created yet. create it
+        if (! tile)
+        {
+            CCRect rect = m_pTileSet->rectForGID(gid);
+//            rect = CC_RECT_PIXELS_TO_POINTS(rect);
+            
+            tile = new CCSprite();
+            tile->initWithTexture(this->getTexture(), rect);
+            tile->setBatchNode(this);
+            tile->setPosition(positionAt(pos));
+            tile->setVertexZ((float)vertexZForPos(pos));
+            tile->setAnchorPoint(CCPointZero);
+            tile->setOpacity(m_cOpacity);
+            
+            unsigned int indexForZ = this->atlasIndexForExistantZ(z);
+            this->addSpriteWithoutQuad(tile, indexForZ, z);
+            tile->release();
+        }
+    }
+    
+    return tile;
 }
 
-void CCISOTileSimpleGroundLayer::setTileSize(float width,float height)
+unsigned int CCISOTileSimpleGroundLayer::tileGIDAt(const CCPoint& pos)
 {
-    m_tTileSize.width=width;
-    m_tTileSize.height=height;
+    return tileGIDAt(pos, NULL);
 }
 
-
-void CCISOTileSimpleGroundLayer::setOffset(const CCPoint& tOffset)
+unsigned int CCISOTileSimpleGroundLayer::tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags)
 {
-    m_tOffset = tOffset;
+    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
+    CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
+    
+    int idx = (int)(pos.x + pos.y * m_tLayerSize.width);
+    // Bits on the far end of the 32-bit global tile ID are used for tile flags
+    unsigned int tile = m_pTiles[idx];
+    
+    // issue1264, flipped tiles can be changed dynamically
+    if (flags)
+    {
+        *flags = (ccTMXTileFlags)(tile & kCCFlipedAll);
+    }
+    
+    return (tile & kCCFlippedMask);
 }
 
-void CCISOTileSimpleGroundLayer::setOffset(float x,float y)
+// CCISOTileSimpleGroundLayer - adding helper methods
+CCSprite * CCISOTileSimpleGroundLayer::insertTileForGID(unsigned int gid, const CCPoint& pos)
 {
-    m_tOffset.x=x;
-	m_tOffset.y=y;
+    CCRect rect = m_pTileSet->rectForGID(gid);
+//    rect = CC_RECT_PIXELS_TO_POINTS(rect);
+    
+    intptr_t z = (intptr_t)(pos.x + pos.y * m_tLayerSize.width);
+    
+    CCSprite *tile = reusedTileWithRect(rect);
+    
+    setupTileSprite(tile, pos, gid);
+    
+    // get atlas index
+    unsigned int indexForZ = this->atlasIndexForNewZ(z);
+    
+    // Optimization: add the quad without adding a child
+    m_pSpriteBatchNode->addQuadFromSprite(tile, indexForZ);
+    
+    // insert it into the local atlasindex array
+    ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, (void*)z, indexForZ);
+    
+    // update possible children
+    if (m_pChildren && m_pChildren->count()>0)
+    {
+        CCObject* pObject = NULL;
+        CCARRAY_FOREACH(m_pChildren, pObject)
+        {
+            CCSprite* pChild = (CCSprite*) pObject;
+            if (pChild)
+            {
+                unsigned int ai = pChild->getAtlasIndex();
+                if ( ai >= indexForZ )
+                {
+                    pChild->setAtlasIndex(ai+1);
+                }
+            }
+        }
+    }
+    m_pTiles[z] = gid;
+    return tile;
 }
 
-CCPoint CCISOTileSimpleGroundLayer::getOffset()
+CCSprite * CCISOTileSimpleGroundLayer::updateTileForGID(unsigned int gid, const CCPoint& pos)
 {
-    return m_tOffset;
+    CCRect rect = m_pTileSet->rectForGID(gid);
+    rect = CCRectMake(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width/ m_fContentScaleFactor, rect.size.height/ m_fContentScaleFactor);
+    int z = (int)(pos.x + pos.y * m_tLayerSize.width);
+    
+    CCSprite *tile = reusedTileWithRect(rect);
+    
+    setupTileSprite(tile ,pos ,gid);
+    
+    // get atlas index
+    unsigned int indexForZ = atlasIndexForExistantZ(z);
+    tile->setAtlasIndex(indexForZ);
+    tile->setDirty(true);
+    tile->updateTransform();
+    m_pTiles[z] = gid;
+    
+    return tile;
 }
 
-void CCISOTileSimpleGroundLayer::setMapTileSize(const CCSize& tMapTileSize)
+// used only when parsing the map. useless after the map was parsed
+// since lot's of assumptions are no longer true
+CCSprite * CCISOTileSimpleGroundLayer::appendTileForGID(unsigned int gid, const CCPoint& pos)
 {
-    m_tMapTileSize = tMapTileSize;
+    CCRect rect = m_pTileSet->rectForGID(gid);
+//    rect = CC_RECT_PIXELS_TO_POINTS(rect);
+    
+    intptr_t z = (intptr_t)(pos.x + pos.y * m_tLayerSize.width);
+    
+    CCSprite *tile = reusedTileWithRect(rect);
+    
+    setupTileSprite(tile ,pos ,gid);
+    
+    // optimization:
+    // The difference between appendTileForGID and insertTileforGID is that append is faster, since
+    // it appends the tile at the end of the texture atlas
+    unsigned int indexForZ = m_pAtlasIndexArray->num;
+    
+    // don't add it using the "standard" way.
+    addQuadFromSprite(tile, indexForZ);
+    
+    // append should be after addQuadFromSprite since it modifies the quantity values
+    ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, (void*)z, indexForZ);
+    
+    return tile;
 }
 
-const CCSize& CCISOTileSimpleGroundLayer::getMapTileSize()
+// CCISOTileSimpleGroundLayer - atlasIndex and Z
+static inline int compareInts(const void * a, const void * b)
 {
-    return m_tMapTileSize;
+    return ((*(int*)a) - (*(int*)b));
+}
+unsigned int CCISOTileSimpleGroundLayer::atlasIndexForExistantZ(unsigned int z)
+{
+    int key=z;
+    int *item = (int*)bsearch((void*)&key, (void*)&m_pAtlasIndexArray->arr[0], m_pAtlasIndexArray->num, sizeof(void*), compareInts);
+    
+    CCAssert(item, "TMX atlas index not found. Shall not happen");
+    
+    int index = ((size_t)item - (size_t)m_pAtlasIndexArray->arr) / sizeof(void*);
+    return index;
+}
+unsigned int CCISOTileSimpleGroundLayer::atlasIndexForNewZ(int z)
+{
+    // XXX: This can be improved with a sort of binary search
+    unsigned int i=0;
+    for (i=0; i< m_pAtlasIndexArray->num ; i++)
+    {
+        int val = (size_t) m_pAtlasIndexArray->arr[i];
+        if (z < val)
+        {
+            break;
+        }
+    }
+    
+    return i;
 }
 
-void CCISOTileSimpleGroundLayer::setTiles(unsigned int* pTiles)
-{
-    CC_SAFE_RETAIN(pTiles);
-    CC_SAFE_RELEASE(m_pTiles);
-    m_pTiles = pTiles;
-}
-
-unsigned int* CCISOTileSimpleGroundLayer::getTiles()
-{
-    return m_pTiles;
-}
-
-void CCISOTileSimpleGroundLayer::setTileSet(CCISOTilesetInfo* pTileSet)
-{
-    CC_SAFE_RETAIN(pTileSet);
-    CC_SAFE_RELEASE(m_pTileSet);
-    m_pTileSet = pTileSet;
-}
-
-CCISOTilesetInfo* CCISOTileSimpleGroundLayer::getTileSet()
-{
-    return m_pTileSet;
-}
-
-void CCISOTileSimpleGroundLayer::setLayerOrientation(unsigned int uLayerOrientation)
-{
-    m_uLayerOrientation = uLayerOrientation;
-}
-
-unsigned int CCISOTileSimpleGroundLayer::getLayerOrientation()
-{
-    return m_uLayerOrientation;
-}
-
-void CCISOTileSimpleGroundLayer::setProperties(CCDictionary* pProperties)
-{
-    CC_SAFE_RETAIN(pProperties);
-    CC_SAFE_RELEASE(m_pProperties);
-    m_pProperties = pProperties;
-}
-
-CCDictionary* CCISOTileSimpleGroundLayer::getProperties()
-{
-    return m_pProperties;
-}
-
-void CCISOTileSimpleGroundLayer::setTileSets(CCArray* pTileSets)
-{
-    CC_SAFE_RETAIN(pTileSets);
-    CC_SAFE_RELEASE(m_pTileSets);
-    m_pTileSets = pTileSets;
-}
-
-CCArray* CCISOTileSimpleGroundLayer::getTileSets()
-{
-    return m_pTileSets;
-}
 
 NS_CC_END
