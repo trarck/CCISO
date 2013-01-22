@@ -2,7 +2,6 @@
 #define ISO_CCISOTilesetInfo_H_
 
 #include "cocos2d.h"
-#include "CCISOTileLayer.h"
 
 NS_CC_BEGIN
 

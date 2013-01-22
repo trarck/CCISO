@@ -19,7 +19,7 @@ CCISOTilesetInfo::~CCISOTilesetInfo()
     CCLOG("CCISOTilesetInfo destroy");
 }
 
-CCRect CCTMXTilesetInfo::rectForGID(unsigned int gid)
+CCRect CCISOTilesetInfo::rectForGID(unsigned int gid)
 {
     CCRect rect;
     rect.size = m_tTileSize;

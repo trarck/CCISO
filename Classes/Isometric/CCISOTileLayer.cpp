@@ -79,6 +79,32 @@ void CCISOTileLayer::setupTiles()
     CCLOG("CCISOTileLayer::setupTiles");
 }
 
+/**
+ * 获取tile
+ */
+CCSprite* CCISOTileLayer::tileAt(float x,float y)
+{
+    CCLOG("CCISOTileLayer::tileAt");
+    return NULL;
+}
+
+
+CCSprite* CCISOTileLayer::tileAt(const CCPoint& tileCoordinate)
+{
+    CCLOG("CCISOTileLayer::tileAt");
+    return NULL;
+}
+
+void CCISOTileLayer::removeTileAt(float x,float y)
+{
+    CCLOG("CCISOTileLayer::removeTileAt");
+}
+
+void CCISOTileLayer::removeTileAt(const CCPoint& pos)
+{
+    CCLOG("CCISOTileLayer::removeTileAt");
+}
+
 void CCISOTileLayer::parseInternalProperties()
 {
     CCLOG("CCISOTileLayer::parseInternalProperties");
@@ -109,6 +135,23 @@ void CCISOTileLayer::parseInternalProperties()
             m_nVertexZvalue = vertexz->intValue();
         }
     }
+}
+
+int CCISOTileLayer::vertexZForPos(const CCPoint& pos)
+{
+    int ret = 0;
+    unsigned int maxVal = 0;
+    if (m_bUseAutomaticVertexZ)
+    {
+        maxVal = (unsigned int)(m_tLayerSize.width + m_tLayerSize.height);
+        ret = (int)(-(maxVal - (pos.x + pos.y)));
+    }
+    else
+    {
+        ret = m_nVertexZvalue;
+    }
+    
+    return ret;
 }
 
 CCString* CCISOTileLayer::propertyNamed(const char *propertyName)
@@ -175,29 +218,6 @@ const CCSize& CCISOTileLayer::getMapTileSize()
     return m_tMapTileSize;
 }
 
-void CCISOTileLayer::setTiles(unsigned int* pTiles)
-{
-    CC_SAFE_RETAIN(pTiles);
-    CC_SAFE_RELEASE(m_pTiles);
-    m_pTiles = pTiles;
-}
-
-unsigned int* CCISOTileLayer::getTiles()
-{
-    return m_pTiles;
-}
-
-void CCISOTileLayer::setTileSet(CCISOTilesetInfo* pTileSet)
-{
-    CC_SAFE_RETAIN(pTileSet);
-    CC_SAFE_RELEASE(m_pTileSet);
-    m_pTileSet = pTileSet;
-}
-
-CCISOTilesetInfo* CCISOTileLayer::getTileSet()
-{
-    return m_pTileSet;
-}
 
 void CCISOTileLayer::setLayerOrientation(unsigned int uLayerOrientation)
 {
@@ -220,17 +240,4 @@ CCDictionary* CCISOTileLayer::getProperties()
 {
     return m_pProperties;
 }
-
-void CCISOTileLayer::setTileSets(CCArray* pTileSets)
-{
-    CC_SAFE_RETAIN(pTileSets);
-    CC_SAFE_RELEASE(m_pTileSets);
-    m_pTileSets = pTileSets;
-}
-
-CCArray* CCISOTileLayer::getTileSets()
-{
-    return m_pTileSets;
-}
-
 NS_CC_END

@@ -62,6 +62,24 @@ public:
     
     inline const char* getLayerName(){ return m_sLayerName.c_str(); }
     inline void setLayerName(const char *layerName){ m_sLayerName = layerName; }
+    
+    virtual void setMapTileSize(const CCSize& tMapTileSize);
+    virtual const CCSize& getMapTileSize();  
+    
+    virtual void setLayerOrientation(unsigned int uLayerOrientation);
+    virtual unsigned int getLayerOrientation();
+    
+    virtual void setProperties(CCDictionary* pProperties);
+    virtual CCDictionary* getProperties();
+    
+//    virtual void setTileSet(CCISOTilesetInfo* pTileSet);
+//    virtual CCISOTilesetInfo* getTileSet();
+//    
+//    virtual void setTiles(unsigned int* pTiles);
+//    virtual unsigned int* getTiles();
+//    
+//    virtual void setTileSets(CCArray* pTileSets);
+//    virtual CCArray* getTileSets();
 
 protected:
     
@@ -90,25 +108,7 @@ protected:
     
 //    void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
     CCSprite* reusedTileWithRect(CCRect rect);
-    
-    virtual void setMapTileSize(const CCSize& tMapTileSize);
-    virtual const CCSize& getMapTileSize();
-    
-    virtual void setTiles(unsigned int* pTiles);
-    virtual unsigned int* getTiles();
-    
-    virtual void setTileSet(CCISOTilesetInfo* pTileSet);
-    virtual CCISOTilesetInfo* getTileSet();
-    
-    virtual void setLayerOrientation(unsigned int uLayerOrientation);
-    virtual unsigned int getLayerOrientation();
-    
-    virtual void setProperties(CCDictionary* pProperties);
-    virtual CCDictionary* getProperties();
-    
-    virtual void setTileSets(CCArray* pTileSets);
-    virtual CCArray* getTileSets();
-    
+         
     /**
      * 取得z值，处理遮挡使用
      */

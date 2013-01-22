@@ -3,6 +3,12 @@
 
 NS_CC_BEGIN
 
+// CCISOTileSimpleGroundLayer - atlasIndex and Z
+static inline int compareInts(const void * a, const void * b)
+{
+    return ((*(int*)a) - (*(int*)b));
+}
+
 
 CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
@@ -108,11 +114,6 @@ bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerI
     return false;
 }
 
-bool CCISOTileSimpleGroundLayer::initWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
-{
-    return this->init(tilesetInfo,layerInfo,mapInfo);
-}
-
 
 void CCISOTileSimpleGroundLayer::initOffset(const CCPoint& tOffset)
 {
@@ -193,7 +194,7 @@ void CCISOTileSimpleGroundLayer::setupTiles()
 void CCISOTileSimpleGroundLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid)
 {
     sprite->setPosition(isoGameToViewPoint(mapCoord));
-    sprite->setVertexZ((float)this->vertexZForPos(pos));
+    sprite->setVertexZ((float)this->vertexZForPos(mapCoord));
     sprite->setAnchorPoint(CCPointZero);
     sprite->setOpacity(m_cOpacity);
     
@@ -207,8 +208,9 @@ void CCISOTileSimpleGroundLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCo
     {
         // put the anchor in the middle for ease of rotation.
         sprite->setAnchorPoint(ccp(0.5f,0.5f));
-        sprite->setPosition(ccp(positionAt(pos).x + sprite->getContentSize().height/2,
-                                positionAt(pos).y + sprite->getContentSize().width/2 ) );
+        CCPoint viewPos=isoGameToViewPoint(mapCoord);
+        sprite->setPosition(ccp(viewPos.x + sprite->getContentSize().height/2,
+                                viewPos.y + sprite->getContentSize().width/2 ) );
         
         unsigned int flag = gid & (kCCTMXTileHorizontalFlag | kCCTMXTileVerticalFlag );
         
@@ -268,6 +270,7 @@ CCSprite* CCISOTileSimpleGroundLayer::reusedTileWithRect(CCRect rect)
     return m_pReusedTile;
 }
 
+
 CCSprite * CCISOTileSimpleGroundLayer::tileAt(const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "ISOTileLayer: invalid position");
@@ -289,9 +292,9 @@ CCSprite * CCISOTileSimpleGroundLayer::tileAt(const CCPoint& pos)
 //            rect = CC_RECT_PIXELS_TO_POINTS(rect);
             
             tile = new CCSprite();
-            tile->initWithTexture(this->getTexture(), rect);
-            tile->setBatchNode(this);
-            tile->setPosition(positionAt(pos));
+            tile->initWithTexture(m_pSpriteBatchNode->getTexture(), rect);
+            tile->setBatchNode(m_pSpriteBatchNode);
+            tile->setPosition(isoGameToViewPoint(pos));
             tile->setVertexZ((float)vertexZForPos(pos));
             tile->setAnchorPoint(CCPointZero);
             tile->setOpacity(m_cOpacity);
@@ -303,6 +306,11 @@ CCSprite * CCISOTileSimpleGroundLayer::tileAt(const CCPoint& pos)
     }
     
     return tile;
+}
+
+CCSprite* CCISOTileSimpleGroundLayer::tileAt(float x,float y)
+{
+    return tileAt(ccp(x,y));
 }
 
 unsigned int CCISOTileSimpleGroundLayer::tileGIDAt(const CCPoint& pos)
@@ -344,16 +352,17 @@ CCSprite * CCISOTileSimpleGroundLayer::insertTileForGID(unsigned int gid, const 
     unsigned int indexForZ = this->atlasIndexForNewZ(z);
     
     // Optimization: add the quad without adding a child
-    m_pSpriteBatchNode->addQuadFromSprite(tile, indexForZ);
+    this->addQuadFromSprite(tile, indexForZ);
     
     // insert it into the local atlasindex array
     ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, (void*)z, indexForZ);
     
     // update possible children
-    if (m_pChildren && m_pChildren->count()>0)
+    CCArray* pChildren=m_pSpriteBatchNode->getChildren();
+    if (pChildren && pChildren->count()>0)
     {
         CCObject* pObject = NULL;
-        CCARRAY_FOREACH(m_pChildren, pObject)
+        CCARRAY_FOREACH(pChildren, pObject)
         {
             CCSprite* pChild = (CCSprite*) pObject;
             if (pChild)
@@ -417,11 +426,7 @@ CCSprite * CCISOTileSimpleGroundLayer::appendTileForGID(unsigned int gid, const 
     return tile;
 }
 
-// CCISOTileSimpleGroundLayer - atlasIndex and Z
-static inline int compareInts(const void * a, const void * b)
-{
-    return ((*(int*)a) - (*(int*)b));
-}
+
 unsigned int CCISOTileSimpleGroundLayer::atlasIndexForExistantZ(unsigned int z)
 {
     int key=z;
@@ -448,5 +453,237 @@ unsigned int CCISOTileSimpleGroundLayer::atlasIndexForNewZ(int z)
     return i;
 }
 
+// CCISOTileSimpleGroundLayer - adding / remove tiles
+void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, const CCPoint& pos)
+{
+    setTileGID(gid, pos, (ccTMXTileFlags)0);
+}
+
+void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, float x,float y)
+{
+    setTileGID(gid, x,y, (ccTMXTileFlags)0);
+}
+
+void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags)
+{
+    setTileGID(gid, ccp(x,y), flags);
+}
+
+void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, const CCPoint& pos, ccTMXTileFlags flags)
+{
+    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
+    CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
+    CCAssert(gid == 0 || gid >= m_pTileSet->m_uFirstGid, "TMXLayer: invalid gid" );
+    
+    ccTMXTileFlags currentFlags;
+    unsigned int currentGID = tileGIDAt(pos, &currentFlags);
+    
+    if (currentGID != gid || currentFlags != flags)
+    {
+        unsigned gidAndFlags = gid | flags;
+        
+        // setting gid=0 is equal to remove the tile
+        if (gid == 0)
+        {
+            removeTileAt(pos);
+        }
+        // empty tile. create a new one
+        else if (currentGID == 0)
+        {
+            insertTileForGID(gidAndFlags, pos);
+        }
+        // modifying an existing tile with a non-empty tile
+        else
+        {
+            unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+            CCSprite *sprite = (CCSprite*)m_pSpriteBatchNode->getChildByTag(z);
+            if (sprite)
+            {
+                CCRect rect = m_pTileSet->rectForGID(gid);
+                rect = CC_RECT_PIXELS_TO_POINTS(rect);
+                
+                sprite->setTextureRect(rect, false, rect.size);
+                if (flags)
+                {
+                    setupTileSprite(sprite, sprite->getPosition(), gidAndFlags);
+                }
+                m_pTiles[z] = gidAndFlags;
+            }
+            else
+            {
+                updateTileForGID(gidAndFlags, pos);
+            }
+        }
+    }
+}
+
+
+void CCISOTileSimpleGroundLayer::removeChild(CCNode* node, bool cleanup)
+{
+    CCSprite *sprite = (CCSprite*)node;
+    // allows removing nil objects
+    if (! sprite)
+    {
+        return;
+    }
+    
+    CCAssert(m_pSpriteBatchNode->getChildren()->containsObject(sprite), "Tile does not belong to TMXLayer");
+    
+    unsigned int atlasIndex = sprite->getAtlasIndex();
+    unsigned int zz = (size_t)m_pAtlasIndexArray->arr[atlasIndex];
+    m_pTiles[zz] = 0;
+    ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
+    m_pSpriteBatchNode->removeChild(sprite, cleanup);
+}
+
+void CCISOTileSimpleGroundLayer::removeTileAt(float x,float y)
+{
+    removeTileAt(ccp(x,y));
+}
+
+void CCISOTileSimpleGroundLayer::removeTileAt(const CCPoint& pos)
+{
+    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
+    CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
+    
+    unsigned int gid = tileGIDAt(pos);
+    
+    if (gid)
+    {
+        unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+        unsigned int atlasIndex = atlasIndexForExistantZ(z);
+        
+        // remove tile from GID map
+        m_pTiles[z] = 0;
+        
+        // remove tile from atlas position array
+        ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
+        
+        // remove it from sprites and/or texture atlas
+        CCSprite *sprite = (CCSprite*)getChildByTag(z);
+        if (sprite)
+        {
+            m_pSpriteBatchNode->removeChild(sprite, true);
+        }
+        else
+        {
+            m_pSpriteBatchNode->getTextureAtlas()->removeQuadAtIndex(atlasIndex);
+            
+            // update possible children
+            CCArray* pChildren=m_pSpriteBatchNode->getChildren();
+            if (pChildren && pChildren->count()>0)
+            {
+                CCObject* pObject = NULL;
+                CCARRAY_FOREACH(pChildren, pObject)
+                {
+                    CCSprite* pChild = (CCSprite*) pObject;
+                    if (pChild)
+                    {
+                        unsigned int ai = pChild->getAtlasIndex();
+                        if ( ai >= atlasIndex )
+                        {
+                            pChild->setAtlasIndex(ai-1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+void CCISOTileSimpleGroundLayer::addQuadFromSprite(CCSprite *sprite, unsigned int index)
+{
+    CCAssert( sprite != NULL, "Argument must be non-NULL");
+    CCAssert( dynamic_cast<CCSprite*>(sprite), "CCSpriteBatchNode only supports CCSprites as children");
+    
+    CCTextureAtlas* pobTextureAtlas=m_pSpriteBatchNode->getTextureAtlas();
+    
+    while(index >= pobTextureAtlas->getCapacity() || pobTextureAtlas->getCapacity() == pobTextureAtlas->getTotalQuads())
+    {
+        m_pSpriteBatchNode->increaseAtlasCapacity();
+    }
+    //
+    // update the quad directly. Don't add the sprite to the scene graph
+    //
+    sprite->setBatchNode(m_pSpriteBatchNode);
+    sprite->setAtlasIndex(index);
+    
+    ccV3F_C4B_T2F_Quad quad = sprite->getQuad();
+    pobTextureAtlas->insertQuad(&quad, index);
+    
+    // XXX: updateTransform will update the textureAtlas too using updateQuad.
+    // XXX: so, it should be AFTER the insertQuad
+    sprite->setDirty(true);
+    sprite->updateTransform();
+}
+
+
+void CCISOTileSimpleGroundLayer::addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag)
+{
+    CCAssert( child != NULL, "Argument must be non-NULL");
+    CCAssert( dynamic_cast<CCSprite*>(child), "CCSpriteBatchNode only supports CCSprites as children");
+    
+    // quad index is Z
+    child->setAtlasIndex(z);
+    
+    // XXX: optimize with a binary search
+    int i=0;
+    
+    CCArray* pobDescendants=m_pSpriteBatchNode->getDescendants();
+    
+    CCObject* pObject = NULL;
+    CCARRAY_FOREACH(pobDescendants, pObject)
+    {
+        CCSprite* pChild = (CCSprite*) pObject;
+        if (pChild && (pChild->getAtlasIndex() >= z))
+        {
+            ++i;
+        }
+    }
+    
+    pobDescendants->insertObject(child, i);
+    
+    // IMPORTANT: Call super, and not self. Avoid adding it to the texture atlas array
+    m_pSpriteBatchNode->addChild(child, z, aTag);
+    //#issue 1262 don't use lazy sorting, tiles are added as quads not as sprites, so sprites need to be added in order
+    m_pSpriteBatchNode->reorderBatch(false);
+}
+
+void CCISOTileSimpleGroundLayer::setTiles(unsigned int* pTiles)
+{
+    m_pTiles = pTiles;
+}
+
+unsigned int* CCISOTileSimpleGroundLayer::getTiles()
+{
+    return m_pTiles;
+}
+
+void CCISOTileSimpleGroundLayer::setTileSet(CCISOTilesetInfo* pTileSet)
+{
+    CC_SAFE_RETAIN(pTileSet);
+    CC_SAFE_RELEASE(m_pTileSet);
+    m_pTileSet = pTileSet;
+}
+
+CCISOTilesetInfo* CCISOTileSimpleGroundLayer::getTileSet()
+{
+    return m_pTileSet;
+}
+
+void CCISOTileSimpleGroundLayer::setTileSets(CCArray* pTileSets)
+{
+    CC_SAFE_RETAIN(pTileSets);
+    CC_SAFE_RELEASE(m_pTileSets);
+    m_pTileSets = pTileSets;
+}
+
+CCArray* CCISOTileSimpleGroundLayer::getTileSets()
+{
+    return m_pTileSets;
+}
 
 NS_CC_END

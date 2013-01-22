@@ -50,13 +50,16 @@ public:
      */
     unsigned int  tileGIDAt(float x,float y);
     unsigned int  tileGIDAt(const CCPoint& tileCoordinate);
+    unsigned int  tileGIDAt(float x,float y,ccTMXTileFlags* flags);
+    unsigned int  tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags);
     
     /**
      * 设置tile gid
      */
     virtual void setTileGID(unsigned int gid, float x,float y);
     virtual void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
-
+    void setTileGID(unsigned int gid, const CCPoint& tileCoordinate, ccTMXTileFlags flags);
+    virtual void setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags);
     /**
      * 删除tile
      */
@@ -69,6 +72,17 @@ public:
      */
     virtual void setupTiles();
     
+    virtual void removeChild(CCNode* child, bool cleanup);
+    
+    void setTiles(unsigned int* pTiles);
+    unsigned int* getTiles();
+    
+    void setTileSet(CCISOTilesetInfo* pTileSet);
+    CCISOTilesetInfo* getTileSet();
+    
+    void setTileSets(CCArray* pTileSets);
+    CCArray* getTileSets();
+
 
 protected:
     
@@ -90,39 +104,22 @@ protected:
     CCSprite* updateTile(unsigned int gid, const CCPoint& pos);
     CCSprite* updateTile(unsigned int gid, float x,float y);
     
-    /**
-     * 处理扩展属性
-     */
-    void parseInternalProperties();
-    
+   
     /**
      * 设置tile
      */
     void setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid);
     CCSprite* reusedTileWithRect(CCRect rect);
     
-    virtual void setMapTileSize(const CCSize& tMapTileSize);
-    virtual const CCSize& getMapTileSize();
+    CCSprite* appendTileForGID(unsigned int gid, const CCPoint& pos);
+    CCSprite* insertTileForGID(unsigned int gid, const CCPoint& pos);
+    CCSprite* updateTileForGID(unsigned int gid, const CCPoint& pos);
     
-    virtual void setTiles(unsigned int* pTiles);
-    virtual unsigned int* getTiles();
+    unsigned int atlasIndexForExistantZ(unsigned int z);
+    unsigned int atlasIndexForNewZ(int z);
     
-    virtual void setTileSet(CCISOTilesetInfo* pTileSet);
-    virtual CCISOTilesetInfo* getTileSet();
-    
-    virtual void setLayerOrientation(unsigned int uLayerOrientation);
-    virtual unsigned int getLayerOrientation();
-    
-    virtual void setProperties(CCDictionary* pProperties);
-    virtual CCDictionary* getProperties();
-    
-    virtual void setTileSets(CCArray* pTileSets);
-    virtual CCArray* getTileSets();
-    
-    /**
-     * 取得z值，处理遮挡使用
-     */
-    int vertexZForPos(const CCPoint& pos);
+    void addQuadFromSprite(CCSprite *sprite, unsigned int index);
+    void addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag);
     
 protected:
     

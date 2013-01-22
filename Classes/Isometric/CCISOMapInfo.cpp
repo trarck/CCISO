@@ -169,4 +169,16 @@ CCDictionary* CCISOMapInfo::getProperties()
     return m_pProperties;
 }
 
+CCDictionary* CCISOMapInfo::getTileProperties()
+{
+    return m_pTileProperties;
+}
+
+void CCISOMapInfo::setTileProperties(CCDictionary* tileProperties)
+{
+    CC_SAFE_RETAIN(tileProperties);
+    CC_SAFE_RELEASE(m_pTileProperties);
+    m_pTileProperties = tileProperties;
+}
+
 NS_CC_END
