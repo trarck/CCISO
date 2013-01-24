@@ -101,7 +101,7 @@ bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerI
 }
 
 
-void CCISOTileSimpleGroundLayer::releaseMap()
+void CCISOTileSimpleGroundLayer::releaseLayer()
 {
     if (m_pTiles)
     {
@@ -114,7 +114,7 @@ void CCISOTileSimpleGroundLayer::releaseMap()
         ccCArrayFree(m_pAtlasIndexArray);
         m_pAtlasIndexArray = NULL;
     }
-    CCISOTileLayer::releaseMap();
+    CCISOTileLayer::releaseLayer();
 }
 
 void CCISOTileSimpleGroundLayer::setupTiles()

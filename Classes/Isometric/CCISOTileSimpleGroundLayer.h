@@ -30,7 +30,7 @@ public:
      Unless you want to know at runtime the tiles positions, you can safely call this method.
      If you are going to call layer->tileGIDAt() then, don't release the map
      */
-    virtual void releaseMap();
+    virtual void releaseLayer();
 
     /**
      * 初始化显示tiles

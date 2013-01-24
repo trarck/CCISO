@@ -51,6 +51,7 @@ GameWorld::~GameWorld()
 	CCLOG("player retain:%d",m_pPlayer->retainCount());
 	CC_SAFE_RELEASE(m_pPlayer);
 	CC_SAFE_RELEASE(m_pUnits);
+    
 	CCLOG("GameWorld destroy end");
 }
 
@@ -112,7 +113,7 @@ bool GameWorld::init()
 //    pMenu->setPosition( CCPointZero );
 //    this->addChild(pMenu, 1);
 
-      
+    
 	return true;
 }
 
@@ -181,7 +182,7 @@ void GameWorld::setupGameWorlds()
     testLayer->init();
     testLayer->setMapTileSize(TileWidth,TileHeight);
     
-    testLayer->setupComponents(2,ccp(-160,234));//ccp(-160,234)
+    testLayer->setupComponents(2,ccp(-192,0));//ccp(-160,234)
 //    testLayer->visitTileShowable();
     //testLayer->scroll(ccp(-160,234));
     this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
@@ -482,7 +483,7 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	float dy=touchPoint.y-m_startTouchLocation.y;
 	if(abs(dx)>MoveSmallDistance || abs(dy)>MoveSmallDistance){
 		m_bIsTouchMoved=true;
-		//m_pGameCamera->moveOpposite(touchPoint.x-m_lastTouchLocation.x,touchPoint.y-m_lastTouchLocation.y);
+		m_pGameCamera->moveOpposite(touchPoint.x-m_lastTouchLocation.x,touchPoint.y-m_lastTouchLocation.y);
 		
 //		CCISOTileLayer* tileLayer=(CCISOTileLayer*)this->getChildByTag(kLayerTagTestIsoLayer);
 //		CCPoint pos=tileLayer->getOffset();
@@ -490,12 +491,7 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 //		pos.y+=touchPoint.y-m_lastTouchLocation.y;
 //		tileLayer->scroll(pos);
         
-        CCISOTileLayerDynamicComponent* tileLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
-		CCPoint pos=tileLayer->getOffset();
-		pos.x+=touchPoint.x-m_lastTouchLocation.x;
-		pos.y+=touchPoint.y-m_lastTouchLocation.y;
-		tileLayer->scroll(pos);
-
+        
 		/*if(tileLayer->isCellChange()){
 			CCLOG("do visit");
 			tileLayer->removeAllChildrenWithCleanup(true);
@@ -508,6 +504,26 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	}
 }
 
+void GameWorld::updateMapPosition(const CCPoint& position)
+{
+    CCISOTileLayerDynamicComponent* tileLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+    tileLayer->scroll(position);
+}
+
+CCPoint GameWorld::toGameCoordinate(const CCPoint& position)
+{
+    return isoViewToGamePoint(m_pGameCamera->getLocationInWorld(position));
+}
+
+CCPoint GameWorld::toGameCoordinate(float x,float y)
+{
+    return isoViewToGamePoint(m_pGameCamera->getLocationInWorld(ccp(x,y)));
+}
+
+void GameWorld::updateMapPosition(float x,float y)
+{
+    updateMapPosition(ccp(x,y));
+}
 
 void GameWorld::setMapColumn(int iMapColumn)
 {

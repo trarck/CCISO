@@ -41,15 +41,32 @@ void CCISOTileLayer::initOffset(float x,float y)
 }
 
 
-void CCISOTileLayer::releaseMap()
+void CCISOTileLayer::releaseLayer()
 {
-    CCLOG("CCISOTileLayer::releaseMap");
+    CCLOG("CCISOTileLayer::releaseLayer");
 
 }
 
 void CCISOTileLayer::setupTiles()
 {
     CCLOG("CCISOTileLayer::setupTiles");
+}
+
+void CCISOTileLayer::addTile(CCSprite* tile)
+{
+    CCLOG("CCISOTileLayer::addTile");
+
+}
+
+void CCISOTileLayer::addTileAt(CCSprite* tile,float x,float y)
+{
+    CCLOG("CCISOTileLayer::addTile");
+
+}
+
+void CCISOTileLayer::addTileAt(CCSprite* tile,const CCPoint& tileCoordinate)
+{
+    CCLOG("CCISOTileLayer::addTile");
 }
 
 /**
@@ -66,6 +83,11 @@ CCSprite* CCISOTileLayer::tileAt(const CCPoint& tileCoordinate)
 {
     CCLOG("CCISOTileLayer::tileAt");
     return NULL;
+}
+
+void CCISOTileLayer::removeTile(CCSprite* tile)
+{
+    CCLOG("CCISOTileLayer::removeTile");
 }
 
 void CCISOTileLayer::removeTileAt(float x,float y)

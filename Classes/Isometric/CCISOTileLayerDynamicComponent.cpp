@@ -43,9 +43,9 @@ void CCISOTileLayerDynamicComponent::initOffset(float x,float y)
 
 CCSprite* CCISOTileLayerDynamicComponent::createTile()
 {
-    CCSprite* cellTile=CCSprite::create("grid1.png");
+    CCSprite* cellTile=CCSprite::create("grid_ground.png");
     cellTile->setAnchorPoint(ccp(0.5,0));
-    cellTile->setOpacity(60);
+//    cellTile->setOpacity(60);
     this->addChild(cellTile);
     return cellTile;
 }
@@ -55,8 +55,6 @@ CCSprite* CCISOTileLayerDynamicComponent::createTile()
  */
 bool CCISOTileLayerDynamicComponent::beforeUpdateContent()
 {
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
 	
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
@@ -219,12 +217,8 @@ void CCISOTileLayerDynamicComponent::doUpdateComponents()
 
 void CCISOTileLayerDynamicComponent::calcComponentsCount()
 {
-    CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
-    
-    
-    m_iComponentTileColumn=floor(screenSize.width/m_tMapTileSize.width)+2;
-    m_iComponentTileRow=floor(screenSize.height/m_tMapTileSize.height)+2;
+    m_iComponentTileColumn=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
+    m_iComponentTileRow=floor(m_tScreenSize.height/m_tMapTileSize.height)+2;
     
     m_iComponentTileColumn+=m_iComponentNodeExtendCount;
     m_iComponentTileRow+=m_iComponentNodeExtendCount;

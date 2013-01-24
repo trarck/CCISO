@@ -5,7 +5,6 @@
 #include "CCISOTileLayer.h"
 
 NS_CC_BEGIN
-static const CCSize testSize=CCSizeMake(480,320);
 
 /**
  动态更新可显示区域,只渲染显示区域的tile.
@@ -53,10 +52,14 @@ public:
     virtual void draw();
     
 	void addTileAt(float x,float y);
+    
+    void setScreenSize(const CCSize& screenSize);
 
 protected:
 
 	CCPoint m_tLastStartPoint;
+    
+    CCSize m_tScreenSize;
 //	int m_iStartX;
 //	int m_iStartY;
 };

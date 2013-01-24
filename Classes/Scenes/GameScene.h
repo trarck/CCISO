@@ -24,8 +24,14 @@ public:
     
     void menuCloseCallback(CCObject* pSender);
     
+    void createStatsLabel();
+    void updateState(float delta);
+    
 private:
     GameWorld* m_pGameWorld;
+    
+    bool m_bDisplayStats;
+    CCLabelTTF* m_pMapCoordLabel;
 };
 
 NS_YH_END

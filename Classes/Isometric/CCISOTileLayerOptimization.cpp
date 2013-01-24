@@ -19,6 +19,7 @@ bool CCISOTileLayerOptimization::init()
 {
     if(CCISOTileLayer::init()){
         m_tLastStartPoint=ccp(-9999,-9999);
+        m_tScreenSize=CCSizeMake(480,320);//CCDirector::sharedDirector()->getWinSize();//CCSizeMake(480,320);
         return true;
     }
     return false;
@@ -51,9 +52,6 @@ void CCISOTileLayerOptimization::addTileAt(float x,float y)
  */
 bool CCISOTileLayerOptimization::beforeUpdateContent()
 {
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
-	
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
 	//only for test
@@ -66,15 +64,13 @@ bool CCISOTileLayerOptimization::beforeUpdateContent()
 void CCISOTileLayerOptimization::doUpdateContent()
 {
     CCLOG("doVisit#########");
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
 	
 	int startX=m_iStartX,startY=m_iStartY;
 
 	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-	int columnCount=floor(screenSize.width/m_tMapTileSize.width)+2;
+	int columnCount=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
-	int rowCount=(floor(screenSize.height/m_tMapTileSize.height)+2)*2-1;
+	int rowCount=(floor(m_tScreenSize.height/m_tMapTileSize.height)+2)*2-1;
     
     int evenColumnCount=columnCount;
 	int oddColumnCount=columnCount-1;
@@ -122,15 +118,13 @@ void CCISOTileLayerOptimization::doUpdateContent()
 void CCISOTileLayerOptimization::doUpdateContent2()
 {
     CCLOG("doVisit#########");
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
 	
 	int startX=m_iStartX,startY=m_iStartY;
     
 	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-	int columnCount=floor(screenSize.width/m_tMapTileSize.width)+2;
+	int columnCount=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
-	int rowCount=(floor(screenSize.height/m_tMapTileSize.height)+2)*2-1;
+	int rowCount=(floor(m_tScreenSize.height/m_tMapTileSize.height)+2)*2-1;
     
     int evenColumnCount=columnCount;
 	int oddColumnCount=columnCount-1;
@@ -170,8 +164,6 @@ void CCISOTileLayerOptimization::doUpdateContent2()
 
 bool CCISOTileLayerOptimization::isCellChange()
 {
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
 	
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
@@ -185,8 +177,6 @@ bool CCISOTileLayerOptimization::isCellChange()
 void CCISOTileLayerOptimization::visitTileShowable()
 {
     CCLOG("in visit#########");
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
-    screenSize=testSize;
 	
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
@@ -197,9 +187,9 @@ void CCISOTileLayerOptimization::visitTileShowable()
 		m_tLastStartPoint.x=startX;
 		m_tLastStartPoint.y=startY;
 		//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-		int columnCount=floor(screenSize.width/m_tMapTileSize.width)+2;
+		int columnCount=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
 		//会有一行浪费掉的。所以要减去1.
-		int rowCount=(floor(screenSize.height/m_tMapTileSize.height)+2)*2-1;
+		int rowCount=(floor(m_tScreenSize.height/m_tMapTileSize.height)+2)*2-1;
 		int oggColumnCount=columnCount+1;
 		//后移一步.由于是在左下角，则只需移动x轴
 		startX-=1;
@@ -249,12 +239,11 @@ void CCISOTileLayerOptimization::visitTileShowable()
 //ios game book 上的方法
 void CCISOTileLayerOptimization::visitTileShowable2()
 {
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 	//屏幕的四个点。目前按原点在左上角，需要转成gl坐标系。
 	CCPoint screenLeftTop=isoViewToGame2F(0,0);
-	CCPoint screenRightTop=isoViewToGame2F(screenSize.width,0);
-	CCPoint screenLeftBottom=isoViewToGame2F(0,screenSize.height);
-	CCPoint screenRightBottom=isoViewToGame2F(screenSize.width,screenSize.height);
+	CCPoint screenRightTop=isoViewToGame2F(m_tScreenSize.width,0);
+	CCPoint screenLeftBottom=isoViewToGame2F(0,m_tScreenSize.height);
+	CCPoint screenRightBottom=isoViewToGame2F(m_tScreenSize.width,m_tScreenSize.height);
 
 	screenLeftTop.x-=1;
 	screenRightBottom.x+=1;
@@ -295,7 +284,7 @@ void CCISOTileLayerOptimization::draw()
 {
 	
 	ccDrawColor4B(255,0,0,255);
-    ccDrawRect(m_tOffset,ccp(m_tOffset.x+testSize.width,m_tOffset.y+testSize.height));
+    ccDrawRect(m_tOffset,ccp(m_tOffset.x+m_tScreenSize.width,m_tOffset.y+m_tScreenSize.height));
 }
 
 
@@ -315,6 +304,11 @@ void CCISOTileLayerOptimization::scroll(const CCPoint& tOffset)
 void CCISOTileLayerOptimization::scroll(float x,float y)
 {
     this->scroll(ccp(x,y));
+}
+
+void CCISOTileLayerOptimization::setScreenSize(const CCSize& screenSize)
+{
+    m_tScreenSize=screenSize;
 }
 
 NS_CC_END

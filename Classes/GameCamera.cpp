@@ -50,6 +50,7 @@ void  GameCamera::moveOpposite(float deltaX,float deltaY)
     m_pWorldPosition->y+=deltaY;
 
     m_pGameWorld->setPosition(ccp(m_pWorldPosition->x,m_pWorldPosition->y));
+    m_pGameWorld->updateMapPosition(ccp(-m_pWorldPosition->x,-m_pWorldPosition->y));
 }
 
 CCPoint  GameCamera::getLocationInWorld(const CCPoint& position)

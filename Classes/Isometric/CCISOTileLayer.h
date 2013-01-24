@@ -17,24 +17,42 @@ public:
 	
     virtual bool init();
     
-    virtual void releaseMap();
+    /**
+     * 释放本层的内容
+     */
+    virtual void releaseLayer();
 
     /**
      * 初始化偏移
      */
 	virtual void initOffset(const CCPoint& tOffset);
+    
     virtual void initOffset(float x,float y);
+    
+    /**
+     * 添加tile
+     */
+    virtual void addTile(CCSprite* tile);
+    
+    virtual void addTileAt(CCSprite* tile,float x,float y);
+    
+	virtual void addTileAt(CCSprite* tile,const CCPoint& tileCoordinate);
+
 
     /**
      * 获取tile
      */
 	virtual CCSprite* tileAt(float x,float y);
+    
 	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
     
     /**
      * 删除tile
      */
+    virtual void removeTile(CCSprite* tile);
+    
 	virtual void removeTileAt(float x,float y);
+    
     virtual void removeTileAt(const CCPoint& pos);
  
     /**
@@ -50,24 +68,31 @@ public:
     //===================get set 属性====================//
     
 	virtual void setLayerSize(const CCSize& tLayerSize);
+    
 	virtual CCSize getLayerSize();
 
     virtual void setMapTileSize(const CCSize& tMapTileSize);
+    
     virtual void setMapTileSize(float width,float height);
+    
     virtual const CCSize& getMapTileSize();
 
 	virtual void setOffset(const CCPoint& tOffset);
+    
 	virtual void setOffset(float x,float y);
     
 	virtual CCPoint getOffset();
     
     inline const char* getLayerName(){ return m_sLayerName.c_str(); }
+    
     inline void setLayerName(const char *layerName){ m_sLayerName = layerName; }
        
     virtual void setProperties(CCDictionary* pProperties);
+    
     virtual CCDictionary* getProperties();
     
     virtual void setLayerOrientation(unsigned int uLayerOrientation);
+    
     virtual unsigned int getLayerOrientation();
 
 protected:
@@ -83,18 +108,41 @@ protected:
     
 protected:
     
+    /**
+     * 层的名称
+     */
     std::string m_sLayerName;
+    
+    /**
+     * 层的地图大小
+     */
 	CCSize m_tLayerSize;
+    
+    /**
+      地图的一个图块大小
+     */
     CCSize m_tMapTileSize;
+    
+    /**
+     * 地图的偏移量。屏幕坐标
+     * 可能层的原点和地图的原点不在一起。
+     */
 	CCPoint m_tOffset;
+    
+    /**
+     * 偏移量的地图坐标
+     */
 	int m_iStartX;
 	int m_iStartY;
     
+    /**
+     * 地图属性
+     */
     CCDictionary* m_pProperties;
        
     /**
-      地图类型，斜视角，直角，六角。
-      这里直接使用斜视角。所以用不到，保留将来或许有用。
+     * 地图类型，斜视角，直角，六角。
+     * 这里直接使用斜视角。所以用不到，保留将来或许有用。
      */
     unsigned int m_uLayerOrientation;
     
@@ -103,13 +151,13 @@ protected:
     
     //! Only used when vertexZ is used
     int                 m_nVertexZvalue;
+    
     bool                m_bUseAutomaticVertexZ;
         
     // used for retina display
     float               m_fContentScaleFactor;
 
 };
-
 
 
 NS_CC_END

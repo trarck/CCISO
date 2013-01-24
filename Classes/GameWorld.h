@@ -69,7 +69,14 @@ public:
 	void showBarrier();
 	void showGameOver();
 	bool isWorkable(int x ,int y);
-
+    
+    CCPoint toGameCoordinate(const CCPoint& position);
+    CCPoint toGameCoordinate(float x,float y);
+    
+    //è¿™é‡Œçš„ä½ç½®å’Œç›¸æœºçš„ç§»åŠ¨æ–¹å‘ä¸€è‡´
+    void updateMapPosition(const CCPoint& position);
+    void updateMapPosition(float x,float y);
+   
 	//get set
 	virtual void setMapColumn(int iMapColumn);
 	virtual int getMapColumn();
@@ -85,17 +92,17 @@ public:
 	virtual CCLayer* getForeground();
 
 private:
-	//µØÍ¼Ïà¹Ø
+	//åœ°å›¾ç›¸å…³
 	int m_iMapColumn;
 	int m_iMapRow;
 	int m_iMapId;
-	CCLayer* m_pBackground;//±³¾°²ã£¬¼ÓÔØµØĞÎ×ÊÔ´
-	CCLayer* m_pIntermediate;//ÖĞ¼ä²ã£¬ÏÔÊ¾½ÇÉ«£¬¹ÖÎï£¬µÈ¿É±äÔªËØ
-	CCLayer* m_pForeground;//Ç°¾°²ã,±³¾°²ãÄ³Ğ©ÎïÌåµÄÕÚµ²ÔªËØ¡£Í¨³£Îª¿Õ¡£
+	CCLayer* m_pBackground;//èƒŒæ™¯å±‚ï¼ŒåŠ è½½åœ°å½¢èµ„æº
+	CCLayer* m_pIntermediate;//ä¸­é—´å±‚ï¼Œæ˜¾ç¤ºè§’è‰²ï¼Œæ€ªç‰©ï¼Œç­‰å¯å˜å…ƒç´ 
+	CCLayer* m_pForeground;//å‰æ™¯å±‚,èƒŒæ™¯å±‚æŸäº›ç‰©ä½“çš„é®æŒ¡å…ƒç´ ã€‚é€šå¸¸ä¸ºç©ºã€‚
 
-	//Ñ°Â·
+	//å¯»è·¯
 	CCAstar* m_pAstar;
-	//´¦ÀíÕÚµ²
+	//å¤„ç†é®æŒ¡
 	CCZIndex* m_pZIndex;
 	GameCamera* m_pGameCamera;
 
