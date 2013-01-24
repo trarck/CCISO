@@ -72,9 +72,9 @@ void CCISOTileLayerOptimization::doUpdateContent()
 	int startX=m_iStartX,startY=m_iStartY;
 
 	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
+	int columnCount=floor(screenSize.width/m_tMapTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
-	int rowCount=(floor(screenSize.height/m_tTileSize.height)+2)*2-1;
+	int rowCount=(floor(screenSize.height/m_tMapTileSize.height)+2)*2-1;
     
     int evenColumnCount=columnCount;
 	int oddColumnCount=columnCount-1;
@@ -128,9 +128,9 @@ void CCISOTileLayerOptimization::doUpdateContent2()
 	int startX=m_iStartX,startY=m_iStartY;
     
 	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-	int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
+	int columnCount=floor(screenSize.width/m_tMapTileSize.width)+2;
 	//会有一行浪费掉的。所以要减去1.
-	int rowCount=(floor(screenSize.height/m_tTileSize.height)+2)*2-1;
+	int rowCount=(floor(screenSize.height/m_tMapTileSize.height)+2)*2-1;
     
     int evenColumnCount=columnCount;
 	int oddColumnCount=columnCount-1;
@@ -197,9 +197,9 @@ void CCISOTileLayerOptimization::visitTileShowable()
 		m_tLastStartPoint.x=startX;
 		m_tLastStartPoint.y=startY;
 		//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-		int columnCount=floor(screenSize.width/m_tTileSize.width)+2;
+		int columnCount=floor(screenSize.width/m_tMapTileSize.width)+2;
 		//会有一行浪费掉的。所以要减去1.
-		int rowCount=(floor(screenSize.height/m_tTileSize.height)+2)*2-1;
+		int rowCount=(floor(screenSize.height/m_tMapTileSize.height)+2)*2-1;
 		int oggColumnCount=columnCount+1;
 		//后移一步.由于是在左下角，则只需移动x轴
 		startX-=1;

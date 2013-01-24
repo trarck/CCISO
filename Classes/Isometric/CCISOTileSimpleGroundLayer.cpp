@@ -27,14 +27,8 @@ CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::create(CCISOTilesetInfo
 }
 
 CCISOTileSimpleGroundLayer::CCISOTileSimpleGroundLayer()
-:m_iStartX(0)
-,m_iStartY(0)
-,m_tLayerSize(CCSizeZero)
-,m_tMapTileSize(CCSizeZero)
-,m_pTiles(NULL)
+:m_pTiles(NULL)
 ,m_pTileSet(NULL)
-,m_pProperties(NULL)
-,m_sLayerName("")
 ,m_pReusedTile(NULL)
 ,m_pSpriteBatchNode(NULL)
 ,m_pAtlasIndexArray(NULL)
@@ -48,21 +42,13 @@ CCISOTileSimpleGroundLayer::~CCISOTileSimpleGroundLayer()
     CC_SAFE_RELEASE(m_pReusedTile);
     CC_SAFE_RELEASE(m_pProperties);
     CC_SAFE_RELEASE(m_pSpriteBatchNode);
-//    if (m_pAtlasIndexArray)
-//    {
-//        ccCArrayFree(m_pAtlasIndexArray);
-//        m_pAtlasIndexArray = NULL;
-//    }
+    if (m_pAtlasIndexArray)
+    {
+        ccCArrayFree(m_pAtlasIndexArray);
+        m_pAtlasIndexArray = NULL;
+    }
     
     CC_SAFE_DELETE_ARRAY(m_pTiles);
-}
-
-bool CCISOTileSimpleGroundLayer::init()
-{
-    m_tTileSize=CCSizeZero;
-	m_tOffset=CCPointZero;
-    
-	return true;
 }
 
 bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
@@ -99,7 +85,7 @@ bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerI
         
         // mapInfo
         m_tMapTileSize = mapInfo->getTileSize();
-        m_uLayerOrientation = mapInfo->getOrientation();
+//        m_uLayerOrientation = mapInfo->getOrientation();
         
         
         m_pAtlasIndexArray = ccCArrayNew((unsigned int)totalNumberOfTiles);
@@ -112,21 +98,6 @@ bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerI
         return true;
     }
     return false;
-}
-
-
-void CCISOTileSimpleGroundLayer::initOffset(const CCPoint& tOffset)
-{
-//    this->setPosition(tOffset);
-	this->setOffset(tOffset);
-	CCPoint startMapCoord=isoViewToGamePoint(tOffset);
-	m_iStartX=(int)startMapCoord.x;
-	m_iStartY=(int)startMapCoord.y;
-}
-
-void CCISOTileSimpleGroundLayer::initOffset(float x,float y)
-{
-	this->initOffset(ccp(x,y));
 }
 
 
@@ -143,6 +114,7 @@ void CCISOTileSimpleGroundLayer::releaseMap()
         ccCArrayFree(m_pAtlasIndexArray);
         m_pAtlasIndexArray = NULL;
     }
+    CCISOTileLayer::releaseMap();
 }
 
 void CCISOTileSimpleGroundLayer::setupTiles()

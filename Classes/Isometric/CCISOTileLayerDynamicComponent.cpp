@@ -223,8 +223,8 @@ void CCISOTileLayerDynamicComponent::calcComponentsCount()
     screenSize=testSize;
     
     
-    m_iComponentTileColumn=floor(screenSize.width/m_tTileSize.width)+2;
-    m_iComponentTileRow=floor(screenSize.height/m_tTileSize.height)+2;
+    m_iComponentTileColumn=floor(screenSize.width/m_tMapTileSize.width)+2;
+    m_iComponentTileRow=floor(screenSize.height/m_tMapTileSize.height)+2;
     
     m_iComponentTileColumn+=m_iComponentNodeExtendCount;
     m_iComponentTileRow+=m_iComponentNodeExtendCount;

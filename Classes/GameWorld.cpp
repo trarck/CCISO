@@ -179,7 +179,7 @@ void GameWorld::setupGameWorlds()
     
     CCISOTileLayerDynamicComponent* testLayer=new CCISOTileLayerDynamicComponent();
     testLayer->init();
-    testLayer->setTileSize(TileWidth,TileHeight);
+    testLayer->setMapTileSize(TileWidth,TileHeight);
     
     testLayer->setupComponents(2,ccp(-160,234));//ccp(-160,234)
 //    testLayer->visitTileShowable();

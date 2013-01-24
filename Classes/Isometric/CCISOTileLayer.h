@@ -47,13 +47,14 @@ public:
      */
     CCString *propertyNamed(const char *propertyName);
     
-    //get set 属性
+    //===================get set 属性====================//
     
 	virtual void setLayerSize(const CCSize& tLayerSize);
 	virtual CCSize getLayerSize();
 
-    void setTileSize(const CCSize&  tileSize);
-    void setTileSize(float width,float height);
+    virtual void setMapTileSize(const CCSize& tMapTileSize);
+    virtual void setMapTileSize(float width,float height);
+    virtual const CCSize& getMapTileSize();
 
 	virtual void setOffset(const CCPoint& tOffset);
 	virtual void setOffset(float x,float y);
@@ -62,53 +63,19 @@ public:
     
     inline const char* getLayerName(){ return m_sLayerName.c_str(); }
     inline void setLayerName(const char *layerName){ m_sLayerName = layerName; }
-    
-    virtual void setMapTileSize(const CCSize& tMapTileSize);
-    virtual const CCSize& getMapTileSize();  
-    
-    virtual void setLayerOrientation(unsigned int uLayerOrientation);
-    virtual unsigned int getLayerOrientation();
-    
+       
     virtual void setProperties(CCDictionary* pProperties);
     virtual CCDictionary* getProperties();
     
-//    virtual void setTileSet(CCISOTilesetInfo* pTileSet);
-//    virtual CCISOTilesetInfo* getTileSet();
-//    
-//    virtual void setTiles(unsigned int* pTiles);
-//    virtual unsigned int* getTiles();
-//    
-//    virtual void setTileSets(CCArray* pTileSets);
-//    virtual CCArray* getTileSets();
+    virtual void setLayerOrientation(unsigned int uLayerOrientation);
+    virtual unsigned int getLayerOrientation();
 
 protected:
-    
-    /**
-     * 添加tile
-     */
-	CCSprite* appendTile(unsigned int gid, const CCPoint& pos);
-    CCSprite* appendTile(unsigned int gid, float x,float y);
-    
-    /**
-     * 插入tile
-     */
-    CCSprite* insertTile(unsigned int gid, const CCPoint& pos);
-    CCSprite* insertTile(unsigned int gid, float x,float y);
-    
-    /**
-     * 更新tile
-     */
-    CCSprite* updateTile(unsigned int gid, const CCPoint& pos);
-    CCSprite* updateTile(unsigned int gid, float x,float y);
-    
     /**
      * 处理扩展属性
      */
     virtual void parseInternalProperties();
-    
-//    void setupTileSprite(CCSprite* sprite, CCPoint pos, unsigned int gid);
-    CCSprite* reusedTileWithRect(CCRect rect);
-         
+            
     /**
      * 取得z值，处理遮挡使用
      */
@@ -118,37 +85,26 @@ protected:
     
     std::string m_sLayerName;
 	CCSize m_tLayerSize;
-    CCSize m_tTileSize;
+    CCSize m_tMapTileSize;
 	CCPoint m_tOffset;
 	int m_iStartX;
 	int m_iStartY;
     
-   
-    CCSize m_tMapTileSize;
-    unsigned int* m_pTiles;
-    CCISOTilesetInfo* m_pTileSet;
-    unsigned int m_uLayerOrientation;
     CCDictionary* m_pProperties;
-    //对于多个tileSet的支持。这样就不能使用batch node。所以最好一个layer使用一个tileSet
-    CCArray* m_pTileSets;
+       
+    /**
+      地图类型，斜视角，直角，六角。
+      这里直接使用斜视角。所以用不到，保留将来或许有用。
+     */
+    unsigned int m_uLayerOrientation;
     
-    CCSpriteBatchNode* m_pSpriteBatchNode;
-    
-    
-    //! TMX Layer supports opacity
-    unsigned char        m_cOpacity;
-    
-    unsigned int        m_uMinGID;
-    unsigned int        m_uMaxGID;
+    //! Layer supports opacity
+    unsigned char       m_cOpacity;
     
     //! Only used when vertexZ is used
-    int                    m_nVertexZvalue;
+    int                 m_nVertexZvalue;
     bool                m_bUseAutomaticVertexZ;
-    
-    //! used for optimization
-    CCSprite*           m_pReusedTile;
-    ccCArray*           m_pAtlasIndexArray;
-    
+        
     // used for retina display
     float               m_fContentScaleFactor;
 

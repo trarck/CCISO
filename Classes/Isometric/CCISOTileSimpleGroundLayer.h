@@ -16,7 +16,6 @@ public:
 	CCISOTileSimpleGroundLayer();
 	~CCISOTileSimpleGroundLayer(void);
 	
-    virtual bool init();
     virtual bool init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
     /** creates a CCISOTileSimpleGroundLayer with an tileset info, a layer info and a map info
@@ -34,11 +33,10 @@ public:
     virtual void releaseMap();
 
     /**
-     * 初始化偏移
+     * 初始化显示tiles
      */
-	virtual void initOffset(const CCPoint& tOffset);
-    virtual void initOffset(float x,float y);
-
+    virtual void setupTiles();
+    
     /**
      * 获取tile
      */
@@ -67,10 +65,7 @@ public:
     virtual void removeTileAt(const CCPoint& pos);
 
     
-    /**
-     * 初始化显示tiles
-     */
-    virtual void setupTiles();
+
     
     virtual void removeChild(CCNode* child, bool cleanup);
     
@@ -122,36 +117,19 @@ protected:
     void addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag);
     
 protected:
-    
-    std::string m_sLayerName;
-	CCSize m_tLayerSize;
-    CCSize m_tTileSize;
-	CCPoint m_tOffset;
-	int m_iStartX;
-	int m_iStartY;
-    
-   
-    CCSize m_tMapTileSize;
+
     unsigned int* m_pTiles;
     CCISOTilesetInfo* m_pTileSet;
-    unsigned int m_uLayerOrientation;
-    CCDictionary* m_pProperties;
     //对于多个tileSet的支持。这样就不能使用batch node。所以最好一个layer使用一个tileSet
     CCArray* m_pTileSets;
     
     CCSpriteBatchNode* m_pSpriteBatchNode;
     
     
-    //! TMX Layer supports opacity
-    unsigned char        m_cOpacity;
     
     unsigned int        m_uMinGID;
     unsigned int        m_uMaxGID;
-    
-    //! Only used when vertexZ is used
-    int                    m_nVertexZvalue;
-    bool                m_bUseAutomaticVertexZ;
-    
+       
     //! used for optimization
     CCSprite*           m_pReusedTile;
     ccCArray*           m_pAtlasIndexArray;

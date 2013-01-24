@@ -8,37 +8,20 @@ CCISOTileLayer::CCISOTileLayer()
 ,m_iStartY(0)
 ,m_tLayerSize(CCSizeZero)
 ,m_tMapTileSize(CCSizeZero)
-,m_pTiles(NULL)
-,m_pTileSet(NULL)
 ,m_pProperties(NULL)
 ,m_sLayerName("")
-,m_pReusedTile(NULL)
-,m_pSpriteBatchNode(NULL)
-,m_pAtlasIndexArray(NULL)
 {
 	
 }
 
 CCISOTileLayer::~CCISOTileLayer()
 {
-    CC_SAFE_RELEASE(m_pTileSet);
-    CC_SAFE_RELEASE(m_pReusedTile);
     CC_SAFE_RELEASE(m_pProperties);
-    CC_SAFE_RELEASE(m_pSpriteBatchNode);
-//    if (m_pAtlasIndexArray)
-//    {
-//        ccCArrayFree(m_pAtlasIndexArray);
-//        m_pAtlasIndexArray = NULL;
-//    }
-    
-    CC_SAFE_DELETE_ARRAY(m_pTiles);
 }
 
 bool CCISOTileLayer::init()
 {
-    m_tTileSize=CCSizeZero;
-	m_tOffset=CCPointZero;
-    
+	m_tOffset=CCPointZero;   
 	return true;
 }
 
@@ -61,17 +44,7 @@ void CCISOTileLayer::initOffset(float x,float y)
 void CCISOTileLayer::releaseMap()
 {
     CCLOG("CCISOTileLayer::releaseMap");
-    if (m_pTiles)
-    {
-        delete [] m_pTiles;
-        m_pTiles = NULL;
-    }
-    
-    if (m_pAtlasIndexArray)
-    {
-        ccCArrayFree(m_pAtlasIndexArray);
-        m_pAtlasIndexArray = NULL;
-    }
+
 }
 
 void CCISOTileLayer::setupTiles()
@@ -170,27 +143,6 @@ CCSize CCISOTileLayer::getLayerSize()
     return m_tLayerSize;
 }
 
-//void CCISOTileLayer::setContentSize(CCSize tContentSize)
-//{
-//    m_tContentSize = tContentSize;
-//}
-//
-//CCSize CCISOTileLayer::getContentSize()
-//{
-//    return m_tContentSize;
-//}
-
-void CCISOTileLayer::setTileSize(const CCSize& tileSize)
-{
-    m_tTileSize=tileSize;
-}
-
-void CCISOTileLayer::setTileSize(float width,float height)
-{
-    m_tTileSize.width=width;
-    m_tTileSize.height=height;
-}
-
 
 void CCISOTileLayer::setOffset(const CCPoint& tOffset)
 {
@@ -206,6 +158,12 @@ void CCISOTileLayer::setOffset(float x,float y)
 CCPoint CCISOTileLayer::getOffset()
 {
     return m_tOffset;
+}
+
+void CCISOTileLayer::setMapTileSize(float width,float height)
+{
+    m_tMapTileSize.width=width;
+    m_tMapTileSize.height=height;
 }
 
 void CCISOTileLayer::setMapTileSize(const CCSize& tMapTileSize)
