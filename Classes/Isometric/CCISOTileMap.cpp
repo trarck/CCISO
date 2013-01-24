@@ -30,20 +30,10 @@ CCSize CCISOTileMap::getMapSize()
     return m_tMapSize;
 }
 
-void CCISOTileMap::setContentSize(CCSize tContentSize)
-{
-    m_tContentSize = tContentSize;
-}
-
-CCSize CCISOTileMap::getContentSize()
-{
-    return m_tContentSize;
-}
-
 void CCISOTileMap::setName(const char* pName)
 {
-    CC_SAFE_RETAIN(pName);
-    CC_SAFE_RELEASE(m_pName);
+    //CC_SAFE_RETAIN(pName);
+    //CC_SAFE_RELEASE(m_pName);
     m_pName = pName;
 }
 

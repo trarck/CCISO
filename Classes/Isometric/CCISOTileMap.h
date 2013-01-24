@@ -24,8 +24,8 @@ public:
     
 	virtual void setMapSize(CCSize tMapSize);
 	virtual CCSize getMapSize();
-	virtual void setContentSize(CCSize tContentSize);
-	virtual CCSize getContentSize();
+	//virtual void setContentSize(CCSize tContentSize);
+	//virtual CCSize getContentSize();
 	virtual void setName(const char* pName);
 	virtual const char* getName();
 protected:

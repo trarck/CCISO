@@ -176,6 +176,24 @@
     <ClInclude Include="..\Classes\Isometric\CCISOComponentNode.h">
       <Filter>Classes\Isometric</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOLayerInfo.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOMapInfo.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOTileMap.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOTilesetInfo.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOTileSimpleGroundLayer.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOXMLParser.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -275,6 +293,24 @@
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Isometric\CCISOComponentNode.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOLayerInfo.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOMapInfo.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOTileMap.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOTilesetInfo.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOTileSimpleGroundLayer.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOXMLParser.cpp">
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
   </ItemGroup>
