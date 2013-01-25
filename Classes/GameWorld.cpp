@@ -65,6 +65,7 @@ bool GameWorld::init()
         return false;
     }
 	this->setTouchEnabled(true);
+//    this->setScale(8);
 
 	m_iMapColumn=20;
 	m_iMapRow=20;
@@ -73,7 +74,51 @@ bool GameWorld::init()
 	ISOCoordinateLayer* coordLayer=ISOCoordinateLayer::create();
 	coordLayer->setMapWidth(m_iMapColumn);
 	coordLayer->setMapHeight(m_iMapRow);
-	this->addChild(coordLayer);
+	this->addChild(coordLayer,100);
+    
+//    CCLayerColor* tempLayer=CCLayerColor::create(ccc4(0,0,255,255), 1000.0f, 1000.0f);
+//    this->addChild(tempLayer);
+    
+    
+    CCSprite* cellTile=CCSprite::create("grid13.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    
+    CCPoint pos=isoGameToView2F(1, 1);
+    pos.x-=0;
+    CCLOG("init:%f,%f",pos.x,pos.y);
+    cellTile->setPosition(pos);
+
+    this->addChild(cellTile);
+
+    cellTile=CCSprite::create("grid13.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    
+    pos=isoGameToView2F(1, 0);
+    pos.y+=0;
+    CCLOG("init:%f,%f",pos.x,pos.y);
+    cellTile->setPosition(pos);
+    
+    this->addChild(cellTile);
+    
+    cellTile=CCSprite::create("grid13.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    
+    pos=isoGameToView2F(0, 1);
+    pos.y+=0;
+    CCLOG("init:%f,%f",pos.x,pos.y);
+    cellTile->setPosition(pos);
+
+    this->addChild(cellTile);
+    
+    cellTile=CCSprite::create("grid13.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    
+    pos=isoGameToView2F(0, 0);
+    pos.y+=0;
+    CCLOG("init:%f,%f",pos.x,pos.y);
+    cellTile->setPosition(pos);
+
+    this->addChild(cellTile);
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
  //   float scaleX=screenSize.width/480;

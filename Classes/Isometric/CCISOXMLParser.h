@@ -12,10 +12,11 @@ class CCISOXMLParser : public CCObject, public CCSAXDelegator
 public:
     
     CCISOXMLParser();
+    
     ~CCISOXMLParser();
     
 
-    static CCISOXMLParser * formatWithTMXFile(const char *tmxFile);
+    static CCISOXMLParser * formatWithXMLFile(const char *tmxFile);
     /** creates a TMX Format with an XML string and a TMX resource path */
     static CCISOXMLParser * formatWithXML(const char* tmxString, const char* resourcePath);
     /** initializes a TMX format with a  tmx file */
@@ -40,6 +41,7 @@ public:
     inline void setTMXFileName(const char *fileName){ m_sTMXFileName = fileName; }
     
     virtual CCISOMapInfo* getMapInfo();
+    
 private:
     void internalInit(const char* tmxFileName, const char* resourcePath);
 protected:

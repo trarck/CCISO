@@ -9,7 +9,7 @@ CCISOMapInfo::CCISOMapInfo()
 ,m_tTileSize(CCSizeZero)
 ,m_pLayers(NULL)
 ,m_pTilesets(NULL)
-,m_pObjectGroups(NULL)
+,m_pObjectLayers(NULL)
 ,m_nLayerAttribs(0)
 ,m_bStoringCharacters(false)
 ,m_pProperties(NULL)
@@ -25,7 +25,7 @@ CCISOMapInfo::~CCISOMapInfo()
     CC_SAFE_RELEASE(m_pLayers);
     CC_SAFE_RELEASE(m_pProperties);
     CC_SAFE_RELEASE(m_pTileProperties);
-    CC_SAFE_RELEASE(m_pObjectGroups);
+    CC_SAFE_RELEASE(m_pObjectLayers);
 }
 
 bool CCISOMapInfo::init()
@@ -36,8 +36,8 @@ bool CCISOMapInfo::init()
     m_pLayers = CCArray::create();
     m_pLayers->retain();
 
-    m_pObjectGroups = CCArray::createWithCapacity(4);
-    m_pObjectGroups->retain();
+    m_pObjectLayers = CCArray::createWithCapacity(4);
+    m_pObjectLayers->retain();
     
     m_pProperties = new CCDictionary();
     m_pTileProperties = new CCDictionary();
@@ -105,16 +105,31 @@ CCArray* CCISOMapInfo::getTilesets()
     return m_pTilesets;
 }
 
-void CCISOMapInfo::setObjectGroups(CCArray* pObjectGroups)
+/**
+ * keep same for tmx
+ */
+void CCISOMapInfo::setObjectGroups(CCArray* pObjectLayers)
 {
-    CC_SAFE_RETAIN(pObjectGroups);
-    CC_SAFE_RELEASE(m_pObjectGroups);
-    m_pObjectGroups = pObjectGroups;
+    CC_SAFE_RETAIN(pObjectLayers);
+    CC_SAFE_RELEASE(m_pObjectLayers);
+    m_pObjectLayers = pObjectLayers;
 }
 
 CCArray* CCISOMapInfo::getObjectGroups()
 {
-    return m_pObjectGroups;
+    return m_pObjectLayers;
+}
+
+void CCISOMapInfo::setObjectLayers(CCArray* pObjectLayers)
+{
+    CC_SAFE_RETAIN(pObjectLayers);
+    CC_SAFE_RELEASE(m_pObjectLayers);
+    m_pObjectLayers = pObjectLayers;
+}
+
+CCArray* CCISOMapInfo::getObjectLayers()
+{
+    return m_pObjectLayers;
 }
 
 void CCISOMapInfo::setParentElement(int nParentElement)

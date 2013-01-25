@@ -138,7 +138,7 @@ void CCISOTileLayerDynamicComponent::doUpdateComponents()
                 //如果行列的奇偶性一至，则从当前位置开始。如果互为奇奇偶，则要把行加1，变为奇或偶。
                 row=(j*2+m_iComponentIndexY+((m_iComponentIndexY&1)^(moveComponentIndexX&1)))%totalRow;
                 index=row*m_iComponentTileColumn+moveComponentIndexX/2;
-                CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndexX,row);
+//                CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndexX,row);
                 node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
                 mx=node->getMapX();
                 my=node->getMapY();
@@ -159,7 +159,7 @@ void CCISOTileLayerDynamicComponent::doUpdateComponents()
                 //如果行列的奇偶性一至，则从当前位置开始。如果互为奇奇偶，则要把行加1，变为奇或偶。
                 col=(i*2+m_iComponentIndexX+((m_iComponentIndexX & 1)^(moveComponentIndexY & 1)))%totalColumn;
                 index=moveComponentIndexY*m_iComponentTileColumn+col/2;
-                CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndexY);
+//                CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndexY);
                 node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
                 mx=node->getMapX();
                 my=node->getMapY();
@@ -183,7 +183,7 @@ void CCISOTileLayerDynamicComponent::doUpdateComponents()
             for(int j=0;j<m_iComponentTileRow;j++){
                 row=(j*2+m_iComponentIndexY+((m_iComponentIndexY&1)^(moveComponentIndexX&1)))%totalRow;
                 index=row*m_iComponentTileColumn+moveComponentIndexX/2;
-                CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndexX,row);
+//                CCLOG("updateComponents x:%d,%d,%d",index,moveComponentIndexX,row);
                 node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
                 mx=node->getMapX();
                 my=node->getMapY();
@@ -202,7 +202,7 @@ void CCISOTileLayerDynamicComponent::doUpdateComponents()
             for(int i=0;i<m_iComponentTileColumn;i++){
                 col=(i*2+m_iComponentIndexX+((m_iComponentIndexX & 1)^(moveComponentIndexY & 1)))%totalColumn;
                 index=moveComponentIndexY*m_iComponentTileColumn+col/2;
-                CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndexY);
+//                CCLOG("updateComponents y:%d,%d,%d",index,col,moveComponentIndexY);
                 node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
                 mx=node->getMapX();
                 my=node->getMapY();

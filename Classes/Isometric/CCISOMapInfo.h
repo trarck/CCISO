@@ -11,6 +11,7 @@ class CCISOMapInfo : public CCObject{
 public:
     
     CCISOMapInfo();
+    
     ~CCISOMapInfo();
     
     virtual bool init();
@@ -30,8 +31,11 @@ public:
     virtual void setTilesets(CCArray* pTilesets);
     virtual CCArray* getTilesets();
     
-    virtual void setObjectGroups(CCArray* pObjectGroups);
+    virtual void setObjectGroups(CCArray* pObjectLayers);
     virtual CCArray* getObjectGroups();
+    
+    virtual void setObjectLayers(CCArray* pObjectLayers);
+    virtual CCArray* getObjectLayers();
     
     virtual void setParentElement(int nParentElement);
     virtual int getParentElement();
@@ -58,7 +62,7 @@ protected:
     CCSize m_tTileSize;
     CCArray* m_pLayers;
     CCArray* m_pTilesets;
-    CCArray* m_pObjectGroups;
+    CCArray* m_pObjectLayers;
     int m_nParentElement;
     unsigned int m_uParentGID;
     int m_nLayerAttribs;

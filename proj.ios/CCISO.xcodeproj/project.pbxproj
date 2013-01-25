@@ -70,6 +70,10 @@
 		5791DDE5160982EE00D996E9 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE3160982EE00D996E9 /* Player.cpp */; };
 		5791DE181609B7AE00D996E9 /* GameEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE0160982C200D996E9 /* GameEntity.cpp */; };
 		57A25D8016A69C7F00DCEA93 /* CCISOComponentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */; };
+		57A47CD816B229A1000800D3 /* CCISOObjectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */; };
+		57A47CDA16B268A8000800D3 /* grid12.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CD916B268A8000800D3 /* grid12.png */; };
+		57A47CDC16B26BE6000800D3 /* grid13.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CDB16B26BE6000800D3 /* grid13.png */; };
+		57A47CDE16B26E34000800D3 /* grid14.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CDD16B26E34000800D3 /* grid14.png */; };
 		57B0C70C16353F400002A0CD /* characters in Resources */ = {isa = PBXBuildFile; fileRef = 57B0C70B16353F400002A0CD /* characters */; };
 		57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */; };
 		57F7F14A16AD229500247E7F /* CCISOTileSimpleGroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */; };
@@ -210,6 +214,11 @@
 		5791DE141609935600D996E9 /* GameMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMessages.h; sourceTree = "<group>"; };
 		57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOComponentNode.cpp; sourceTree = "<group>"; };
 		57A25D7F16A69C7F00DCEA93 /* CCISOComponentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOComponentNode.h; sourceTree = "<group>"; };
+		57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOObjectLayer.cpp; sourceTree = "<group>"; };
+		57A47CD716B229A1000800D3 /* CCISOObjectLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOObjectLayer.h; sourceTree = "<group>"; };
+		57A47CD916B268A8000800D3 /* grid12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid12.png; sourceTree = "<group>"; };
+		57A47CDB16B26BE6000800D3 /* grid13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid13.png; sourceTree = "<group>"; };
+		57A47CDD16B26E34000800D3 /* grid14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid14.png; sourceTree = "<group>"; };
 		57B0C70B16353F400002A0CD /* characters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = characters; sourceTree = "<group>"; };
 		57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileLayerDynamicComponent.cpp; sourceTree = "<group>"; };
 		57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileLayerDynamicComponent.h; sourceTree = "<group>"; };
@@ -324,6 +333,9 @@
 		5763C24B160856E20068D420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				57A47CDD16B26E34000800D3 /* grid14.png */,
+				57A47CDB16B26BE6000800D3 /* grid13.png */,
+				57A47CD916B268A8000800D3 /* grid12.png */,
 				578E1F1416B11B6C003B5BD7 /* grid_ground.png */,
 				578A6B6816993B30000BCC72 /* grid1.png */,
 				57B0C70B16353F400002A0CD /* characters */,
@@ -406,6 +418,8 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */,
+				57A47CD716B229A1000800D3 /* CCISOObjectLayer.h */,
 				57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */,
 				57F7F14916AD229500247E7F /* CCISOTileSimpleGroundLayer.h */,
 				577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */,
@@ -572,6 +586,9 @@
 				57B0C70C16353F400002A0CD /* characters in Resources */,
 				578A6B6916993B30000BCC72 /* grid1.png in Resources */,
 				578E1F1516B11B6C003B5BD7 /* grid_ground.png in Resources */,
+				57A47CDA16B268A8000800D3 /* grid12.png in Resources */,
+				57A47CDC16B26BE6000800D3 /* grid13.png in Resources */,
+				57A47CDE16B26E34000800D3 /* grid14.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +644,7 @@
 				577D8C7C16A8E28D007C45E3 /* CCISOTilesetInfo.cpp in Sources */,
 				577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */,
 				57F7F14A16AD229500247E7F /* CCISOTileSimpleGroundLayer.cpp in Sources */,
+				57A47CD816B229A1000800D3 /* CCISOObjectLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

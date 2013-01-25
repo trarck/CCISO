@@ -36,7 +36,7 @@ CCISOXMLParser::~CCISOXMLParser()
     CC_SAFE_RELEASE(m_pMapInfo);
 }
 
-CCISOXMLParser * CCISOXMLParser::formatWithTMXFile(const char *tmxFile)
+CCISOXMLParser * CCISOXMLParser::formatWithXMLFile(const char *tmxFile)
 {
     CCISOXMLParser *pRet = new CCISOXMLParser();
     if(pRet->initWithTMXFile(tmxFile))

@@ -110,7 +110,7 @@ void GameScene::updateState(float delta)
         {
             char* coordBuff=new char[50];
             CCPoint mapCoord=m_pGameWorld->toGameCoordinate(0,0);
-            CCLOG("%f,%f",mapCoord.x,mapCoord.y);
+//            CCLOG("%f,%f",mapCoord.x,mapCoord.y);
             sprintf(coordBuff, "%.1f,%.1f", mapCoord.x,mapCoord.y);
             m_pMapCoordLabel->setString(coordBuff);
             
