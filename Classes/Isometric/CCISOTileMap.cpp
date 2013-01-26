@@ -32,10 +32,10 @@ CCISOTileMap * CCISOTileMap::createWithXMLFile(const char *xmlFile)
     return NULL;
 }
 
-CCISOTileMap * CCISOTileMap::createWithXMLFile(const char *xmlFile)
+CCISOTileMap * CCISOTileMap::createWithJSONFile(const char *jsonFile)
 {
     CCISOTileMap *pRet = new CCISOTileMap();
-    if (pRet->initWithJSONFile(xmlFile))
+    if (pRet->initWithJSONFile(jsonFile))
     {
         pRet->autorelease();
         return pRet;
@@ -75,7 +75,7 @@ bool CCISOTileMap::init()
 
 bool CCISOTileMap::initWithXMLFile(const char *xmlFile)
 {
-    CCAssert(mapFile != NULL && strlen(mapFile)>0, "CCISOTileMap: map file should not bi NULL");
+    CCAssert(xmlFile != NULL && strlen(xmlFile)>0, "CCISOTileMap: map file should not bi NULL");
     
     setContentSize(CCSizeZero);
     
@@ -104,7 +104,7 @@ bool CCISOTileMap::initWithXML(const char* xmlString, const char* resourcePath)
 {
     setContentSize(CCSizeZero);
         
-    CCISOXMLParser *xmlParser = CCISOXMLParser::formatWithXMLFile(xmlString, resourcePath);
+    CCISOXMLParser *xmlParser = CCISOXMLParser::formatWithXML(xmlString, resourcePath);
     CCISOMapInfo *mapInfo=xmlParser->getMapInfo();
     
     CCAssert( mapInfo->getTilesets()->count() != 0, "CCISOTileMap: Map not found. Please check the filename.");
@@ -121,19 +121,20 @@ bool CCISOTileMap::initWithJSON(const char* jsonString, const char* resourcePath
 }
 
 // protected
-CCISOLayer * CCISOTileMap::parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+CCISOTileLayer * CCISOTileMap::parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
-    CCISOTilesetInfo *tileset = this->tilesetForLayer(layerInfo, mapInfo);
-    CCISOLayer *layer = CCISOLayer::create(tileset, layerInfo, mapInfo);
-    
-    // tell the layerinfo to release the ownership of the tiles map.
-    layerInfo->m_bOwnTiles = false;
-    layer->setupTiles();
-    
-    return layer;
+    //CCISOTilesetInfo *tileset = this->tilesetForLayer(layerInfo, mapInfo);
+    //CCISOTileLayer *layer = CCISOTileLayer::create(tileset, layerInfo, mapInfo);
+    //
+    //// tell the layerinfo to release the ownership of the tiles map.
+    //layerInfo->m_bOwnTiles = false;
+    //layer->setupTiles();
+    //
+    //return layer;
+	return NULL;
 }
 
-CCISOTilesetInfo * CCISOTiledMap::tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+CCISOTilesetInfo * CCISOTileMap::tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
     CCSize size = layerInfo->m_tLayerSize;
     CCArray* tilesets = mapInfo->getTilesets();
@@ -178,7 +179,7 @@ CCISOTilesetInfo * CCISOTiledMap::tilesetForLayer(CCISOLayerInfo *layerInfo, CCI
     return NULL;
 }
 
-void CCISOTiledMap::buildWithMapInfo(CCISOMapInfo* mapInfo)
+void CCISOTileMap::buildWithMapInfo(CCISOMapInfo* mapInfo)
 {
     m_tMapSize = mapInfo->getMapSize();
     m_tTileSize = mapInfo->getTileSize();
@@ -201,7 +202,7 @@ void CCISOTiledMap::buildWithMapInfo(CCISOMapInfo* mapInfo)
             layerInfo = (CCISOLayerInfo*)pObj;
             if (layerInfo && layerInfo->m_bVisible)
             {
-                CCISOLayer *child = parseLayer(layerInfo, mapInfo);
+                CCISOTileLayer *child = parseLayer(layerInfo, mapInfo);
                 addChild((CCNode*)child, idx, idx);
                 
                 // update content size with the max size
@@ -218,7 +219,7 @@ void CCISOTiledMap::buildWithMapInfo(CCISOMapInfo* mapInfo)
 }
 
 // public
-CCISOLayer * CCISOTiledMap::layerNamed(const char *layerName)
+CCISOTileLayer * CCISOTileMap::layerNamed(const char *layerName)
 {
     CCAssert(layerName != NULL && strlen(layerName) > 0, "Invalid layer name!");
     
@@ -226,7 +227,7 @@ CCISOLayer * CCISOTiledMap::layerNamed(const char *layerName)
         CCObject* pObj = NULL;
         CCARRAY_FOREACH(m_pTileLayers, pObj)
         {
-            CCISOLayer* layer = dynamic_cast<CCISOLayer*>(pObj);
+            CCISOTileLayer* layer = dynamic_cast<CCISOTileLayer*>(pObj);
             if(layer)
             {
                 if(0 == strcmp(layer->getLayerName(), layerName))
@@ -240,35 +241,35 @@ CCISOLayer * CCISOTiledMap::layerNamed(const char *layerName)
     return NULL;
 }
 
-CCISOObjectGroup * CCISOTiledMap::objectLayerNamed(const char *layerName)
+CCISOObjectLayer * CCISOTileMap::objectLayerNamed(const char *layerName)
 {
     CCAssert(layerName != NULL && strlen(layerName) > 0, "Invalid layer name!");
     
     std::string sLayerName = layerName;
     if (m_pObjectLayers && m_pObjectLayers->count()>0)
     {
-        CCISOObjectGroup* objectGroup = NULL;
+        CCISOObjectLayer* objectLayer = NULL;
         CCObject* pObj = NULL;
         CCARRAY_FOREACH(m_pObjectLayers, pObj)
         {
-            objectGroup = (CCISOObjectGroup*)(pObj);
-            if (objectGroup && objectGroup->getGroupName() == sGroupName)
+            objectLayer = (CCISOObjectLayer*)(pObj);
+            if (objectLayer && objectLayer->getName() == sLayerName)
             {
-                return objectGroup;
+                return objectLayer;
             }
         }
     }
     
-    // objectGroup not found
+    // objectLayer not found
     return NULL;
 }
 
-CCString* CCISOTiledMap::propertyNamed(const char *propertyName)
+CCString* CCISOTileMap::propertyNamed(const char *propertyName)
 {
     return (CCString*)m_pProperties->objectForKey(propertyName);
 }
 
-CCDictionary* CCISOTiledMap::propertiesForGID(int GID)
+CCDictionary* CCISOTileMap::propertiesForGID(int GID)
 {
     return (CCDictionary*)m_pTileProperties->objectForKey(GID);
 }
@@ -301,7 +302,7 @@ void CCISOTileMap::setName(const char* pName)
 
 const char* CCISOTileMap::getName()
 {
-    return m_pName;
+    return m_pName.c_str();
 }
 
 void CCISOTileMap::setMapOrientation(int nMapOrientation)
@@ -312,6 +313,18 @@ void CCISOTileMap::setMapOrientation(int nMapOrientation)
 int CCISOTileMap::getMapOrientation()
 {
     return m_nMapOrientation;
+}
+
+void CCISOTileMap::setTileLayers(CCArray* pTileLayers)
+{
+	CC_SAFE_RETAIN(pTileLayers);
+    CC_SAFE_RELEASE(m_pTileLayers);
+    m_pTileLayers = pTileLayers;
+}
+
+CCArray* CCISOTileMap::getTileLayers()
+{
+	return m_pTileLayers;
 }
 
 void CCISOTileMap::setObjectLayers(CCArray* pObjectLayers)
@@ -336,6 +349,16 @@ void CCISOTileMap::setProperties(CCDictionary* pProperties)
 CCDictionary* CCISOTileMap::getProperties()
 {
     return m_pProperties;
+}
+
+void CCISOTileMap::setIdentifier(int nIdentifier)
+{
+	m_nIdentifier=nIdentifier;
+}
+
+int CCISOTileMap::getIdentifier()
+{
+	return m_nIdentifier;
 }
 
 void CCISOTileMap::setTileProperties(CCDictionary* pTileProperties)

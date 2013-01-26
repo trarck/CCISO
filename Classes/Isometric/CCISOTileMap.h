@@ -7,7 +7,7 @@
 
 #include "cocos2d.h"
 #include "CCISOTileLayer.h"
-#include "CCISOObjectLayer"
+#include "CCISOObjectLayer.h"
 #include "CCISOXMLParser.h"
 
 NS_CC_BEGIN
@@ -27,9 +27,9 @@ public:
 	
 	CCISOTileMap();
     
-	~CCISOTileMap(void);
+	~CCISOTileMap();
     
-    static CCISOTileMap* createWithXMLFile(const char* mapFile);
+    static CCISOTileMap* createWithXMLFile(const char* xmlFile);
     
     static CCISOTileMap* createWithXML(const char* xmlString,const char* resourcePath);
     
@@ -57,6 +57,10 @@ public:
      */
     CCISOObjectLayer* objectLayerNamed(const char *layerName);
     
+	CCString *propertyNamed(const char *propertyName);
+
+	/** return properties dictionary for tile GID */
+    CCDictionary* propertiesForGID(int GID);
     //==============属性===============//
     
 	virtual void setMapSize(CCSize tMapSize);
@@ -78,7 +82,6 @@ public:
     virtual void setTileLayers(CCArray* pTileLayers);
     
     virtual CCArray* getTileLayers();
-
     
     virtual void setObjectLayers(CCArray* pObjectLayers);
     
@@ -98,7 +101,7 @@ public:
     
 protected:
     
-    virtual CCISOLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
     virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     

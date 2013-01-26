@@ -159,6 +159,7 @@
     <ClInclude Include="..\Classes\Isometric\CCISOCoordinate.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOLayerInfo.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOMapInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOObjectLayer.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOTileLayer.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOTileLayerDynamicComponent.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOTileLayerOptimization.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\Classes\Isometric\CCISOComponentNode.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOLayerInfo.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOMapInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOObjectLayer.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOTileLayer.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOTileLayerDynamicComponent.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOTileLayerOptimization.cpp" />

@@ -6,8 +6,12 @@
 #include "CCISOMapInfo.h"
 #include "CCISOTilesetInfo.h"
 #include "CCISOLayerInfo.h"
+#include "cocoa/CCArray.h"
+
 
 NS_CC_BEGIN
+
+struct _ccCArray;
 
 class CCISOTileSimpleGroundLayer : public CCISOTileLayer {
 

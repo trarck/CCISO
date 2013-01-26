@@ -1,5 +1,14 @@
 #include "CCISOCoordinate.h"
 #include "CCISOTileSimpleGroundLayer.h"
+#include "sprite_nodes/CCSprite.h"
+#include "textures/CCTextureCache.h"
+#include "shaders/CCShaderCache.h"
+#include "shaders/CCGLProgram.h"
+#include "support/CCPointExtension.h"
+#include "support/data_support/ccCArray.h"
+#include "support/CCNotificationCenter.h"
+#include "CCEventType.h"
+#include "CCDirector.h"
 
 NS_CC_BEGIN
 

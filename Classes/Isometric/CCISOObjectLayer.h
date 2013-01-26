@@ -2,6 +2,10 @@
 #define ISO_CCISOObjectLayer_H_
 
 #include "cocos2d.h"
+#include "cocoa/CCGeometry.h"
+#include "cocoa/CCString.h"
+#include "cocoa/CCArray.h"
+#include "cocoa/CCDictionary.h"
 
 NS_CC_BEGIN
 
@@ -9,7 +13,7 @@ NS_CC_BEGIN
  * object layer
  * 只记录占有的数据
  */
-class CC_DLL CCISOObjectLayer : public CCObject
+class CCISOObjectLayer : public CCObject
 {
 
 public:

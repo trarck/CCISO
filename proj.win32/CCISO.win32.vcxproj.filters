@@ -194,6 +194,9 @@
     <ClInclude Include="..\Classes\Isometric\CCISOXMLParser.h">
       <Filter>Classes\Isometric</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOObjectLayer.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -311,6 +314,9 @@
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Isometric\CCISOXMLParser.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOObjectLayer.cpp">
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
   </ItemGroup>
