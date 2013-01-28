@@ -2,11 +2,10 @@
 #define ISO_CCISOComponentNode_H_
 
 #include "cocos2d.h"
-#include "CCISOTileLayer.h"
 
 NS_CC_BEGIN
 
-class CCISOComponentNode : public CCSprite{
+class CCISOComponentNode : public CCNode{
 
 public:
     

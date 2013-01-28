@@ -2,7 +2,6 @@
 #define ISO_CCISODynamicComponent_H_
 
 #include "cocos2d.h"
-#include "CCISOTileLayerOptimization.h"
 #include "CCISOComponentNode.h"
 
 NS_CC_BEGIN
@@ -10,7 +9,7 @@ NS_CC_BEGIN
 class CCISODynamicComponentUpdateDelegator
 {
 public:
-    virtual void updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY);
+    virtual void updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)=0;
 };
 
 class CCISODynamicComponent : public CCNode {
