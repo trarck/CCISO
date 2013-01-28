@@ -80,11 +80,11 @@ void GameScene::createStatsLabel()
     int fontSize = 0;
     if (screenSize.width > screenSize.height)
     {
-        fontSize = (int)(screenSize.height / 320.0f * 24);
+        fontSize = (int)(screenSize.height / 320.0f * 18);
     }
     else
     {
-        fontSize = (int)(screenSize.width / 320.0f * 24);
+        fontSize = (int)(screenSize.width / 320.0f * 18);
     }
     
     
@@ -93,9 +93,10 @@ void GameScene::createStatsLabel()
     
     //CCTexture2D::setDefaultAlphaPixelFormat(currentFormat);
     
-    
+    m_pMapCoordLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
+    m_pMapCoordLabel->setAnchorPoint(ccp(0,0.5));
     CCSize contentSize = m_pMapCoordLabel->getContentSize();
-    m_pMapCoordLabel->setPosition(ccpAdd(ccp(contentSize.width, contentSize.height*7/2), CCDirector::sharedDirector()->getVisibleOrigin()));
+    m_pMapCoordLabel->setPosition(ccpAdd(ccp(0, contentSize.height*8/2), CCDirector::sharedDirector()->getVisibleOrigin()));
     
     this->addChild(m_pMapCoordLabel);
     
