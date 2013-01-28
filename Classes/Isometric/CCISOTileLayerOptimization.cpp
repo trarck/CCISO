@@ -6,6 +6,8 @@ NS_CC_BEGIN
 
 
 CCISOTileLayerOptimization::CCISOTileLayerOptimization()
+:m_iLastStartX(0)
+,m_iLastStartY(0)
 {
 	
 }
@@ -18,7 +20,8 @@ CCISOTileLayerOptimization::~CCISOTileLayerOptimization()
 bool CCISOTileLayerOptimization::init()
 {
     if(CCISOTileLayer::init()){
-        m_tLastStartPoint=ccp(-9999,-9999);
+        m_iLastStartX=-999999;
+        m_iLastStartY=-999999;
         m_tScreenSize=CCSizeMake(480,320);//CCDirector::sharedDirector()->getWinSize();//CCSizeMake(480,320);
         return true;
     }
@@ -28,8 +31,8 @@ bool CCISOTileLayerOptimization::init()
 void CCISOTileLayerOptimization::initOffset(const CCPoint& tOffset)
 {
     CCISOTileLayer::initOffset(tOffset);
-	m_tLastStartPoint.x=m_iStartX;
-	m_tLastStartPoint.y=m_iStartY;
+	m_iLastStartX=m_iStartX;
+	m_iLastStartY=m_iStartY;
 }
 
 void CCISOTileLayerOptimization::initOffset(float x,float y)
@@ -58,7 +61,7 @@ bool CCISOTileLayerOptimization::beforeUpdateContent()
 	CCPoint startMapCoord=isoViewToGamePoint(m_tOffset);
 	m_iStartX=(int)startMapCoord.x;
 	m_iStartY=(int)startMapCoord.y;
-	return m_iStartX!=(int)m_tLastStartPoint.x || m_iStartY!=(int)m_tLastStartPoint.y;
+	return m_iStartX!=m_iLastStartX || m_iStartY!=m_iLastStartY;
 }
 
 void CCISOTileLayerOptimization::doUpdateContent()
@@ -170,8 +173,8 @@ bool CCISOTileLayerOptimization::isCellChange()
 	//only for test
 	CCPoint startMapCoord=isoViewToGamePoint(m_tOffset);
 	int startX=(int)startMapCoord.x,startY=(int)startMapCoord.y;
-	//CCLOG("checkMoveable:%d,%d:%d,%d  %f,%f:%f,%f",startX,startY,(int)m_tLastStartPoint.x,(int)m_tLastStartPoint.y,startMapCoord.x,startMapCoord.y,m_tLastStartPoint.x,m_tLastStartPoint.y);
-	return startX!=(int)m_tLastStartPoint.x || startY!=(int)m_tLastStartPoint.y;
+	//CCLOG("checkMoveable:%d,%d:%d,%d  %f,%f:%f,%f",startX,startY,(int)m_iLastStartX,(int)m_iLastStartY,startMapCoord.x,startMapCoord.y,m_iLastStartX,m_iLastStartY);
+	return startX!=m_iLastStartX || startY!=m_iLastStartY;
 }
 
 void CCISOTileLayerOptimization::visitTileShowable()
@@ -183,9 +186,9 @@ void CCISOTileLayerOptimization::visitTileShowable()
 	//only for test
 	CCPoint startMapCoord=isoViewToGamePoint(m_tOffset);
 	int startX=(int)startMapCoord.x,startY=(int)startMapCoord.y;
-	if(startX!=(int)m_tLastStartPoint.x || startY!=(int)m_tLastStartPoint.y){
-		m_tLastStartPoint.x=startX;
-		m_tLastStartPoint.y=startY;
+	if(startX!=(int)m_iLastStartX || startY!=(int)m_iLastStartY){
+		m_iLastStartX=startX;
+		m_iLastStartY=startY;
 		//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
 		int columnCount=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
 		//会有一行浪费掉的。所以要减去1.
@@ -293,8 +296,8 @@ void CCISOTileLayerOptimization::scroll(const CCPoint& tOffset)
 {
     this->setOffset(tOffset);
 	if(this->beforeUpdateContent()){
-		m_tLastStartPoint.x=m_iStartX;
-		m_tLastStartPoint.y=m_iStartY;
+		m_iLastStartX=m_iStartX;
+		m_iLastStartY=m_iStartY;
 		//TODO 不删除所有tile,只修改改变的tile.
 		this->removeAllChildrenWithCleanup(true);
 		this->doUpdateContent2();

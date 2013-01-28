@@ -63,7 +63,7 @@ bool CCISOTileLayerDynamicComponent::beforeUpdateContent()
 	m_iStartX=(int)startMapCoord.x;
 	m_iStartY=(int)startMapCoord.y;
     //CCLOG("start:%d,%d %f,%f",m_iStartX,m_iStartY,m_tPosition.x,m_tPosition.y);
-	return m_iStartX!=(int)m_tLastStartPoint.x || m_iStartY!=(int)m_tLastStartPoint.y;
+	return m_iStartX!=m_iLastStartX || m_iStartY!=m_iLastStartY;
 }
 
 void CCISOTileLayerDynamicComponent::doUpdateContent()
@@ -210,9 +210,6 @@ void CCISOTileLayerDynamicComponent::doUpdateComponents()
             }
         }
     }
-    
-    m_iLastStartX=m_iStartX;
-    m_iLastStartY=m_iStartY;
 }
 
 void CCISOTileLayerDynamicComponent::calcComponentsCount()
@@ -349,13 +346,12 @@ void CCISOTileLayerDynamicComponent::scroll(const CCPoint& tOffset)
 {
     this->setOffset(tOffset);
 	if(this->beforeUpdateContent()){
-		m_tLastStartPoint.x=m_iStartX;
-		m_tLastStartPoint.y=m_iStartY;
-		//TODO 不删除所有tile,只修改改变的tile.
+    	//TODO 不删除所有tile,只修改改变的tile.
 		//this->removeAllChildrenWithCleanup(true);
 		//this->doUpdateContent();
 		this->doUpdateComponents();
-
+        m_iLastStartX=m_iStartX;
+		m_iLastStartY=m_iStartY;
 	}
 }
 

@@ -57,7 +57,13 @@ public:
 
 protected:
 
-	CCPoint m_tLastStartPoint;
+    /**
+     * 上次移动的地图位置
+     */
+    int m_iLastStartX;
+    int m_iLastStartY;
+    
+//	CCPoint m_tLastStartPoint;
     
     CCSize m_tScreenSize;
 //	int m_iStartX;

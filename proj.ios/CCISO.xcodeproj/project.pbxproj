@@ -221,6 +221,8 @@
 		57A47CDB16B26BE6000800D3 /* grid13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid13.png; sourceTree = "<group>"; };
 		57A47CDD16B26E34000800D3 /* grid14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid14.png; sourceTree = "<group>"; };
 		57B0C70B16353F400002A0CD /* characters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = characters; sourceTree = "<group>"; };
+		57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISODynamicComponent.cpp; sourceTree = "<group>"; };
+		57D9CD0016B62D7400DE7D92 /* CCISODynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISODynamicComponent.h; sourceTree = "<group>"; };
 		57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileLayerDynamicComponent.cpp; sourceTree = "<group>"; };
 		57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileLayerDynamicComponent.h; sourceTree = "<group>"; };
 		57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileSimpleGroundLayer.cpp; sourceTree = "<group>"; };
@@ -419,6 +421,8 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */,
+				57D9CD0016B62D7400DE7D92 /* CCISODynamicComponent.h */,
 				57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */,
 				57A47CD716B229A1000800D3 /* CCISOObjectLayer.h */,
 				57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */,
