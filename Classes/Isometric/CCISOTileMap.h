@@ -9,6 +9,7 @@
 #include "CCISOTileLayer.h"
 #include "CCISOObjectLayer.h"
 #include "CCISOXMLParser.h"
+#include "CCISODynamicComponent.h"
 
 NS_CC_BEGIN
 
@@ -21,7 +22,7 @@ NS_CC_BEGIN
  * tmx里tile layer是直接添加到显示子列表里，object layer做为属性，具体怎么用由游戏决定。
  * 这里都做为属性，具体怎么用由游戏来决定
  */
-class CCISOTileMap : public CCNode {
+class CCISOTileMap : public CCNode,public CCISODynamicComponentUpdateDelegator{
 
 public:
 	
@@ -66,6 +67,8 @@ public:
 	/** return properties dictionary for tile GID */
     CCDictionary* propertiesForGID(int GID);
     
+    void updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY);
+    
     //==============属性===============//
     
 	virtual void setMapSize(CCSize tMapSize);
@@ -103,6 +106,10 @@ public:
     virtual void setTileProperties(CCDictionary* pTileProperties);
     
     virtual CCDictionary* getTileProperties();
+    
+    virtual void setDynamicComponent(CCISODynamicComponent* pDynamicComponent);
+    
+    virtual CCISODynamicComponent* getDynamicComponent();
     
 protected:
     
@@ -162,6 +169,8 @@ protected:
      * tile properties
      */
     CCDictionary* m_pTileProperties;
+    
+    CCISODynamicComponent* m_pDynamicComponent;
     
 };
 

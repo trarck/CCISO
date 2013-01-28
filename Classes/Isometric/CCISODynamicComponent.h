@@ -7,6 +7,12 @@
 
 NS_CC_BEGIN
 
+class CCISODynamicComponentUpdateDelegator
+{
+public:
+    virtual void updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY);
+};
+
 class CCISODynamicComponent : public CCNode {
 
 public:
@@ -32,6 +38,8 @@ public:
     void setupComponents(int iComponentNodeExtendCount);
     
 	void setupComponents(int iComponentNodeExtendCount,const CCPoint& position);
+    
+    CCArray* getComponents();
 
     virtual void initOffset(const CCPoint& tOffset);
     
@@ -59,11 +67,14 @@ public:
 
     virtual CCPoint getOffset();
     
+    void setDelegator(CCISODynamicComponentUpdateDelegator* pDelegator);
+    
 protected:
     
     virtual void updateMapCoordinate(unsigned int nodeIndex,float deltaMapX,float deltaMapY);
     
 protected:
+    
     int m_iComponentTileColumn;
     int m_iComponentTileRow;
     
@@ -101,6 +112,7 @@ protected:
     int m_iComponentIndexX;
     int m_iComponentIndexY;
     
+    CCISODynamicComponentUpdateDelegator* m_pDelegator;
 };
 
 

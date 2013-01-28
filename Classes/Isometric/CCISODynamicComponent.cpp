@@ -16,6 +16,7 @@ CCISODynamicComponent::CCISODynamicComponent()
 ,m_iComponentIndexY(0)
 ,m_iComponentNodeExtendCount(0)
 ,m_tMapTileSize(CCSizeMake(64, 32))
+,m_pDelegator(NULL)
 {
 	
 }
@@ -250,18 +251,20 @@ void CCISODynamicComponent::initComponents()
     }
 }
 
-void CCISODynamicComponent::updateMapCoordinate(unsigned int nodeIndex,float deltaMapX,float deltaMapY)
+void CCISODynamicComponent::updateMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)
 {
-    CCISOComponentNode* node=(CCISOComponentNode*) m_pComponents->objectAtIndex(nodeIndex);
+    m_pDelegator->updateComponentMapCoordinate(index, deltaMapX, deltaMapY);
+    
+    CCISOComponentNode* node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
     float mx=node->getMapX();
     float my=node->getMapY();
     float newMx=mx+deltaMapX;
     float newMy=my+deltaMapY;
+    
+    CCLOG("CCISODynamicComponent::updateMapCoordinate from:%f,%f to:%f,%f",mx,my,newMx,newMy);
+    
     node->updateMapCoordinate(newMx, newMy);
-    //TODO other thing.
-    //1.标记地图哪些区域可以显示。
-    //2.通知子层更改组件的位置。
-    CCLOG("updateMapCoordinate from:%f,%f to:%f,%f",mx,my,newMx,newMy);
+    
 }
 
 void CCISODynamicComponent::setupComponents(int iComponentNodeExtendCount)
@@ -280,6 +283,10 @@ void CCISODynamicComponent::setupComponents(int iComponentNodeExtendCount,const 
 	//this->setOffset(position);
 	this->initOffset(position);
     this->initComponents();	
+}
+
+CCArray* CCISODynamicComponent::getComponents(){
+    return m_pComponents;
 }
 
 void CCISODynamicComponent::setComponentTileColumn(int iComponentTileColumn)
@@ -362,6 +369,11 @@ void CCISODynamicComponent::setOffset(float x,float y)
 CCPoint CCISODynamicComponent::getOffset()
 {
     return m_tOffset;
+}
+
+void CCISODynamicComponent::setDelegator(CCISODynamicComponentUpdateDelegator* pDelegator)
+{
+    m_pDelegator=pDelegator;
 }
 
 NS_CC_END

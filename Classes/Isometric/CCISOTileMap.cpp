@@ -9,6 +9,7 @@ CCISOTileMap::CCISOTileMap()
 ,m_pObjectLayers(NULL)
 ,m_pProperties(NULL)
 ,m_pTileProperties(NULL)
+,m_pDynamicComponent(NULL)
 {
 	
 }
@@ -18,6 +19,7 @@ CCISOTileMap::~CCISOTileMap()
     CC_SAFE_RELEASE(m_pProperties);
     CC_SAFE_RELEASE(m_pObjectLayers);
     CC_SAFE_RELEASE(m_pTileProperties);
+    CC_SAFE_RELEASE(m_pDynamicComponent);
 }
 
 CCISOTileMap * CCISOTileMap::createWithXMLFile(const char *xmlFile)
@@ -280,6 +282,30 @@ CCDictionary* CCISOTileMap::propertiesForGID(int GID)
 }
 
 
+/**
+ * for update component coordinate
+ */
+void CCISOTileMap::updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)
+{
+    
+    
+    CCArray* components=m_pDynamicComponent->getComponents();
+    CCISOComponentNode* node=(CCISOComponentNode*) components->objectAtIndex(index);
+    float mx=node->getMapX();
+    float my=node->getMapY();
+    float newMx=mx+deltaMapX;
+    float newMy=my+deltaMapY;
+    
+    CCLOG("CCISOTileMap::updateComponentMapCoordinate from:%f,%f to:%f,%f",mx,my,newMx,newMy);
+    
+    //TODO other thing.
+    //1.标记地图哪些区域可以显示。
+    //2.通知子层更改组件的位置。
+
+}
+
+
+
 void CCISOTileMap::setMapSize(CCSize tMapSize)
 {
     m_tMapSize = tMapSize;
@@ -378,5 +404,16 @@ CCDictionary* CCISOTileMap::getTileProperties()
     return m_pTileProperties;
 }
 
+void CCISOTileMap::setDynamicComponent(CCISODynamicComponent* pDynamicComponent)
+{
+    CC_SAFE_RETAIN(pDynamicComponent);
+    CC_SAFE_RELEASE(m_pDynamicComponent);
+    m_pDynamicComponent = pDynamicComponent;
+}
+
+CCISODynamicComponent* CCISOTileMap::getDynamicComponent()
+{
+    return m_pDynamicComponent;
+}
 
 NS_CC_END
