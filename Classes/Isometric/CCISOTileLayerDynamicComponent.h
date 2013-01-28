@@ -12,9 +12,11 @@ class CCISOTileLayerDynamicComponent : public CCISOTileLayerOptimization {
 public:
 	
 	CCISOTileLayerDynamicComponent();
+    
 	~CCISOTileLayerDynamicComponent(void);
 	
     virtual bool init();
+    
 	virtual void initOffset(const CCPoint& tOffset);
     virtual void initOffset(float x,float y);
     

@@ -8,6 +8,13 @@
 
 NS_CC_BEGIN
 
+/**
+ * tile layer 图块图层。
+ * 没有复杂的游戏逻辑，通常只做显示。
+ * 只显示图形，覆盖整个地图坐标。
+ * 坐为背景层或地表层，主要是静态的物体。
+ */
+
 class CCISOTileLayer : public CCNode {
 
 public:
@@ -16,6 +23,11 @@ public:
 	~CCISOTileLayer(void);
 	
     virtual bool init();
+    
+    /**
+     * 初始化显示tiles
+     */
+    virtual void setupTiles();
     
     /**
      * 释放本层的内容
@@ -55,10 +67,6 @@ public:
     
     virtual void removeTileAt(const CCPoint& pos);
  
-    /**
-     * 初始化显示tiles
-     */
-    virtual void setupTiles();
     
     /**
      * 获取属性名称

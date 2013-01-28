@@ -10,8 +10,10 @@
 NS_CC_BEGIN
 
 /**
- * object layer
- * 只记录占有的数据
+ * object layer 对象层
+ * 只记录该层的对象信息，对于其它格子信息不做记录。
+ * 对象包含出现在地图上的坐标和大小等信息，使用字典来记录。
+ * 通常坐为中间层，显示人物，怪物，一些做为背景动态的东西，如动态水面，地上的火焰。
  */
 class CCISOObjectLayer : public CCObject
 {
