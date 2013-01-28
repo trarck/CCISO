@@ -19,6 +19,13 @@ Classes/Isometric/CCISOTileLayer.cpp \
 Classes/Isometric/CCISOTileLayerOptimization.cpp \
 Classes/Isometric/CCISOComponentNode.cpp \
 Classes/Isometric/CCISOTileLayerDynamicComponent.cpp \
+Classes/Isometric/CCISOLayerInfo.cpp \
+Classes/Isometric/CCISOTilesetInfo.cpp \
+Classes/Isometric/CCISOMapInfo.cpp \
+Classes/Isometric/CCISOXMLParser.cpp \
+Classes/Isometric/CCISOObjectLayer.cpp \
+Classes/Isometric/CCISOTileSimpleGroundLayer.cpp \
+Classes/Isometric/CCISOTileMap.cpp \
 Classes/Components/Component.cpp \
 Classes/Components/AttackComponent.cpp \
 Classes/Components/AutoAttackComponent.cpp \

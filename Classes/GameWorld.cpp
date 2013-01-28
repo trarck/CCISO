@@ -9,6 +9,7 @@
 
 #include "CCISOTileLayer.h"
 #include "CCISOTileLayerDynamicComponent.h"
+#include "CCISOTileMap.h"
 
 USING_NS_CC;
 
@@ -222,6 +223,10 @@ void GameWorld::setupGameWorlds()
 //    testLayer->setTileSize(TileWidth,TileHeight);
 //    this->addChild(testLayer,0,kLayerTagTestIsoLayer);
 //    testLayer->visitTileShowable();
+    
+    CCISOTileMap* testMap=new CCISOTileMap();
+    testMap->init();
+    this->addChild(testMap);
     
     CCISOTileLayerDynamicComponent* testLayer=new CCISOTileLayerDynamicComponent();
     testLayer->init();

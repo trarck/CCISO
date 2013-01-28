@@ -75,6 +75,7 @@
 		57A47CDC16B26BE6000800D3 /* grid13.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CDB16B26BE6000800D3 /* grid13.png */; };
 		57A47CDE16B26E34000800D3 /* grid14.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CDD16B26E34000800D3 /* grid14.png */; };
 		57B0C70C16353F400002A0CD /* characters in Resources */ = {isa = PBXBuildFile; fileRef = 57B0C70B16353F400002A0CD /* characters */; };
+		57D9CCFE16B6207100DE7D92 /* CCISOTileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */; };
 		57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */; };
 		57F7F14A16AD229500247E7F /* CCISOTileSimpleGroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F7F14816AD229400247E7F /* CCISOTileSimpleGroundLayer.cpp */; };
 		57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */; };
@@ -645,6 +646,7 @@
 				577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */,
 				57F7F14A16AD229500247E7F /* CCISOTileSimpleGroundLayer.cpp in Sources */,
 				57A47CD816B229A1000800D3 /* CCISOObjectLayer.cpp in Sources */,
+				57D9CCFE16B6207100DE7D92 /* CCISOTileMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +717,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -748,7 +751,7 @@
 				PRODUCT_NAME = CCISO;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv6 armv7";
+				VALID_ARCHS = "armv6 armv7 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -757,6 +760,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -790,7 +794,7 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "armv6 armv7";
+				VALID_ARCHS = "armv6 armv7 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
