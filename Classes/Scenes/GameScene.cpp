@@ -96,7 +96,7 @@ void GameScene::createStatsLabel()
     m_pMapCoordLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
     m_pMapCoordLabel->setAnchorPoint(ccp(0,0.5));
     CCSize contentSize = m_pMapCoordLabel->getContentSize();
-    m_pMapCoordLabel->setPosition(ccpAdd(ccp(0, contentSize.height*8/2), CCDirector::sharedDirector()->getVisibleOrigin()));
+    m_pMapCoordLabel->setPosition(ccpAdd(ccp(0, contentSize.height*9/2), CCDirector::sharedDirector()->getVisibleOrigin()));
     
     this->addChild(m_pMapCoordLabel);
     

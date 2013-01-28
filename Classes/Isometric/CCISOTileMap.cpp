@@ -185,11 +185,16 @@ void CCISOTileMap::buildWithMapInfo(CCISOMapInfo* mapInfo)
     m_tTileSize = mapInfo->getTileSize();
     m_nMapOrientation = mapInfo->getOrientation();
     
-    this->setObjectLayers( mapInfo->getObjectGroups());
+    this->setTileLayers(mapInfo->getLayers());
+    this->setObjectLayers( mapInfo->getObjectLayers());
     this->setProperties(mapInfo->getProperties());
     this->setTileProperties(mapInfo->getTileProperties());
-    
-   
+
+    this->buildMapLayers(mapInfo);
+}
+
+void CCISOTileMap::buildMapLayers(CCISOMapInfo* mapInfo)
+{
     int idx=0;
     
     CCArray* layers = mapInfo->getLayers();

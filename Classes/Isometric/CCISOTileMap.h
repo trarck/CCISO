@@ -57,10 +57,15 @@ public:
      */
     CCISOObjectLayer* objectLayerNamed(const char *layerName);
     
+    
+    /**
+     * 取得属性
+     */
 	CCString *propertyNamed(const char *propertyName);
 
 	/** return properties dictionary for tile GID */
     CCDictionary* propertiesForGID(int GID);
+    
     //==============属性===============//
     
 	virtual void setMapSize(CCSize tMapSize);
@@ -106,6 +111,11 @@ protected:
     virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
     virtual void buildWithMapInfo(CCISOMapInfo* mapInfo);
+    
+    /**
+     * 主要是构建tile layer
+     */
+    virtual void buildMapLayers(CCISOMapInfo* mapInfo);
     
 protected:
     /**
