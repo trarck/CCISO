@@ -26,7 +26,8 @@ void CCISOComponentNode::updateMapCoordinate(float mapX,float mapY)
     m_fMapY=mapY;
 //    CCPoint pos=isoGameToView2F(mapX, mapY);
 //    CCLOG("updateMapCoordinate:%f,%f:%f,%f",mapX,mapY,pos.x,pos.y);
-    m_pTile->setPosition(isoGameToView2F(mapX, mapY));
+    if(m_pTile)
+        m_pTile->setPosition(isoGameToView2F(mapX, mapY));
 }
 
 NS_CC_END
