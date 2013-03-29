@@ -15,7 +15,8 @@ CCISODynamicComponent::CCISODynamicComponent()
 ,m_iComponentIndexX(0)
 ,m_iComponentIndexY(0)
 ,m_iComponentNodeExtendCount(ComponentExtendCount)
-,m_pDelegator(NULL)
+,m_pUpdateDelegator(NULL)
+,m_pCreateDelegator(NULL)
 {
 	
 }
@@ -162,9 +163,6 @@ void CCISODynamicComponent::doUpdateComponents()
             }
         }
     }
-    
-    m_iLastStartX=m_iStartX;
-    m_iLastStartY=m_iStartY;
 }
 
 void CCISODynamicComponent::calcComponentsCount()
@@ -188,6 +186,7 @@ void CCISODynamicComponent::createComponents()
 			node=new CCISOComponentNode();
 			node->setColumn(i*2+(j&1));
 			node->setRow(j);
+            node->setTile(m_pCreateDelegator->createTile());
 			m_pComponents->addObject(node);
 			node->release();
 		}
@@ -248,7 +247,7 @@ void CCISODynamicComponent::initComponents()
 
 void CCISODynamicComponent::updateMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)
 {
-    if(m_pDelegator) m_pDelegator->updateComponentMapCoordinate(index, deltaMapX, deltaMapY);
+    if(m_pUpdateDelegator) m_pUpdateDelegator->updateComponentMapCoordinate(index, deltaMapX, deltaMapY);
     
     CCISOComponentNode* node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
     float mx=node->getMapX();
@@ -330,12 +329,12 @@ void CCISODynamicComponent::scroll(const CCPoint& tOffset)
 {
     this->setOffset(tOffset);
 	if(this->beforeUpdateContent()){
-		m_iLastStartX=m_iStartX;
-		m_iLastStartY=m_iStartY;
 		//TODO 不删除所有tile,只修改改变的tile.
 		//this->removeAllChildrenWithCleanup(true);
 		//this->doUpdateContent();
 		this->doUpdateComponents();
+        m_iLastStartX=m_iStartX;
+		m_iLastStartY=m_iStartY;
 
 	}
 }
@@ -363,9 +362,14 @@ CCPoint CCISODynamicComponent::getOffset()
     return m_tOffset;
 }
 
-void CCISODynamicComponent::setDelegator(CCISODynamicComponentUpdateDelegator* pDelegator)
+void CCISODynamicComponent::setUpdateDelegator(CCISODynamicComponentUpdateDelegator* pUpdateDelegator)
 {
-    m_pDelegator=pDelegator;
+    m_pUpdateDelegator=pUpdateDelegator;
+}
+
+void CCISODynamicComponent::setCreateDelegator(CCISODynamicComponentCreateDelegator* pCreateDelegator)
+{
+    m_pCreateDelegator=pCreateDelegator;
 }
 
 NS_CC_END

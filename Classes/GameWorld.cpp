@@ -240,7 +240,13 @@ void GameWorld::setupGameWorlds()
     
     
     CCISODynamicTileLayer* testLayer=new CCISODynamicTileLayer();
-    testLayer->init(CCSizeMake(TileWidth, TileHeight), ccp(-192,0));
+    
+    CCSize tileSize=CCSizeMake(TileWidth, TileHeight);
+    CCPoint pos=ccp(-192,0);
+
+    testLayer->init(tileSize, pos);
+    
+    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
     
     
 	m_pBackground=CCLayer::create();
@@ -564,7 +570,7 @@ void GameWorld::updateMapPosition(const CCPoint& position)
 {
 //    CCISOTileLayerDynamicComponent* testLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
 //    testLayer->scroll(position);
-    CCISOTileLayerDynamicComponent* testLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+    CCISODynamicTileLayer* testLayer=(CCISODynamicTileLayer*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
     testLayer->scroll(position);
 }
 

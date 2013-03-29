@@ -23,7 +23,7 @@ CCISOTileLayerDynamicComponent::~CCISOTileLayerDynamicComponent()
 
 bool CCISOTileLayerDynamicComponent::init()
 {
-	if(CCISOTileLayerOptimization::init()){
+	if(CCISOOptimizedTileLayer::init()){
 		m_iComponentNodeExtendCount=0;
 	}
 	return true;
@@ -31,7 +31,7 @@ bool CCISOTileLayerDynamicComponent::init()
 
 void CCISOTileLayerDynamicComponent::initOffset(const CCPoint& tOffset)
 {
-	CCISOTileLayerOptimization::initOffset(tOffset);
+	CCISOOptimizedTileLayer::initOffset(tOffset);
 	m_iLastStartX=m_iStartX;
 	m_iLastStartY=m_iStartY;
 }

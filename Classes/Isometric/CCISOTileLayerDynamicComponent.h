@@ -2,12 +2,12 @@
 #define ISO_CCISOTileLayerDynamicComponent_H_
 
 #include "cocos2d.h"
-#include "CCISOTileLayerOptimization.h"
+#include "CCISOOptimizedTileLayer.h"
 #include "CCISOComponentNode.h"
 
 NS_CC_BEGIN
 
-class CCISOTileLayerDynamicComponent : public CCISOTileLayerOptimization {
+class CCISOTileLayerDynamicComponent : public CCISOOptimizedTileLayer {
 
 public:
 	

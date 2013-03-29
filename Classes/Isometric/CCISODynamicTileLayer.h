@@ -10,7 +10,7 @@ NS_CC_BEGIN
 /**
  动态更新可显示区域,只渲染显示区域的tile.
  */
-class CCISODynamicTileLayer : public CCISOTileLayer {
+class CCISODynamicTileLayer : public CCISOTileLayer,CCISODynamicComponentCreateDelegator {
 
 public:
 	
@@ -54,6 +54,8 @@ public:
 	void addTileAt(float x,float y);
     
     void setScreenSize(const CCSize& screenSize);
+    
+    CCSprite* createTile();
 
 public:
     

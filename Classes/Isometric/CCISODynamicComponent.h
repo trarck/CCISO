@@ -14,6 +14,12 @@ public:
     virtual void updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)=0;
 };
 
+class CCISODynamicComponentCreateDelegator
+{
+public:
+    virtual CCSprite* createTile()=0;
+};
+
 class CCISODynamicComponent : public CCNode {
 
 public:
@@ -68,7 +74,10 @@ public:
 
     virtual CCPoint getOffset();
     
-    void setDelegator(CCISODynamicComponentUpdateDelegator* pDelegator);
+    void setUpdateDelegator(CCISODynamicComponentUpdateDelegator* pUpdateDelegator);
+    
+    void setCreateDelegator(CCISODynamicComponentCreateDelegator* pCreateDelegator);
+
     
 protected:
     
@@ -106,7 +115,8 @@ protected:
     int m_iComponentIndexX;
     int m_iComponentIndexY;
     
-    CCISODynamicComponentUpdateDelegator* m_pDelegator;
+    CCISODynamicComponentUpdateDelegator* m_pUpdateDelegator;
+    CCISODynamicComponentCreateDelegator* m_pCreateDelegator;
 };
 
 

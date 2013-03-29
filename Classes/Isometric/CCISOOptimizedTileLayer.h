@@ -33,7 +33,7 @@ public:
      * 更新内容
      */
 	void doUpdateContent();
-
+    
     /**
      * 移动位置
      * 只作判断使用，不改变显示位置

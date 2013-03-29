@@ -23,7 +23,8 @@ bool CCISODynamicTileLayer::init()
     if(CCISOTileLayer::init()){
         m_tScreenSize=CCDirector::sharedDirector()->getWinSize();//CCSizeMake(480,320);
         
-        m_pDynamicComponent=new CCISODynamicComponent();     
+        m_pDynamicComponent=new CCISODynamicComponent();
+        m_pDynamicComponent->setCreateDelegator(this);
         
         return true;
     }
@@ -95,6 +96,13 @@ CCISODynamicComponent* CCISODynamicTileLayer::getDynamicComponent()
     return m_pDynamicComponent;
 }
 
-
+CCSprite* CCISODynamicTileLayer::createTile()
+{
+    CCSprite* cellTile=CCSprite::create("grid_ground.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    //    cellTile->setOpacity(60);
+    this->addChild(cellTile);
+    return cellTile;
+}
 
 NS_CC_END

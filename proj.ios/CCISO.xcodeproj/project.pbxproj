@@ -12,6 +12,7 @@
 		57584246162D1B85008DA210 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584244162D1B85008DA210 /* Monster.cpp */; };
 		57584249162D3884008DA210 /* AutoAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584247162D3884008DA210 /* AutoAttackComponent.cpp */; };
 		5758424C162D39A0008DA210 /* ManualAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5758424A162D39A0008DA210 /* ManualAttackComponent.cpp */; };
+		5761F5CF1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5761F5CD1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp */; };
 		5763BF9F1608554E0068D420 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5763BF9E1608554E0068D420 /* QuartzCore.framework */; };
 		5763BFA11608554E0068D420 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5763BFA01608554E0068D420 /* OpenGLES.framework */; };
 		5763BFA31608554E0068D420 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5763BFA21608554E0068D420 /* OpenAL.framework */; };
@@ -112,6 +113,8 @@
 		57584248162D3884008DA210 /* AutoAttackComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoAttackComponent.h; sourceTree = "<group>"; };
 		5758424A162D39A0008DA210 /* ManualAttackComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualAttackComponent.cpp; sourceTree = "<group>"; };
 		5758424B162D39A0008DA210 /* ManualAttackComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualAttackComponent.h; sourceTree = "<group>"; };
+		5761F5CD1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOOptimizedTileLayer.cpp; sourceTree = "<group>"; };
+		5761F5CE1705A08000DF1F6E /* CCISOOptimizedTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOOptimizedTileLayer.h; sourceTree = "<group>"; };
 		5763BF9A1608554E0068D420 /* CCISO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCISO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5763BF9E1608554E0068D420 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		5763BFA01608554E0068D420 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -422,6 +425,8 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
+				5761F5CD1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp */,
+				5761F5CE1705A08000DF1F6E /* CCISOOptimizedTileLayer.h */,
 				57BAD23C170583D800F9B542 /* CCISODynamicTileLayer.cpp */,
 				57BAD23D170583DA00F9B542 /* CCISODynamicTileLayer.h */,
 				57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */,
@@ -653,6 +658,7 @@
 				57D9CCFE16B6207100DE7D92 /* CCISOTileMap.cpp in Sources */,
 				57D9CD0316B6336000DE7D92 /* CCISODynamicComponent.cpp in Sources */,
 				57BAD23E170583DB00F9B542 /* CCISODynamicTileLayer.cpp in Sources */,
+				5761F5CF1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
