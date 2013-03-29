@@ -8,7 +8,7 @@
 #include "cocos2d.h"
 #include "CCISOTileLayer.h"
 #include "CCISOObjectLayer.h"
-#include "CCISOXMLParser.h"
+//#include "CCISOXMLParser.h"
 #include "CCISODynamicComponent.h"
 
 NS_CC_BEGIN

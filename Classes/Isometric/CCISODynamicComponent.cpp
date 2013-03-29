@@ -14,8 +14,7 @@ CCISODynamicComponent::CCISODynamicComponent()
 ,m_iLastStartY(-999999)
 ,m_iComponentIndexX(0)
 ,m_iComponentIndexY(0)
-,m_iComponentNodeExtendCount(0)
-,m_tMapTileSize(CCSizeMake(64, 32))
+,m_iComponentNodeExtendCount(ComponentExtendCount)
 ,m_pDelegator(NULL)
 {
 	
@@ -28,7 +27,6 @@ CCISODynamicComponent::~CCISODynamicComponent()
 
 bool CCISODynamicComponent::init()
 {
-    m_tScreenSize=CCDirector::sharedDirector()->getWinSize();//CCSizeMake(480,320);CCSizeMake(480,320);//
 	return true;
 }
 
@@ -170,10 +168,7 @@ void CCISODynamicComponent::doUpdateComponents()
 }
 
 void CCISODynamicComponent::calcComponentsCount()
-{
-    m_iComponentTileColumn=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
-    m_iComponentTileRow=floor(m_tScreenSize.height/m_tMapTileSize.height)+2;
-    
+{    
     m_iComponentTileColumn+=m_iComponentNodeExtendCount;
     m_iComponentTileRow+=m_iComponentNodeExtendCount;
     m_iComponentTileTotalColumn=2*m_iComponentTileColumn;
@@ -253,7 +248,7 @@ void CCISODynamicComponent::initComponents()
 
 void CCISODynamicComponent::updateMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)
 {
-    m_pDelegator->updateComponentMapCoordinate(index, deltaMapX, deltaMapY);
+    if(m_pDelegator) m_pDelegator->updateComponentMapCoordinate(index, deltaMapX, deltaMapY);
     
     CCISOComponentNode* node=(CCISOComponentNode*) m_pComponents->objectAtIndex(index);
     float mx=node->getMapX();
@@ -267,23 +262,20 @@ void CCISODynamicComponent::updateMapCoordinate(unsigned int index,float deltaMa
     
 }
 
-void CCISODynamicComponent::setupComponents(int iComponentNodeExtendCount)
+void CCISODynamicComponent::setupComponents()
 {
-	this->setComponentTileExtendCount(iComponentNodeExtendCount);
     this->calcComponentsCount();
     this->createComponents();
     this->initComponents();
 }
 
-void CCISODynamicComponent::setupComponents(int iComponentNodeExtendCount,const CCPoint& position)
+
+void CCISODynamicComponent::setupComponents(const CCPoint& position)
 {
-	this->setComponentTileExtendCount(iComponentNodeExtendCount);
-    this->calcComponentsCount();
-    this->createComponents();
-	//this->setOffset(position);
-	this->initOffset(position);
-    this->initComponents();	
+    this->initOffset(position);
+    setupComponents();
 }
+
 
 CCArray* CCISODynamicComponent::getComponents(){
     return m_pComponents;

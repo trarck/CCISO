@@ -1,23 +1,23 @@
-#include "CCISOTileLayerOptimization.h"
+#include "CCISOOptimizedTileLayer.h"
 #include "CCISOCoordinate.h"
 
 NS_CC_BEGIN
 
 
 
-CCISOTileLayerOptimization::CCISOTileLayerOptimization()
+CCISOOptimizedTileLayer::CCISOOptimizedTileLayer()
 :m_iLastStartX(0)
 ,m_iLastStartY(0)
 {
 	
 }
 
-CCISOTileLayerOptimization::~CCISOTileLayerOptimization()
+CCISOOptimizedTileLayer::~CCISOOptimizedTileLayer()
 {
 //	CC_SAFE_RELEASE();
 }
 
-bool CCISOTileLayerOptimization::init()
+bool CCISOOptimizedTileLayer::init()
 {
     if(CCISOTileLayer::init()){
         m_iLastStartX=-999999;
@@ -28,19 +28,19 @@ bool CCISOTileLayerOptimization::init()
     return false;
 }
 
-void CCISOTileLayerOptimization::initOffset(const CCPoint& tOffset)
+void CCISOOptimizedTileLayer::initOffset(const CCPoint& tOffset)
 {
     CCISOTileLayer::initOffset(tOffset);
 	m_iLastStartX=m_iStartX;
 	m_iLastStartY=m_iStartY;
 }
 
-void CCISOTileLayerOptimization::initOffset(float x,float y)
+void CCISOOptimizedTileLayer::initOffset(float x,float y)
 {
 	this->initOffset(ccp(x,y));
 }
 
-void CCISOTileLayerOptimization::addTileAt(float x,float y)
+void CCISOOptimizedTileLayer::addTileAt(float x,float y)
 {
     CCSprite* testGrid=CCSprite::create("grid1.png");
     testGrid->setPosition(isoGameToView2F(x,y));
@@ -53,7 +53,7 @@ void CCISOTileLayerOptimization::addTileAt(float x,float y)
  * 检查是否需要由于位置的改变而更新显示内容。
  * 并记录新位置对应的地图坐标，为更新使用。
  */
-bool CCISOTileLayerOptimization::beforeUpdateContent()
+bool CCISOOptimizedTileLayer::beforeUpdateContent()
 {
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
 	//CCPoint startMapCoord=isoViewToGame2F(0,0);
@@ -64,61 +64,7 @@ bool CCISOTileLayerOptimization::beforeUpdateContent()
 	return m_iStartX!=m_iLastStartX || m_iStartY!=m_iLastStartY;
 }
 
-void CCISOTileLayerOptimization::doUpdateContent()
-{
-    CCLOG("doVisit#########");
-	
-	int startX=m_iStartX,startY=m_iStartY;
-
-	//移动的格子数.为了确保显示的完全，每个角相应移动一个格子。左右在一起就加2，同样上下在一起也要加2
-	int columnCount=floor(m_tScreenSize.width/m_tMapTileSize.width)+2;
-	//会有一行浪费掉的。所以要减去1.
-	int rowCount=(floor(m_tScreenSize.height/m_tMapTileSize.height)+2)*2-1;
-    
-    int evenColumnCount=columnCount;
-	int oddColumnCount=columnCount-1;
-	//后移一步.由于是在左下角，则只需移动x轴
-	startX-=1;
-    
-	int mx=0,my=0;
-	for(int j=0;j<rowCount;j++){
-		//if(j>0){
-		//	if(j&1){
-		//		columnCount++;
-		//		startY++;
-		//	}else{
-		//		columnCount--;
-		//		startX++;
-		//	}
-		//}
-		for(int i=0;i<columnCount;i++){
-			mx=startX+i;
-			my=startY-i;
-			//CCLOG("visit:%f,%f",mx,my);
-			//有了map坐标就可以显示内容。
-			addTileAt(mx,my);
-		}
-		//if((j+1)&1){
-		//	columnCount++;
-		//	startY++;
-		//}else{
-		//	columnCount--;
-		//	startX++;
-		//}
-		//这里可以使j+1，再调换true和false的body,就是正常逻辑
-		if(j&1){
-			//下个循环为偶
-			columnCount--;
-			startX++;
-		}else{
-			//下个循环为奇
-			columnCount++;
-			startY++;
-		}
-	}
-}
-
-void CCISOTileLayerOptimization::doUpdateContent2()
+void CCISOOptimizedTileLayer::doUpdateContent()
 {
     CCLOG("doVisit#########");
 	
@@ -165,7 +111,7 @@ void CCISOTileLayerOptimization::doUpdateContent2()
 }
 
 
-bool CCISOTileLayerOptimization::isCellChange()
+bool CCISOOptimizedTileLayer::isCellChange()
 {
 	
 	//屏幕的四个点。使用gl坐标系统，地图坐标x正方向右上，y正方向左上。初始点为屏幕左下角。也就是gl坐标的原点
@@ -177,7 +123,7 @@ bool CCISOTileLayerOptimization::isCellChange()
 	return startX!=m_iLastStartX || startY!=m_iLastStartY;
 }
 
-void CCISOTileLayerOptimization::visitTileShowable()
+void CCISOOptimizedTileLayer::visitTileShowable()
 {
     CCLOG("in visit#########");
 	
@@ -240,7 +186,7 @@ void CCISOTileLayerOptimization::visitTileShowable()
 }
 
 //ios game book 上的方法
-void CCISOTileLayerOptimization::visitTileShowable2()
+void CCISOOptimizedTileLayer::visitTileShowable2()
 {
 	//屏幕的四个点。目前按原点在左上角，需要转成gl坐标系。
 	CCPoint screenLeftTop=isoViewToGame2F(0,0);
@@ -283,7 +229,7 @@ void CCISOTileLayerOptimization::visitTileShowable2()
 
 
 
-void CCISOTileLayerOptimization::draw()
+void CCISOOptimizedTileLayer::draw()
 {
 	
 	ccDrawColor4B(255,0,0,255);
@@ -292,7 +238,7 @@ void CCISOTileLayerOptimization::draw()
 
 
 
-void CCISOTileLayerOptimization::scroll(const CCPoint& tOffset)
+void CCISOOptimizedTileLayer::scroll(const CCPoint& tOffset)
 {
     this->setOffset(tOffset);
 	if(this->beforeUpdateContent()){
@@ -300,16 +246,16 @@ void CCISOTileLayerOptimization::scroll(const CCPoint& tOffset)
 		m_iLastStartY=m_iStartY;
 		//TODO 不删除所有tile,只修改改变的tile.
 		this->removeAllChildrenWithCleanup(true);
-		this->doUpdateContent2();
+		this->doUpdateContent();
 	}
 }
 
-void CCISOTileLayerOptimization::scroll(float x,float y)
+void CCISOOptimizedTileLayer::scroll(float x,float y)
 {
     this->scroll(ccp(x,y));
 }
 
-void CCISOTileLayerOptimization::setScreenSize(const CCSize& screenSize)
+void CCISOOptimizedTileLayer::setScreenSize(const CCSize& screenSize)
 {
     m_tScreenSize=screenSize;
 }

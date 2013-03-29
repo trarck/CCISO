@@ -18,6 +18,7 @@ Classes/Isometric/CCZIndex.cpp \
 Classes/Isometric/CCISOTileLayer.cpp \
 Classes/Isometric/CCISOTileLayerOptimization.cpp \
 Classes/Isometric/CCISOComponentNode.cpp \
+Classes/Isometric/CCISODynamicComponent \
 Classes/Isometric/CCISOTileLayerDynamicComponent.cpp \
 Classes/Isometric/CCISOLayerInfo.cpp \
 Classes/Isometric/CCISOTilesetInfo.cpp \

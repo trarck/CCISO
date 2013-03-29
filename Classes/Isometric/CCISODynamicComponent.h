@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "CCISOComponentNode.h"
 
+#define ComponentExtendCount 2
+
 NS_CC_BEGIN
 
 class CCISODynamicComponentUpdateDelegator
@@ -21,7 +23,7 @@ public:
 	~CCISODynamicComponent(void);
 	
     virtual bool init();
-
+    
 	bool beforeUpdateContent();
     
 	void doUpdateContent();
@@ -34,9 +36,9 @@ public:
     
     void initComponents();
     
-    void setupComponents(int iComponentNodeExtendCount);
+    void setupComponents();
     
-	void setupComponents(int iComponentNodeExtendCount,const CCPoint& position);
+    void setupComponents(const CCPoint& position);
     
     CCArray* getComponents();
 
@@ -100,14 +102,7 @@ protected:
     
     int m_iLastStartX;
     int m_iLastStartY;
-    
-    /**
-     地图的一个图块大小
-     */
-    CCSize m_tMapTileSize;
-    
-    CCSize m_tScreenSize;
-    
+        
     int m_iComponentIndexX;
     int m_iComponentIndexY;
     

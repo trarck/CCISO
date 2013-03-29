@@ -25,6 +25,13 @@ bool CCISOTileLayer::init()
 	return true;
 }
 
+bool CCISOTileLayer::init(CCSize& mapTileSize,CCPoint& offset)
+{
+    m_tMapTileSize=mapTileSize;
+    m_tOffset=offset;
+    return true;
+}
+
 
 void CCISOTileLayer::initOffset(const CCPoint& tOffset)
 {
@@ -98,6 +105,16 @@ void CCISOTileLayer::removeTileAt(float x,float y)
 void CCISOTileLayer::removeTileAt(const CCPoint& pos)
 {
     CCLOG("CCISOTileLayer::removeTileAt");
+}
+
+void CCISOTileLayer::scroll(const CCPoint& tOffset)
+{
+    CCLOG("CCISOTileLayer::scroll");
+}
+
+void CCISOTileLayer::scroll(float x,float y)
+{
+    scroll(ccp(x,y));
 }
 
 void CCISOTileLayer::parseInternalProperties()

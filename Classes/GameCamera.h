@@ -37,7 +37,7 @@ protected:
 
     float m_fPositionX;
     float m_fPositionY;
-    CCPoint* m_pWorldPosition;
+    CCPoint m_tWorldPosition;
 };
 
 NS_YH_END

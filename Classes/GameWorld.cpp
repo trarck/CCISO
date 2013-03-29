@@ -10,6 +10,7 @@
 #include "CCISOTileLayer.h"
 #include "CCISOTileLayerDynamicComponent.h"
 #include "CCISOTileMap.h"
+#include "CCISODynamicTileLayer.h"
 
 USING_NS_CC;
 
@@ -228,14 +229,19 @@ void GameWorld::setupGameWorlds()
     testMap->init();
     this->addChild(testMap);
     
-    CCISOTileLayerDynamicComponent* testLayer=new CCISOTileLayerDynamicComponent();
-    testLayer->init();
-    testLayer->setMapTileSize(TileWidth,TileHeight);
+//    CCISOTileLayerDynamicComponent* testLayer=new CCISOTileLayerDynamicComponent();
+//    testLayer->init();
+//    testLayer->setMapTileSize(TileWidth,TileHeight);
+//    
+//    testLayer->setupComponents(2,ccp(-192,0));//ccp(-160,234)
+////    testLayer->visitTileShowable();
+//    //testLayer->scroll(ccp(-160,234));
+//    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
     
-    testLayer->setupComponents(2,ccp(-192,0));//ccp(-160,234)
-//    testLayer->visitTileShowable();
-    //testLayer->scroll(ccp(-160,234));
-    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
+    
+    CCISODynamicTileLayer* testLayer=new CCISODynamicTileLayer();
+    testLayer->init(CCSizeMake(TileWidth, TileHeight), ccp(-192,0));
+    
     
 	m_pBackground=CCLayer::create();
 	m_pBackground->setPosition(ccp(0,0));
@@ -410,9 +416,11 @@ CCArray* GameWorld::mapPathsToViewPaths(CCArray* paths)
 		CCPoint* newp=NULL;
 		CCPoint* it=NULL;
 		CCObject* pObj=NULL;
+
 		CCARRAY_FOREACH(paths,pObj){
 			it=(CCPoint*)pObj;
-			newp=isoGameToView2FP(it->x,it->y);
+            newp=new CCPoint();
+			isoGameToView2FP(it->x,it->y,newp);
 			newPaths->addObject(newp);
 		}
 		return newPaths;
@@ -448,11 +456,9 @@ void GameWorld::menuRunCallback(CCObject* pSender)
 //    CCLOG("set begin action");
 //    CCMessageManager::defaultManager()->dispatchMessageWithType(CHANGE_ANIMATION, NULL, m_pPlayer,data);
 //    CCLOG("set begin action after");
+    CCPoint p=ccp(1,1);
     
-    CCPoint* direction=new CCPoint(1,1);
-	direction->autorelease();
-    
-    CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_DIRECTION, NULL, m_pPlayer,direction);
+    CCMessageManager::defaultManager()->dispatchMessageWithType(MOVE_DIRECTION, NULL, m_pPlayer,&p);
 
 }
 
@@ -556,8 +562,10 @@ void  GameWorld::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 
 void GameWorld::updateMapPosition(const CCPoint& position)
 {
-    CCISOTileLayerDynamicComponent* tileLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
-    tileLayer->scroll(position);
+//    CCISOTileLayerDynamicComponent* testLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+//    testLayer->scroll(position);
+    CCISOTileLayerDynamicComponent* testLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+    testLayer->scroll(position);
 }
 
 CCPoint GameWorld::toGameCoordinate(const CCPoint& position)

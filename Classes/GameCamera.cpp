@@ -11,7 +11,7 @@ NS_YH_BEGIN
 GameCamera::GameCamera()
 :m_fPositionX(0)
 ,m_fPositionY(0)
-,m_pWorldPosition(NULL)
+,m_tWorldPosition(CCPointZero)
 ,m_pGameWorld(NULL)
 {
     
@@ -19,43 +19,42 @@ GameCamera::GameCamera()
 
 GameCamera::~GameCamera()
 {
-    CC_SAFE_RELEASE(m_pWorldPosition);
+
 }
 
 bool GameCamera::init()
 {
-    m_pWorldPosition=new CCPoint(0,0);
 	return true;
 }
 
 void  GameCamera::move(float deltaX,float deltaY)
 {
-    m_pWorldPosition->x-=deltaX;
-    m_pWorldPosition->y-=deltaY;
+    m_tWorldPosition.x-=deltaX;
+    m_tWorldPosition.y-=deltaY;
 
-    m_pGameWorld->setPosition(*m_pWorldPosition);
+    m_pGameWorld->setPosition(m_tWorldPosition);
 }
 
 void  GameCamera::moveTo(float x,float y)
 {
-    m_pWorldPosition->x=-x;
-    m_pWorldPosition->y=-y;
+    m_tWorldPosition.x=-x;
+    m_tWorldPosition.y=-y;
 
-    m_pGameWorld->setPosition(*m_pWorldPosition);
+    m_pGameWorld->setPosition(m_tWorldPosition);
 }
 
 void  GameCamera::moveOpposite(float deltaX,float deltaY)
 {
-    m_pWorldPosition->x+=deltaX;
-    m_pWorldPosition->y+=deltaY;
+    m_tWorldPosition.x+=deltaX;
+    m_tWorldPosition.y+=deltaY;
 
-    m_pGameWorld->setPosition(ccp(m_pWorldPosition->x,m_pWorldPosition->y));
-    m_pGameWorld->updateMapPosition(ccp(-m_pWorldPosition->x,-m_pWorldPosition->y));
+    m_pGameWorld->setPosition(ccp(m_tWorldPosition.x,m_tWorldPosition.y));
+    m_pGameWorld->updateMapPosition(ccp(-m_tWorldPosition.x,-m_tWorldPosition.y));
 }
 
 CCPoint  GameCamera::getLocationInWorld(const CCPoint& position)
 {
-    return ccp(position.x-m_pWorldPosition->x,position.y-m_pWorldPosition->y);
+    return ccp(position.x-m_tWorldPosition.x,position.y-m_tWorldPosition.y);
 }
 
 void GameCamera::setGameWorld(GameWorld* const pGameWorld)

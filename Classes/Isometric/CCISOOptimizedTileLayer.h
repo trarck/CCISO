@@ -1,5 +1,5 @@
-#ifndef ISO_CCISOTileLayerOptimization_H_
-#define ISO_CCISOTileLayerOptimization_H_
+#ifndef ISO_CCISOOptimizedTileLayer_H_
+#define ISO_CCISOOptimizedTileLayer_H_
 
 #include "cocos2d.h"
 #include "CCISOTileLayer.h"
@@ -9,12 +9,12 @@ NS_CC_BEGIN
 /**
  动态更新可显示区域,只渲染显示区域的tile.
  */
-class CCISOTileLayerOptimization : public CCISOTileLayer {
+class CCISOOptimizedTileLayer : public CCISOTileLayer {
 
 public:
 	
-	CCISOTileLayerOptimization();
-	~CCISOTileLayerOptimization(void);
+	CCISOOptimizedTileLayer();
+	~CCISOOptimizedTileLayer(void);
 	
     virtual bool init();
 
@@ -33,7 +33,6 @@ public:
      * 更新内容
      */
 	void doUpdateContent();
-    void doUpdateContent2();
 
     /**
      * 移动位置
@@ -74,4 +73,4 @@ protected:
 
 NS_CC_END
 
-#endif //ISO_CCISOTileLayerOptimization_H_
+#endif //ISO_CCISOOptimizedTileLayer_H_

@@ -24,6 +24,8 @@ public:
 	
     virtual bool init();
     
+    virtual bool init(CCSize& mapTileSize,CCPoint& offset);
+    
     /**
      * 初始化显示tiles
      */
@@ -67,6 +69,9 @@ public:
     
     virtual void removeTileAt(const CCPoint& pos);
  
+    //移动
+    virtual void scroll(const CCPoint& tOffset);
+    virtual void scroll(float x,float y);
     
     /**
      * 获取属性名称

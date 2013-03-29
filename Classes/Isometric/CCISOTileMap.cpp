@@ -81,16 +81,16 @@ bool CCISOTileMap::initWithXMLFile(const char *xmlFile)
     
     setContentSize(CCSizeZero);
     
-    CCISOXMLParser *xmlParser = CCISOXMLParser::formatWithXMLFile(xmlFile);
-    
-    CCISOMapInfo *mapInfo=xmlParser->getMapInfo();
-    
-    if (! mapInfo)
-    {
-        return false;
-    }
-    CCAssert( mapInfo->getTilesets()->count() != 0, "CCISOTileMap: Map not found. Please check the filename.");
-    buildWithMapInfo(mapInfo);
+//    CCISOXMLParser *xmlParser = CCISOXMLParser::formatWithXMLFile(xmlFile);
+//    
+//    CCISOMapInfo *mapInfo=xmlParser->getMapInfo();
+//    
+//    if (! mapInfo)
+//    {
+//        return false;
+//    }
+//    CCAssert( mapInfo->getTilesets()->count() != 0, "CCISOTileMap: Map not found. Please check the filename.");
+//    buildWithMapInfo(mapInfo);
     
     return true;
 }
@@ -106,11 +106,11 @@ bool CCISOTileMap::initWithXML(const char* xmlString, const char* resourcePath)
 {
     setContentSize(CCSizeZero);
         
-    CCISOXMLParser *xmlParser = CCISOXMLParser::formatWithXML(xmlString, resourcePath);
-    CCISOMapInfo *mapInfo=xmlParser->getMapInfo();
-    
-    CCAssert( mapInfo->getTilesets()->count() != 0, "CCISOTileMap: Map not found. Please check the filename.");
-    buildWithMapInfo(mapInfo);
+//    CCISOXMLParser *xmlParser = CCISOXMLParser::formatWithXML(xmlString, resourcePath);
+//    CCISOMapInfo *mapInfo=xmlParser->getMapInfo();
+//    
+//    CCAssert( mapInfo->getTilesets()->count() != 0, "CCISOTileMap: Map not found. Please check the filename.");
+//    buildWithMapInfo(mapInfo);
     
     return true;
 }
@@ -287,16 +287,16 @@ CCDictionary* CCISOTileMap::propertiesForGID(int GID)
  */
 void CCISOTileMap::updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY)
 {
+    CCLOG("CCISOTileMap::updateComponentMapCoordinate");
     
-    
-    CCArray* components=m_pDynamicComponent->getComponents();
-    CCISOComponentNode* node=(CCISOComponentNode*) components->objectAtIndex(index);
-    float mx=node->getMapX();
-    float my=node->getMapY();
-    float newMx=mx+deltaMapX;
-    float newMy=my+deltaMapY;
-    
-    CCLOG("CCISOTileMap::updateComponentMapCoordinate from:%f,%f to:%f,%f",mx,my,newMx,newMy);
+//    CCArray* components=m_pDynamicComponent->getComponents();
+//    CCISOComponentNode* node=(CCISOComponentNode*) components->objectAtIndex(index);
+//    float mx=node->getMapX();
+//    float my=node->getMapY();
+//    float newMx=mx+deltaMapX;
+//    float newMy=my+deltaMapY;
+//    
+//    CCLOG("CCISOTileMap::updateComponentMapCoordinate from:%f,%f to:%f,%f",mx,my,newMx,newMy);
     
     //TODO other thing.
     //1.标记地图哪些区域可以显示。
