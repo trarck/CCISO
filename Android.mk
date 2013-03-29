@@ -16,9 +16,10 @@ Classes/Isometric/CCAstar.cpp \
 Classes/Isometric/CCZIndexNode.cpp \
 Classes/Isometric/CCZIndex.cpp \
 Classes/Isometric/CCISOTileLayer.cpp \
-Classes/Isometric/CCISOTileLayerOptimization.cpp \
+Classes/Isometric/CCISOOptimizedTileLayer.cpp \
 Classes/Isometric/CCISOComponentNode.cpp \
 Classes/Isometric/CCISODynamicComponent \
+Classes/Isometric/CCISODynamicTileLayer.cpp \
 Classes/Isometric/CCISOTileLayerDynamicComponent.cpp \
 Classes/Isometric/CCISOLayerInfo.cpp \
 Classes/Isometric/CCISOTilesetInfo.cpp \
