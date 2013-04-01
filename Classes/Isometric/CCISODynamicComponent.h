@@ -8,6 +8,8 @@
 
 NS_CC_BEGIN
 
+class CCISOTileLayer;
+
 class CCISODynamicComponentUpdateDelegator
 {
 public:
@@ -19,6 +21,8 @@ class CCISODynamicComponentCreateDelegator
 public:
     virtual CCSprite* createTile()=0;
 };
+
+
 
 class CCISODynamicComponent : public CCNode {
 
@@ -78,6 +82,10 @@ public:
     
     void setCreateDelegator(CCISODynamicComponentCreateDelegator* pCreateDelegator);
 
+    //weak ref
+    virtual void setTileLayer(CCISOTileLayer* pTileLayer);
+    
+    virtual CCISOTileLayer* getTileLayer();
     
 protected:
     
@@ -115,8 +123,12 @@ protected:
     int m_iComponentIndexX;
     int m_iComponentIndexY;
     
+    CCISOTileLayer* m_pTileLayer;
+    
     CCISODynamicComponentUpdateDelegator* m_pUpdateDelegator;
     CCISODynamicComponentCreateDelegator* m_pCreateDelegator;
+    
+    
 };
 
 

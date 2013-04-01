@@ -1,5 +1,6 @@
 #include "CCISOCoordinate.h"
 #include "CCISODynamicComponent.h"
+#include "CCISOTileLayer.h"
 
 
 NS_CC_BEGIN
@@ -186,7 +187,7 @@ void CCISODynamicComponent::createComponents()
 			node=new CCISOComponentNode();
 			node->setColumn(i*2+(j&1));
 			node->setRow(j);
-            node->setTile(m_pCreateDelegator->createTile());
+            node->setTile(m_pTileLayer->tileAt(i,j));
 			m_pComponents->addObject(node);
 			node->release();
 		}
@@ -370,6 +371,16 @@ void CCISODynamicComponent::setUpdateDelegator(CCISODynamicComponentUpdateDelega
 void CCISODynamicComponent::setCreateDelegator(CCISODynamicComponentCreateDelegator* pCreateDelegator)
 {
     m_pCreateDelegator=pCreateDelegator;
+}
+
+void CCISODynamicComponent::setTileLayer(CCISOTileLayer* pTileLayer)
+{
+    m_pTileLayer = pTileLayer;
+}
+
+CCISOTileLayer* CCISODynamicComponent::getTileLayer()
+{
+    return m_pTileLayer;
 }
 
 NS_CC_END

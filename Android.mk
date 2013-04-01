@@ -26,7 +26,7 @@ Classes/Isometric/CCISOTilesetInfo.cpp \
 Classes/Isometric/CCISOMapInfo.cpp \
 Classes/Isometric/CCISOXMLParser.cpp \
 Classes/Isometric/CCISOObjectLayer.cpp \
-Classes/Isometric/CCISOTileSimpleGroundLayer.cpp \
+Classes/Isometric/CCISOGroundTileLayer.cpp \
 Classes/Isometric/CCISOTileMap.cpp \
 Classes/Components/Component.cpp \
 Classes/Components/AttackComponent.cpp \

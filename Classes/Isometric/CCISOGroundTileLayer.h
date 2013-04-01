@@ -1,5 +1,5 @@
-#ifndef ISO_CCISOTileSimpleGroundLayer_H_
-#define ISO_CCISOTileSimpleGroundLayer_H_
+#ifndef ISO_CCISOGroundTileLayer_H_
+#define ISO_CCISOGroundTileLayer_H_
 
 #include "cocos2d.h"
 #include "CCISOTileLayer.h"
@@ -13,22 +13,22 @@ NS_CC_BEGIN
 
 struct _ccCArray;
 
-class CCISOTileSimpleGroundLayer : public CCISOTileLayer {
+class CCISOGroundTileLayer : public CCISOTileLayer {
 
 public:
 	
-	CCISOTileSimpleGroundLayer();
-	~CCISOTileSimpleGroundLayer(void);
+	CCISOGroundTileLayer();
+	~CCISOGroundTileLayer(void);
 	
     virtual bool init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
-    /** creates a CCISOTileSimpleGroundLayer with an tileset info, a layer info and a map info
+    /** creates a CCISOGroundTileLayer with an tileset info, a layer info and a map info
      @deprecated: This interface will be deprecated sooner or later.
      */
-    CC_DEPRECATED_ATTRIBUTE static CCISOTileSimpleGroundLayer * layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    CC_DEPRECATED_ATTRIBUTE static CCISOGroundTileLayer * layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
-    /** creates a CCISOTileSimpleGroundLayer with an tileset info, a layer info and a map info */
-    static CCISOTileSimpleGroundLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    /** creates a CCISOGroundTileLayer with an tileset info, a layer info and a map info */
+    static CCISOGroundTileLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
     /** dealloc the map that contains the tile position from memory.
      Unless you want to know at runtime the tiles positions, you can safely call this method.
@@ -147,4 +147,4 @@ protected:
 
 NS_CC_END
 
-#endif //ISO_CCISOTileSimpleGroundLayer_H_
+#endif //ISO_CCISOGroundTileLayer_H_

@@ -25,6 +25,7 @@ bool CCISODynamicTileLayer::init()
         
         m_pDynamicComponent=new CCISODynamicComponent();
         m_pDynamicComponent->setCreateDelegator(this);
+        m_pDynamicComponent->setTileLayer(this);
         
         return true;
     }
@@ -97,6 +98,27 @@ CCISODynamicComponent* CCISODynamicTileLayer::getDynamicComponent()
 }
 
 CCSprite* CCISODynamicTileLayer::createTile()
+{
+    CCSprite* cellTile=CCSprite::create("grid_ground.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    //    cellTile->setOpacity(60);
+    this->addChild(cellTile);
+    return cellTile;
+}
+
+/**
+ * 获取tile
+ */
+CCSprite* CCISODynamicTileLayer::tileAt(float x,float y)
+{
+    CCSprite* cellTile=CCSprite::create("grid_ground.png");
+    cellTile->setAnchorPoint(ccp(0.5,0));
+    //    cellTile->setOpacity(60);
+    this->addChild(cellTile);
+    return cellTile;
+}
+
+CCSprite* CCISODynamicTileLayer::tileAt(const CCPoint& tileCoordinate)
 {
     CCSprite* cellTile=CCSprite::create("grid_ground.png");
     cellTile->setAnchorPoint(ccp(0.5,0));

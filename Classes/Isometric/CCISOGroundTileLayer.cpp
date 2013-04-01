@@ -1,5 +1,5 @@
 #include "CCISOCoordinate.h"
-#include "CCISOTileSimpleGroundLayer.h"
+#include "CCISOGroundTileLayer.h"
 #include "sprite_nodes/CCSprite.h"
 #include "textures/CCTextureCache.h"
 #include "shaders/CCShaderCache.h"
@@ -12,21 +12,21 @@
 
 NS_CC_BEGIN
 
-// CCISOTileSimpleGroundLayer - atlasIndex and Z
+// CCISOGroundTileLayer - atlasIndex and Z
 static inline int compareInts(const void * a, const void * b)
 {
     return ((*(int*)a) - (*(int*)b));
 }
 
 
-CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+CCISOGroundTileLayer * CCISOGroundTileLayer::layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
-    return CCISOTileSimpleGroundLayer::create(tilesetInfo, layerInfo, mapInfo);
+    return CCISOGroundTileLayer::create(tilesetInfo, layerInfo, mapInfo);
 }
 
-CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+CCISOGroundTileLayer * CCISOGroundTileLayer::create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
-    CCISOTileSimpleGroundLayer *pRet = new CCISOTileSimpleGroundLayer();
+    CCISOGroundTileLayer *pRet = new CCISOGroundTileLayer();
     if (pRet->init(tilesetInfo, layerInfo, mapInfo))
     {
         pRet->autorelease();
@@ -35,7 +35,7 @@ CCISOTileSimpleGroundLayer * CCISOTileSimpleGroundLayer::create(CCISOTilesetInfo
     return NULL;
 }
 
-CCISOTileSimpleGroundLayer::CCISOTileSimpleGroundLayer()
+CCISOGroundTileLayer::CCISOGroundTileLayer()
 :m_pTiles(NULL)
 ,m_pTileSet(NULL)
 ,m_pReusedTile(NULL)
@@ -45,7 +45,7 @@ CCISOTileSimpleGroundLayer::CCISOTileSimpleGroundLayer()
 	
 }
 
-CCISOTileSimpleGroundLayer::~CCISOTileSimpleGroundLayer()
+CCISOGroundTileLayer::~CCISOGroundTileLayer()
 {
     CC_SAFE_RELEASE(m_pTileSet);
     CC_SAFE_RELEASE(m_pReusedTile);
@@ -60,7 +60,7 @@ CCISOTileSimpleGroundLayer::~CCISOTileSimpleGroundLayer()
     CC_SAFE_DELETE_ARRAY(m_pTiles);
 }
 
-bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+bool CCISOGroundTileLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
     m_pSpriteBatchNode=new CCSpriteBatchNode();
     // XXX: is 35% a good estimate ?
@@ -110,7 +110,7 @@ bool CCISOTileSimpleGroundLayer::init(CCISOTilesetInfo *tilesetInfo, CCISOLayerI
 }
 
 
-void CCISOTileSimpleGroundLayer::releaseLayer()
+void CCISOGroundTileLayer::releaseLayer()
 {
     if (m_pTiles)
     {
@@ -126,7 +126,7 @@ void CCISOTileSimpleGroundLayer::releaseLayer()
     CCISOTileLayer::releaseLayer();
 }
 
-void CCISOTileSimpleGroundLayer::setupTiles()
+void CCISOGroundTileLayer::setupTiles()
 {
     // Optimization: quick hack that sets the image size on the tileset
     m_pTileSet->m_tImageSize = m_pSpriteBatchNode->getTextureAtlas()->getTexture()->getContentSizeInPixels();
@@ -172,7 +172,7 @@ void CCISOTileSimpleGroundLayer::setupTiles()
              m_uMinGID >= m_pTileSet->m_uFirstGid, "TMX: Only 1 tileset per layer is supported");
 }
 
-void CCISOTileSimpleGroundLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid)
+void CCISOGroundTileLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid)
 {
     sprite->setPosition(isoGameToViewPoint(mapCoord));
     sprite->setVertexZ((float)this->vertexZForPos(mapCoord));
@@ -229,7 +229,7 @@ void CCISOTileSimpleGroundLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCo
     }
 }
 
-CCSprite* CCISOTileSimpleGroundLayer::reusedTileWithRect(CCRect rect)
+CCSprite* CCISOGroundTileLayer::reusedTileWithRect(CCRect rect)
 {
     if (! m_pReusedTile)
     {
@@ -252,7 +252,7 @@ CCSprite* CCISOTileSimpleGroundLayer::reusedTileWithRect(CCRect rect)
 }
 
 
-CCSprite * CCISOTileSimpleGroundLayer::tileAt(const CCPoint& pos)
+CCSprite * CCISOGroundTileLayer::tileAt(const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "ISOTileLayer: invalid position");
     CCAssert(m_pTiles && m_pAtlasIndexArray, "ISOTileLayer: the tiles map has been released");
@@ -289,17 +289,17 @@ CCSprite * CCISOTileSimpleGroundLayer::tileAt(const CCPoint& pos)
     return tile;
 }
 
-CCSprite* CCISOTileSimpleGroundLayer::tileAt(float x,float y)
+CCSprite* CCISOGroundTileLayer::tileAt(float x,float y)
 {
     return tileAt(ccp(x,y));
 }
 
-unsigned int CCISOTileSimpleGroundLayer::tileGIDAt(const CCPoint& pos)
+unsigned int CCISOGroundTileLayer::tileGIDAt(const CCPoint& pos)
 {
     return tileGIDAt(pos, NULL);
 }
 
-unsigned int CCISOTileSimpleGroundLayer::tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags)
+unsigned int CCISOGroundTileLayer::tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
     CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
@@ -317,8 +317,8 @@ unsigned int CCISOTileSimpleGroundLayer::tileGIDAt(const CCPoint& pos, ccTMXTile
     return (tile & kCCFlippedMask);
 }
 
-// CCISOTileSimpleGroundLayer - adding helper methods
-CCSprite * CCISOTileSimpleGroundLayer::insertTileForGID(unsigned int gid, const CCPoint& pos)
+// CCISOGroundTileLayer - adding helper methods
+CCSprite * CCISOGroundTileLayer::insertTileForGID(unsigned int gid, const CCPoint& pos)
 {
     CCRect rect = m_pTileSet->rectForGID(gid);
 //    rect = CC_RECT_PIXELS_TO_POINTS(rect);
@@ -360,7 +360,7 @@ CCSprite * CCISOTileSimpleGroundLayer::insertTileForGID(unsigned int gid, const 
     return tile;
 }
 
-CCSprite * CCISOTileSimpleGroundLayer::updateTileForGID(unsigned int gid, const CCPoint& pos)
+CCSprite * CCISOGroundTileLayer::updateTileForGID(unsigned int gid, const CCPoint& pos)
 {
     CCRect rect = m_pTileSet->rectForGID(gid);
     rect = CCRectMake(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width/ m_fContentScaleFactor, rect.size.height/ m_fContentScaleFactor);
@@ -382,7 +382,7 @@ CCSprite * CCISOTileSimpleGroundLayer::updateTileForGID(unsigned int gid, const 
 
 // used only when parsing the map. useless after the map was parsed
 // since lot's of assumptions are no longer true
-CCSprite * CCISOTileSimpleGroundLayer::appendTileForGID(unsigned int gid, const CCPoint& pos)
+CCSprite * CCISOGroundTileLayer::appendTileForGID(unsigned int gid, const CCPoint& pos)
 {
     CCRect rect = m_pTileSet->rectForGID(gid);
 //    rect = CC_RECT_PIXELS_TO_POINTS(rect);
@@ -408,7 +408,7 @@ CCSprite * CCISOTileSimpleGroundLayer::appendTileForGID(unsigned int gid, const 
 }
 
 
-unsigned int CCISOTileSimpleGroundLayer::atlasIndexForExistantZ(unsigned int z)
+unsigned int CCISOGroundTileLayer::atlasIndexForExistantZ(unsigned int z)
 {
     int key=z;
     int *item = (int*)bsearch((void*)&key, (void*)&m_pAtlasIndexArray->arr[0], m_pAtlasIndexArray->num, sizeof(void*), compareInts);
@@ -418,7 +418,7 @@ unsigned int CCISOTileSimpleGroundLayer::atlasIndexForExistantZ(unsigned int z)
     int index = ((size_t)item - (size_t)m_pAtlasIndexArray->arr) / sizeof(void*);
     return index;
 }
-unsigned int CCISOTileSimpleGroundLayer::atlasIndexForNewZ(int z)
+unsigned int CCISOGroundTileLayer::atlasIndexForNewZ(int z)
 {
     // XXX: This can be improved with a sort of binary search
     unsigned int i=0;
@@ -434,23 +434,23 @@ unsigned int CCISOTileSimpleGroundLayer::atlasIndexForNewZ(int z)
     return i;
 }
 
-// CCISOTileSimpleGroundLayer - adding / remove tiles
-void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, const CCPoint& pos)
+// CCISOGroundTileLayer - adding / remove tiles
+void CCISOGroundTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
 {
     setTileGID(gid, pos, (ccTMXTileFlags)0);
 }
 
-void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, float x,float y)
+void CCISOGroundTileLayer::setTileGID(unsigned int gid, float x,float y)
 {
     setTileGID(gid, x,y, (ccTMXTileFlags)0);
 }
 
-void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags)
+void CCISOGroundTileLayer::setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags)
 {
     setTileGID(gid, ccp(x,y), flags);
 }
 
-void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, const CCPoint& pos, ccTMXTileFlags flags)
+void CCISOGroundTileLayer::setTileGID(unsigned int gid, const CCPoint& pos, ccTMXTileFlags flags)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
     CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
@@ -499,7 +499,7 @@ void CCISOTileSimpleGroundLayer::setTileGID(unsigned int gid, const CCPoint& pos
 }
 
 
-void CCISOTileSimpleGroundLayer::removeChild(CCNode* node, bool cleanup)
+void CCISOGroundTileLayer::removeChild(CCNode* node, bool cleanup)
 {
     CCSprite *sprite = (CCSprite*)node;
     // allows removing nil objects
@@ -517,12 +517,12 @@ void CCISOTileSimpleGroundLayer::removeChild(CCNode* node, bool cleanup)
     m_pSpriteBatchNode->removeChild(sprite, cleanup);
 }
 
-void CCISOTileSimpleGroundLayer::removeTileAt(float x,float y)
+void CCISOGroundTileLayer::removeTileAt(float x,float y)
 {
     removeTileAt(ccp(x,y));
 }
 
-void CCISOTileSimpleGroundLayer::removeTileAt(const CCPoint& pos)
+void CCISOGroundTileLayer::removeTileAt(const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
     CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
@@ -575,7 +575,7 @@ void CCISOTileSimpleGroundLayer::removeTileAt(const CCPoint& pos)
 
 
 
-void CCISOTileSimpleGroundLayer::addQuadFromSprite(CCSprite *sprite, unsigned int index)
+void CCISOGroundTileLayer::addQuadFromSprite(CCSprite *sprite, unsigned int index)
 {
     CCAssert( sprite != NULL, "Argument must be non-NULL");
     CCAssert( dynamic_cast<CCSprite*>(sprite), "CCSpriteBatchNode only supports CCSprites as children");
@@ -602,7 +602,7 @@ void CCISOTileSimpleGroundLayer::addQuadFromSprite(CCSprite *sprite, unsigned in
 }
 
 
-void CCISOTileSimpleGroundLayer::addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag)
+void CCISOGroundTileLayer::addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag)
 {
     CCAssert( child != NULL, "Argument must be non-NULL");
     CCAssert( dynamic_cast<CCSprite*>(child), "CCSpriteBatchNode only supports CCSprites as children");
@@ -633,36 +633,36 @@ void CCISOTileSimpleGroundLayer::addSpriteWithoutQuad(CCSprite*child, unsigned i
     m_pSpriteBatchNode->reorderBatch(false);
 }
 
-void CCISOTileSimpleGroundLayer::setTiles(unsigned int* pTiles)
+void CCISOGroundTileLayer::setTiles(unsigned int* pTiles)
 {
     m_pTiles = pTiles;
 }
 
-unsigned int* CCISOTileSimpleGroundLayer::getTiles()
+unsigned int* CCISOGroundTileLayer::getTiles()
 {
     return m_pTiles;
 }
 
-void CCISOTileSimpleGroundLayer::setTileSet(CCISOTilesetInfo* pTileSet)
+void CCISOGroundTileLayer::setTileSet(CCISOTilesetInfo* pTileSet)
 {
     CC_SAFE_RETAIN(pTileSet);
     CC_SAFE_RELEASE(m_pTileSet);
     m_pTileSet = pTileSet;
 }
 
-CCISOTilesetInfo* CCISOTileSimpleGroundLayer::getTileSet()
+CCISOTilesetInfo* CCISOGroundTileLayer::getTileSet()
 {
     return m_pTileSet;
 }
 
-void CCISOTileSimpleGroundLayer::setTileSets(CCArray* pTileSets)
+void CCISOGroundTileLayer::setTileSets(CCArray* pTileSets)
 {
     CC_SAFE_RETAIN(pTileSets);
     CC_SAFE_RELEASE(m_pTileSets);
     m_pTileSets = pTileSets;
 }
 
-CCArray* CCISOTileSimpleGroundLayer::getTileSets()
+CCArray* CCISOGroundTileLayer::getTileSets()
 {
     return m_pTileSets;
 }

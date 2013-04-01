@@ -56,6 +56,13 @@ public:
     void setScreenSize(const CCSize& screenSize);
     
     CCSprite* createTile();
+    
+    /**
+     * 获取tile
+     */
+	virtual CCSprite* tileAt(float x,float y);
+    
+	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
 
 public:
     

@@ -13,5 +13,5 @@
 									
 				CCISOTileLayer		CCISOObjectLayer
 			
-	CCISOTileGroundLayer	CCISOTileDynamicLayer
+	CCISOGroundTileLayer	CCISODynamicTileLayer
 				
