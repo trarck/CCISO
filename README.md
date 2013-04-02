@@ -1,17 +1,23 @@
-							CCISOLayer							CCISOMap						CCISOLayerInfo,CCISOMapInfo						CCISOParser
-			
-																									
-									
-									
-															    CCISOTileMap 				CCISOTilesetInfo							CCISOXMLParser,CCISOJsonParser
-			
-			
-																
-											
-									
-									
-									
-				CCISOTileLayer		CCISOObjectLayer
-			
-	CCISOGroundTileLayer	CCISODynamicTileLayer
+//////////////////////////////////////////////////////////////////////////////////////
+						  CCISOMap                                                      
+						                                                              
+						CCISOTileMap                                                  
+		                                                                              
+                                                                                      
+//////////////////////////////////////////////////////////////////////////////////////
+                                                                                      
+							CCISOLayer												  		
+									                                                  
+				CCISOTileLayer		CCISOObjectLayer                                  
+			                                                                          
+	CCISOGroundTileLayer	CCISODynamicTileLayer                                     
+				                                                                      
+//////////////////////////////////////////////////////////////////////////////////////						
+				                                                                      
+				CCISOTileGroup		CCISOTileSet		CCISOTile
 				
+//////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////	

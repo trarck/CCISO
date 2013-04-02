@@ -107,7 +107,11 @@ public:
     virtual void setLayerOrientation(unsigned int uLayerOrientation);
     
     virtual unsigned int getLayerOrientation();
-
+    
+    virtual void setTiles(unsigned int* pTiles);
+    
+    virtual unsigned int* getTiles();
+    
 protected:
     /**
      * 处理扩展属性
@@ -136,6 +140,9 @@ protected:
      */
     CCSize m_tMapTileSize;
     
+    unsigned int* m_pTiles;
+    
+    CCArray* m_pTilesetInfos;
     /**
      * 地图的偏移量。屏幕坐标
      * 可能层的原点和地图的原点不在一起。

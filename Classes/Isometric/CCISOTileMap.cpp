@@ -10,6 +10,7 @@ CCISOTileMap::CCISOTileMap()
 ,m_pProperties(NULL)
 ,m_pTileProperties(NULL)
 ,m_pDynamicComponent(NULL)
+,m_pTilesetGroup(NULL)
 {
 	
 }
@@ -416,4 +417,15 @@ CCISODynamicComponent* CCISOTileMap::getDynamicComponent()
     return m_pDynamicComponent;
 }
 
+void CCISOTileMap::setTilesetGroup(CCISOTilesetGroup* pTilesetGroup)
+{
+    CC_SAFE_RETAIN(pTilesetGroup);
+    CC_SAFE_RELEASE(m_pTilesetGroup);
+    m_pTilesetGroup = pTilesetGroup;
+}
+
+CCISOTilesetGroup* CCISOTileMap::getTilesetGroup()
+{
+    return m_pTilesetGroup;
+}
 NS_CC_END

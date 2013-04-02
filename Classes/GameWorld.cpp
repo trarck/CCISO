@@ -219,6 +219,7 @@ void GameWorld::setupUtil()
  */
 void GameWorld::setupGameWorlds()
 {
+    CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 //    CCISOTileLayer* testLayer=new CCISOTileLayer();
 //    testLayer->init();
 //    testLayer->setTileSize(TileWidth,TileHeight);
@@ -238,11 +239,13 @@ void GameWorld::setupGameWorlds()
 //    //testLayer->scroll(ccp(-160,234));
 //    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
     
+
     
     CCISODynamicTileLayer* testLayer=new CCISODynamicTileLayer();
     
     CCSize tileSize=CCSizeMake(TileWidth, TileHeight);
-    CCPoint pos=ccp(-192,0);
+    float offsetX=screenSize.width/2-tileSize.height*3/2;
+    CCPoint pos=ccp(-offsetX,0);
 
     testLayer->init(tileSize, pos);
     
@@ -261,7 +264,6 @@ void GameWorld::setupGameWorlds()
 	m_pForeground->setPosition(ccp(0,0));
 	this->addChild(m_pForeground,Foreground_ZOrder);
 	
-	CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 	////moveable size
 	//moveableBoundingMax_.x=TileWidth*mapData_.row/2;
 	//moveableBoundingMax_.y=0;

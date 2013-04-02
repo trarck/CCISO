@@ -10,6 +10,7 @@
 #include "CCISOObjectLayer.h"
 //#include "CCISOXMLParser.h"
 #include "CCISODynamicComponent.h"
+#include "CCISOTilesetGroup.h"
 
 NS_CC_BEGIN
 
@@ -111,6 +112,10 @@ public:
     
     virtual CCISODynamicComponent* getDynamicComponent();
     
+    virtual void setTilesetGroup(CCISOTilesetGroup* pTilesetGroup);
+    
+    virtual CCISOTilesetGroup* getTilesetGroup();
+    
 protected:
     
     virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
@@ -149,6 +154,11 @@ protected:
      * 地图类型
      */
     int m_nMapOrientation;
+    
+    /**
+     * 图块合集
+     */
+    CCISOTilesetGroup* m_pTilesetGroup;
     
     /**
      * 对像分组

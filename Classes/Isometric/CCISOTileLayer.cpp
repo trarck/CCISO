@@ -237,4 +237,29 @@ CCDictionary* CCISOTileLayer::getProperties()
 {
     return m_pProperties;
 }
+
+void CCISOTileLayer::setTiles(unsigned int* pTiles)
+{
+    CC_SAFE_RETAIN(pTiles);
+    CC_SAFE_RELEASE(m_pTiles);
+    m_pTiles = pTiles;
+}
+
+unsigned int* CCISOTileLayer::getTiles()
+{
+    return m_pTiles;
+}
+
+void CCISOTileLayer::setTilesetInfo(CCISOTilesetInfo* pTilesetInfo)
+{
+    CC_SAFE_RETAIN(pTilesetInfo);
+    CC_SAFE_RELEASE(m_pTilesetInfo);
+    m_pTilesetInfo = pTilesetInfo;
+}
+
+CCISOTilesetInfo* CCISOTileLayer::getTilesetInfo()
+{
+    return m_pTilesetInfo;
+}
+
 NS_CC_END
