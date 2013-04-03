@@ -67,9 +67,35 @@ bool CCISOTileset::contains(unsigned int gid)
     return m_uFirstGid<=gid && m_uLastGid>=gid;
 }
 
-void CCISOTileset::setName(const std::string& tName)
+CCRect CCISOTileset::rectForGid(unsigned int gid)
 {
-    m_tName = tName;
+    
+    CCRect rect;
+    rect.size = CCSizeMake(m_nTileWidth, m_nTileHeight);
+    gid = gid - m_uFirstGid;
+    int max_x = (int)((m_nImageWidth - m_nMargin*2 + m_nTileSpacing) / (m_nImageWidth + m_nTileSpacing));
+    rect.origin.x = (gid % max_x) * (m_nTileWidth + m_nTileSpacing) + m_nMargin;
+    rect.origin.y = (gid / max_x) * (m_nTileHeight + m_nTileSpacing) + m_nMargin;
+    return rect;
+}
+
+
+CCISOTile* CCISOTileset::tileForGid(unsigned int gid)
+{
+    
+    CCSprite* sprite=new CCSprite();
+    CCRect rect=rectForGid(gid);
+    sprite->initWithTexture(m_pTexture,rect);
+    //dynamic
+    CCISOTile* tile=new CCISOTile();
+    tile->init(gid, this, sprite);
+    tile->autorelease();
+    return tile;
+}
+
+void CCISOTileset::setName(const char* pName)
+{
+    m_tName = pName;
 }
 
 std::string& CCISOTileset::getName()
@@ -77,9 +103,9 @@ std::string& CCISOTileset::getName()
     return m_tName;
 }
 
-void CCISOTileset::setFileName(const std::string& tFileName)
+void CCISOTileset::setFileName(const char* pFileName)
 {
-    m_tFileName = tFileName;
+    m_tFileName = pFileName;
 }
 
 std::string& CCISOTileset::getFileName()
@@ -87,9 +113,9 @@ std::string& CCISOTileset::getFileName()
     return m_tFileName;
 }
 
-void CCISOTileset::setImageSource(const std::string& tImageSource)
+void CCISOTileset::setImageSource(const char* pImageSource)
 {
-    m_tImageSource = tImageSource;
+    m_tImageSource = pImageSource;
 }
 
 std::string& CCISOTileset::getImageSource()
@@ -197,6 +223,28 @@ void CCISOTileset::setFirstGid(unsigned int uFirstGid)
 unsigned int CCISOTileset::getFirstGid()
 {
     return m_uFirstGid;
+}
+
+void CCISOTileset::setTileProperties(CCDictionary* pTileProperties)
+{
+    m_pTileProperties=pTileProperties;
+}
+
+CCDictionary* CCISOTileset::getTileProperties()
+{
+    return m_pTileProperties;
+}
+
+void CCISOTileset::setProperties(CCDictionary* pProperties)
+{
+    CC_SAFE_RETAIN(pProperties);
+    CC_SAFE_RELEASE(m_pProperties);
+    m_pProperties = pProperties;
+}
+
+CCDictionary* CCISOTileset::getProperties()
+{
+    return m_pProperties;
 }
 
 NS_CC_END

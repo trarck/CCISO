@@ -2,11 +2,18 @@
 #define ISO_CCISOXMLParser_H_
 
 #include "cocos2d.h"
-#include "CCISOMapInfo.h"
+#include "CCISOTileMap.h"
 
 NS_CC_BEGIN
 
 class CCISOTileMap;
+
+enum {
+    ISOLayerAttribNone = 1 << 0,
+    ISOLayerAttribBase64 = 1 << 1,
+    ISOLayerAttribGzip = 1 << 2,
+    ISOLayerAttribZlib = 1 << 3,
+};
 
 enum {
     ISOPropertyNone,
@@ -14,7 +21,8 @@ enum {
     ISOPropertyLayer,
     ISOPropertyObjectGroup,
     ISOPropertyObject,
-    ISOPropertyTile
+    ISOPropertyTile,
+    ISOPropertyImage
 };
 
 class CCISOXMLReader : public CCObject, public CCSAXDelegator
@@ -51,14 +59,18 @@ public:
     inline const char* getTMXFileName(){ return m_sTMXFileName.c_str(); }
     inline void setTMXFileName(const char *fileName){ m_sTMXFileName = fileName; }
     
-    virtual CCISOMapInfo* getMapInfo();
+    virtual CCISOTileMap* getMap();
     
 private:
     void internalInit(const char* tmxFileName, const char* resourcePath);
     
-    int m_nParentElement;
+    int m_nCurrentElement;
     
-    unsigned int m_uParentGID;
+    unsigned int m_uCurrentGid;
+    
+    int m_nLayerAttribs;
+    
+    bool m_bStoringCharacters;
     
 protected:
     //! tmx filename

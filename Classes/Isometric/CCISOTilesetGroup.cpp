@@ -34,7 +34,7 @@ void CCISOTilesetGroup::insertTileset(int index,CCISOTileset* tileset)
 
 int CCISOTilesetGroup::indexOfTileset(CCISOTileset* tileset)
 {
-    m_pTilesets->indexOfObject(tileset);
+   return m_pTilesets->indexOfObject(tileset);
 }
 
 void CCISOTilesetGroup::removeTilesetAt(int index)

@@ -6,7 +6,7 @@ NS_CC_BEGIN
 CCISOTileMap::CCISOTileMap()
 :m_tMapSize(CCSizeZero)
 ,m_pTileLayers(NULL)
-,m_pObjectLayers(NULL)
+,m_pObjectGroups(NULL)
 ,m_pProperties(NULL)
 ,m_pTileProperties(NULL)
 ,m_pDynamicComponent(NULL)
@@ -18,7 +18,7 @@ CCISOTileMap::CCISOTileMap()
 CCISOTileMap::~CCISOTileMap()
 {
     CC_SAFE_RELEASE(m_pProperties);
-    CC_SAFE_RELEASE(m_pObjectLayers);
+    CC_SAFE_RELEASE(m_pObjectGroups);
     CC_SAFE_RELEASE(m_pTileProperties);
     CC_SAFE_RELEASE(m_pDynamicComponent);
 }
@@ -189,7 +189,7 @@ void CCISOTileMap::buildWithMapInfo(CCISOMapInfo* mapInfo)
     m_nMapOrientation = mapInfo->getOrientation();
     
     this->setTileLayers(mapInfo->getLayers());
-    this->setObjectLayers( mapInfo->getObjectLayers());
+    this->setObjectGroups( mapInfo->getObjectGroups());
     this->setProperties(mapInfo->getProperties());
     this->setTileProperties(mapInfo->getTileProperties());
 
@@ -254,11 +254,11 @@ CCISOObjectLayer * CCISOTileMap::objectLayerNamed(const char *layerName)
     CCAssert(layerName != NULL && strlen(layerName) > 0, "Invalid layer name!");
     
     std::string sLayerName = layerName;
-    if (m_pObjectLayers && m_pObjectLayers->count()>0)
+    if (m_pObjectGroups && m_pObjectGroups->count()>0)
     {
         CCISOObjectLayer* objectLayer = NULL;
         CCObject* pObj = NULL;
-        CCARRAY_FOREACH(m_pObjectLayers, pObj)
+        CCARRAY_FOREACH(m_pObjectGroups, pObj)
         {
             objectLayer = (CCISOObjectLayer*)(pObj);
             if (objectLayer && objectLayer->getName() == sLayerName)
@@ -359,16 +359,16 @@ CCArray* CCISOTileMap::getTileLayers()
 	return m_pTileLayers;
 }
 
-void CCISOTileMap::setObjectLayers(CCArray* pObjectLayers)
+void CCISOTileMap::setObjectGroups(CCArray* pObjectGroups)
 {
-    CC_SAFE_RETAIN(pObjectLayers);
-    CC_SAFE_RELEASE(m_pObjectLayers);
-    m_pObjectLayers = pObjectLayers;
+    CC_SAFE_RETAIN(pObjectGroups);
+    CC_SAFE_RELEASE(m_pObjectGroups);
+    m_pObjectGroups = pObjectGroups;
 }
 
-CCArray* CCISOTileMap::getObjectLayers()
+CCArray* CCISOTileMap::getObjectGroups()
 {
-    return m_pObjectLayers;
+    return m_pObjectGroups;
 }
 
 void CCISOTileMap::setProperties(CCDictionary* pProperties)

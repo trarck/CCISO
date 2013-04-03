@@ -5,6 +5,9 @@
 #include "support/base64.h"
 #include "CCISOTileMap.h"
 #include "CCISOTileSet.h"
+#include "CCISOTileLayer.h"
+#include "CCISOObjectGroup.h"
+#include "CCISOObject.h"
 
 using namespace std;
 
@@ -28,8 +31,10 @@ static const char* valueForKey(const char *key, std::map<std::string, std::strin
 
 CCISOXMLReader::CCISOXMLReader()
 :m_pMap(NULL)
-,m_nParentElement(0)
-,m_uParentGID(0)
+,m_nCurrentElement(0)
+,m_uCurrentGid(0)
+,m_nLayerAttribs(0)
+,m_bStoringCharacters(0)
 {
 
 }
@@ -168,7 +173,7 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
         m_pMap->setTileSize(s);
         
         // The parent element is now "map"
-        m_nParentElement=ISOPropertyMap;
+        m_nCurrentElement=ISOPropertyMap;
         
     }
     else if(elementName == "tileset")
@@ -208,13 +213,23 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
     }
     else if(elementName == "tile")
     {
-        CCISOTileset* tileset = (CCISOTileset*) m_pMap->getTilesetGroup()->getTilesets()->lastObject();
-        CCDictionary *dict = new CCDictionary();
-        m_uParentGID=tileset->getFirstGid() + atoi(valueForKey("id", attributeDict));
-        m_pMap->getTileProperties()->setObject(dict, m_uParentGID);
-        CC_SAFE_RELEASE(dict);
         
-        m_nParentElement=ISOPropertyTile;
+        CCISOTileset* tileset = (CCISOTileset*) m_pMap->getTilesetGroup()->getTilesets()->lastObject();
+        
+        m_uCurrentGid= atoi(valueForKey("id", attributeDict));//+tileset->getFirstGid();
+        
+//        CCDictionary *dict = new CCDictionary();
+//   
+//        tileset->getTileProperties()->setObject(dict, m_uCurrentGid);
+//        CC_SAFE_RELEASE(dict);
+        
+        CCISOTile* tile=new CCISOTile();
+        tile->init(m_uCurrentGid, tileset);
+        
+        tileset->getTiles()->addObject(tile);
+        tile->release();
+        
+        m_nCurrentElement=ISOPropertyTile;
         
     }
     else if(elementName == "layer")
@@ -244,44 +259,55 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
         float y = (float)atof(valueForKey("y", attributeDict));
         layer->m_tOffset = ccp(x,y);
         
-        m_pMap->getLayers()->addObject(layer);
+        m_pMap->getTileLayers()->addObject(layer);
         layer->release();
         
         // The parent element is now "layer"
-        m_nParentElement=ISOPropertyLayer;
+        m_nCurrentElement=ISOPropertyLayer;
         
     }
     else if(elementName == "objectgroup")
     {
-        CCTMXObjectGroup *objectGroup = new CCTMXObjectGroup();
-        objectGroup->setGroupName(valueForKey("name", attributeDict));
+        CCISOObjectGroup *objectGroup = new CCISOObjectGroup();
+        objectGroup->setName(valueForKey("name", attributeDict));
         CCPoint positionOffset;
         positionOffset.x = (float)atof(valueForKey("x", attributeDict)) * m_pMap->getTileSize().width;
         positionOffset.y = (float)atof(valueForKey("y", attributeDict)) * m_pMap->getTileSize().height;
-        objectGroup->setPositionOffset(positionOffset);
+        objectGroup->setOffset(positionOffset);
         
         m_pMap->getObjectGroups()->addObject(objectGroup);
         objectGroup->release();
         
         // The parent element is now "objectgroup"
-        m_nParentElement=ISOPropertyObjectGroup;
+        m_nCurrentElement=ISOPropertyObjectGroup;
         
     }
     else if(elementName == "image")
     {
-        CCTMXTilesetInfo* tileset = (CCTMXTilesetInfo*)m_pMap->getTilesets()->lastObject();
-        
         // build full path
         std::string imagename = valueForKey("source", attributeDict);
         
         if (m_sTMXFileName.find_last_of("/") != string::npos)
         {
             string dir = m_sTMXFileName.substr(0, m_sTMXFileName.find_last_of("/") + 1);
-            tileset->m_sSourceImage = dir + imagename;
+            imagename=dir+imagename;
+            
         }
         else
         {
-            tileset->m_sSourceImage = m_sResources + (m_sResources.size() ? "/" : "") + imagename;
+            imagename=m_sResources + (m_sResources.size() ? "/" : "") + imagename;
+
+        }
+
+        
+        if ( m_nCurrentElement == ISOPropertyLayer ){
+            
+            CCISOTileset* tileset = (CCISOTileset*)m_pMap->getTilesetGroup()->getTilesets()->lastObject();
+            tileset->setImageSource(imagename.c_str());
+            
+        }else if(m_nCurrentElement == ISOPropertyTile){
+            CCISOTileset* tileset = (CCISOTileset*)m_pMap->getTilesetGroup()->getTilesets()->lastObject();
+            
         }
     }
     else if(elementName == "data")
@@ -291,89 +317,75 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
         
         if( encoding == "base64" )
         {
-            int layerAttribs = m_pMap->getLayerAttribs();
-            m_pMap->setLayerAttribs(layerAttribs | TMXLayerAttribBase64);
-            m_pMap->setStoringCharacters(true);
+            m_nLayerAttribs|=ISOLayerAttribBase64;
+            m_bStoringCharacters=true;
             
             if( compression == "gzip" )
             {
-                layerAttribs = m_pMap->getLayerAttribs();
-                m_pMap->setLayerAttribs(layerAttribs | TMXLayerAttribGzip);
+                m_nLayerAttribs|=ISOLayerAttribGzip;
             } else
                 if (compression == "zlib")
                 {
-                    layerAttribs = m_pMap->getLayerAttribs();
-                    m_pMap->setLayerAttribs(layerAttribs | TMXLayerAttribZlib);
+                    m_nLayerAttribs|=ISOLayerAttribZlib;
                 }
             CCAssert( compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method" );
         }
-        CCAssert( m_pMap->getLayerAttribs() != TMXLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported" );
-        
+        CCAssert( m_nLayerAttribs != ISOLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported" );
     }
     else if(elementName == "object")
     {
-        char buffer[32] = {0};
-        CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pMap->getObjectGroups()->lastObject();
+
+        CCISOObjectGroup* objectGroup = (CCISOObjectGroup*)m_pMap->getObjectGroups()->lastObject();
         
         // The value for "type" was blank or not a valid class name
         // Create an instance of TMXObjectInfo to store the object and its properties
-        CCDictionary *dict = new CCDictionary();
-        // Parse everything automatically
-        const char* pArray[] = {"name", "type", "width", "height", "gid"};
+        CCISOObject *obj = new CCISOObject();
         
-        for( int i = 0; i < sizeof(pArray)/sizeof(pArray[0]); ++i )
-        {
-            const char* key = pArray[i];
-            CCString* obj = new CCString(valueForKey(key, attributeDict));
-            if( obj )
-            {
-                obj->autorelease();
-                dict->setObject(obj, key);
-            }
-        }
+        obj->setName(valueForKey("name", attributeDict));
         
+        obj->setType(valueForKey("type", attributeDict));
+        
+        CCSize s;
+        s.width = (float)atof(valueForKey("width", attributeDict));
+        s.height = (float)atof(valueForKey("height", attributeDict));
+        obj->setSize(s);
+               
         // But X and Y since they need special treatment
         // X
-        
+        CCPoint pos;
         const char* value = valueForKey("x", attributeDict);
         if( value )
         {
-            int x = atoi(value) + (int)objectGroup->getPositionOffset().x;
-            sprintf(buffer, "%d", x);
-            CCString* pStr = new CCString(buffer);
-            pStr->autorelease();
-            dict->setObject(pStr, "x");
+            pos.x = (float)atof(value) + objectGroup->getOffset().x;
         }
         
         // Y
         value = valueForKey("y", attributeDict);
         if( value )  {
-            int y = atoi(value) + (int)objectGroup->getPositionOffset().y;
+            float y = (float)atof(value) + objectGroup->getOffset().y;
             
             // Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-            y = (int)(m_pMap->getMapSize().height * m_pMap->getTileSize().height) - y - atoi(valueForKey("height", attributeDict));
-            sprintf(buffer, "%d", y);
-            CCString* pStr = new CCString(buffer);
-            pStr->autorelease();
-            dict->setObject(pStr, "y");
+            pos.y = (m_pMap->getMapSize().height * m_pMap->getTileSize().height) - y - s.height;
+            
         }
+        obj->setPosition(pos);
         
         // Add the object to the objectGroup
-        objectGroup->getObjects()->addObject(dict);
-        dict->release();
+        objectGroup->getObjects()->addObject(obj);
+        obj->release();
         
         // The parent element is now "object"
-        m_nParentElement=ISOPropertyObject;
+        m_nCurrentElement=ISOPropertyObject;
         
     }
     else if(elementName == "property")
     {
-        if ( m_pMap->getParentElement() == ISOPropertyNone )
+        if ( m_nCurrentElement == ISOPropertyNone )
         {
             CCLOG( "TMX tile map: Parent element is unsupported. Cannot add property named '%s' with value '%s'",
                   valueForKey("name", attributeDict), valueForKey("value",attributeDict) );
         }
-        else if ( m_pMap->getParentElement() == ISOPropertyMap )
+        else if ( m_nCurrentElement == ISOPropertyMap )
         {
             // The parent element is the map
             CCString *value = new CCString(valueForKey("value", attributeDict));
@@ -382,10 +394,10 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
             value->release();
             
         }
-        else if ( m_pMap->getParentElement() == ISOPropertyLayer )
+        else if ( m_nCurrentElement == ISOPropertyLayer )
         {
             // The parent element is the last layer
-            CCTMXLayerInfo* layer = (CCTMXLayerInfo*)m_pMap->getLayers()->lastObject();
+            CCISOTileLayer* layer = (CCISOTileLayer*)m_pMap->getTileLayers()->lastObject();
             CCString *value = new CCString(valueForKey("value", attributeDict));
             std::string key = valueForKey("name", attributeDict);
             // Add the property to the layer
@@ -393,35 +405,38 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
             value->release();
             
         }
-        else if ( m_pMap->getParentElement() == ISOPropertyObjectGroup )
+        else if ( m_nCurrentElement == ISOPropertyObjectGroup )
         {
             // The parent element is the last object group
-            CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pMap->getObjectGroups()->lastObject();
+            CCISOObjectGroup* objectGroup = (CCISOObjectGroup*)m_pMap->getObjectGroups()->lastObject();
             CCString *value = new CCString(valueForKey("value", attributeDict));
-            const char* key = valueForKey("name", attributeDict);
-            objectGroup->getProperties()->setObject(value, key);
+            std::string key = valueForKey("name", attributeDict);
+            objectGroup->getProperties()->setObject(value, key.c_str());
             value->release();
             
         }
-        else if ( m_pMap->getParentElement() == ISOPropertyObject )
+        else if ( m_nCurrentElement == ISOPropertyObject )
         {
             // The parent element is the last object
-            CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pMap->getObjectGroups()->lastObject();
-            CCDictionary* dict = (CCDictionary*)objectGroup->getObjects()->lastObject();
+            CCISOObjectGroup* objectGroup = (CCISOObjectGroup*)m_pMap->getObjectGroups()->lastObject();
+            CCISOObject* obj = (CCISOObject*)objectGroup->getObjects()->lastObject();
             
-            const char* propertyName = valueForKey("name", attributeDict);
-            CCString *propertyValue = new CCString(valueForKey("value", attributeDict));
-            dict->setObject(propertyValue, propertyName);
-            propertyValue->release();
+            CCString *value = new CCString(valueForKey("value", attributeDict));
+            std::string key = valueForKey("name", attributeDict);
+            obj->getProperties()->setObject(value,key.c_str());
+            value->release();
         }
-        else if ( m_pMap->getParentElement() == ISOPropertyTile )
+        else if ( m_nCurrentElement == ISOPropertyTile )
         {
-            CCDictionary* dict = (CCDictionary*)m_pMap->getTileProperties()->objectForKey(m_pMap->getParentGID());
+            CCISOTileset* tileset =(CCISOTileset*)m_pMap->getTilesetGroup()->getTilesets()->lastObject();
+//            CCDictionary* tileProperties=tileset->getTileProperties();
+//            CCDictionary* dict = (CCDictionary*)tileProperties->objectForKey(m_uCurrentGid);
             
-            const char* propertyName = valueForKey("name", attributeDict);
-            CCString *propertyValue = new CCString(valueForKey("value", attributeDict));
-            dict->setObject(propertyValue, propertyName);
-            propertyValue->release();
+            CCISOTile* tile=(CCISOTile*)tileset->getTiles()->lastObject();
+            CCString *value = new CCString(valueForKey("value", attributeDict));
+            std::string key = valueForKey("name", attributeDict);
+            tile->getProperties()->setObject(value, key.c_str());
+            value->release();
         }
     }
     else if (elementName == "polygon")
@@ -454,11 +469,11 @@ void CCISOXMLReader::endElement(void *ctx, const char *name)
     
     int len = 0;
     
-    if(elementName == "data" && m_pMap->getLayerAttribs()&TMXLayerAttribBase64)
+    if(elementName == "data" && m_nLayerAttribs&ISOLayerAttribBase64)
     {
-        m_pMap->setStoringCharacters(false);
+        m_bStoringCharacters=false;
         
-        CCTMXLayerInfo* layer = (CCTMXLayerInfo*)m_pMap->getLayers()->lastObject();
+        CCISOTileLayer* layer = (CCISOTileLayer*)m_pMap->getTileLayers()->lastObject();
         
         std::string currentString = this->getCurrentString();
         unsigned char *buffer;
@@ -469,10 +484,10 @@ void CCISOXMLReader::endElement(void *ctx, const char *name)
             return;
         }
         
-        if( m_pMap->getLayerAttribs() & (TMXLayerAttribGzip | TMXLayerAttribZlib) )
+        if( m_nLayerAttribs & (ISOLayerAttribGzip | ISOLayerAttribZlib) )
         {
             unsigned char *deflated;
-            CCSize s = layer->m_tLayerSize;
+            CCSize s = layer->getLayerSize();
             // int sizeHint = s.width * s.height * sizeof(uint32_t);
             int sizeHint = (int)(s.width * s.height * sizeof(unsigned int));
             
@@ -490,11 +505,11 @@ void CCISOXMLReader::endElement(void *ctx, const char *name)
                 return;
             }
             
-            layer->m_pTiles = (unsigned int*) deflated;
+            layer->setTiles((unsigned int*) deflated);
         }
         else
         {
-            layer->m_pTiles = (unsigned int*) buffer;
+            layer->setTiles( (unsigned int*) buffer);
         }
         
         this->setCurrentString("");
@@ -503,22 +518,27 @@ void CCISOXMLReader::endElement(void *ctx, const char *name)
     else if (elementName == "map")
     {
         // The map element has ended
-        m_nParentElement=ISOPropertyNone;
+        m_nCurrentElement=ISOPropertyNone;
     }
     else if (elementName == "layer")
     {
         // The layer element has ended
-        m_nParentElement=ISOPropertyNone;
+        m_nCurrentElement=ISOPropertyNone;
     }
     else if (elementName == "objectgroup")
     {
         // The objectgroup element has ended
-        m_nParentElement=ISOPropertyNone;
+        m_nCurrentElement=ISOPropertyNone;
     }
     else if (elementName == "object")
     {
         // The object element has ended
-        m_nParentElement=ISOPropertyNone;
+        m_nCurrentElement=ISOPropertyNone;
+    }
+    else if (elementName == "tile")
+    {
+        // The tile element has ended
+        m_nCurrentElement=ISOPropertyNone;
     }
 }
 
@@ -527,7 +547,7 @@ void CCISOXMLReader::textHandler(void *ctx, const char *ch, int len)
     CC_UNUSED_PARAM(ctx);
     std::string pText((char*)ch,0,len);
     
-    if (m_pMap->getStoringCharacters())
+    if (m_bStoringCharacters)
     {
         std::string currentString = this->getCurrentString();
         currentString += pText;
@@ -535,7 +555,7 @@ void CCISOXMLReader::textHandler(void *ctx, const char *ch, int len)
     }
 }
 
-CCISOMapInfo* CCISOXMLReader::getMapInfo()
+CCISOTileMap* CCISOXMLReader::getMap()
 {
     return m_pMap;
 }

@@ -92,9 +92,9 @@ public:
     
     virtual CCArray* getTileLayers();
     
-    virtual void setObjectLayers(CCArray* pObjectLayers);
+    virtual void setObjectGroups(CCArray* pObjectGroups);
     
-    virtual CCArray* getObjectLayers();
+    virtual CCArray* getObjectGroups();
     
     virtual void setProperties(CCDictionary* pProperties);
     
@@ -168,7 +168,7 @@ protected:
     /**
      * 对像分组
      */
-    CCArray* m_pObjectLayers;
+    CCArray* m_pObjectGroups;
     
     /**
      * 属性列表

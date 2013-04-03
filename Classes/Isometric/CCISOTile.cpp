@@ -4,18 +4,37 @@
 
 NS_CC_BEGIN
 
-CCISOTile::CCISOTile(int id)
-:m_nId(id)
+CCISOTile::CCISOTile()
+:m_nId(0)
 {
 
 }
 
-
-CCISOTile::CCISOTile(int id,CCSprite* sprite,CCISOTileset* tileset)
-:m_nId(id)
+bool CCISOTile::init()
 {
-    setTileset(tileset);
-    setSprite(sprite);
+    m_pProperties=new CCDictionary();
+    return true;
+    
+}
+
+bool CCISOTile::init(int id,CCISOTileset* tileset)
+{
+    if(init()){
+        m_nId=id;
+        setTileset(tileset);
+        return true;
+    }
+    return false;
+}
+
+
+bool CCISOTile::init(int id,CCISOTileset* tileset,CCSprite* sprite)
+{
+    if(init(id,tileset)){
+        setSprite(sprite);
+        return true;
+    }
+    return false;
 }
 
 
@@ -55,6 +74,18 @@ void CCISOTile::setSprite(CCSprite* pSprite)
 CCSprite* CCISOTile::getSprite()
 {
     return m_pSprite;
+}
+
+void CCISOTile::setProperties(CCDictionary* pProperties)
+{
+    CC_SAFE_RETAIN(pProperties);
+    CC_SAFE_RELEASE(m_pProperties);
+    m_pProperties = pProperties;
+}
+
+CCDictionary* CCISOTile::getProperties()
+{
+    return m_pProperties;
 }
 
 NS_CC_END

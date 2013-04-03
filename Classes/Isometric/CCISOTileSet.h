@@ -1,10 +1,17 @@
-#ifndef ISO_CCISOTileSet_H_
-#define ISO_CCISOTileSet_H_
+#ifndef ISO_CCISOTileset_H_
+#define ISO_CCISOTileset_H_
 
 #include "cocos2d.h"
+#include "CCISOTile.h"
 
 NS_CC_BEGIN
 
+
+/**
+ * tile的二种表示方式
+ * 1.整张图片。每个tile的id按照从左到右，从下到下增加。静态的物体。
+ * 2.分开的图片。可以是精灵动画。比较灵活，占用一定内存
+ */
 class CCISOTileset : public CCObject{
 
 public:
@@ -21,27 +28,33 @@ public:
     
     void setTileImage(unsigned int index,const char* imageName);
     
-    void addTile(CCImage* image);
+    void addTile(CCSprite* sprite);
     
-    void setTileImage(unsigned int index,CCImage* image);
+    void setTileImage(unsigned int index,CCSprite* sprite);
     
     /**
      * 是否包含某个id
      */
     bool contains(unsigned int gid);
     
+    CCRect rectForGid(unsigned int gid);
+    
+    CCISOTile* tileForGid(unsigned int gid);
+    
+    
     int columnCountForWidth(int width);
+    
     int rowCountForHeight(int height);
     
     unsigned int lastGid();
     
 public:
     
-    virtual void setName(const std::string& tName);
+    virtual void setName(const char* pName);
     virtual std::string& getName();
-    virtual void setFileName(const std::string& tFileName);
+    virtual void setFileName(const char* pFileName);
     virtual std::string& getFileName();
-    virtual void setImageSource(const std::string& tImageSource);
+    virtual void setImageSource(const char* pImageSource);
     virtual std::string& getImageSource();
     virtual void setTileWidth(int nTileWidth);
     virtual int getTileWidth();
@@ -61,6 +74,10 @@ public:
     virtual int getColumnCount();
     virtual void setTiles(CCArray* pTiles);
     virtual CCArray* getTiles();
+    
+    virtual void setProperties(CCDictionary* pProperties);
+    virtual CCDictionary* getProperties();
+    
 
     virtual void setFirstGid(unsigned int uFirstGid);
     virtual unsigned int getFirstGid();
@@ -70,6 +87,10 @@ public:
      * set zero to clear lastGid
      */
     virtual void setLastGid(unsigned int uLastGid);
+    
+    
+    virtual void setTileProperties(CCDictionary* pTileProperties);
+    virtual CCDictionary* getTileProperties();
 public:
     /**
      * 名称
@@ -122,6 +143,11 @@ public:
     int m_nImageHeight;
     
     /**
+     * tile拼成的图片
+     */
+    CCTexture2D* m_pTexture;
+    
+    /**
      * 图片的格子栏数
      */
     int m_nColumnCount;
@@ -140,9 +166,20 @@ public:
      * 结束的gid
      */
     unsigned int m_uLastGid;
+    
+    /**
+     * 属性
+     */
+    CCDictionary* m_pProperties;
+    
+    /**
+     * tile的属性
+     */
+    CCDictionary* m_pTileProperties;
+    
 };
 
 
 NS_CC_END
 
-#endif //ISO_CCISOTileSet_H_
+#endif //ISO_CCISOTileset_H_

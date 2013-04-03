@@ -10,11 +10,16 @@ class CCISOTileset;
 class CCISOTile : public CCObject{
 
 public:
-    CCISOTile(int id);
-    
-    CCISOTile(int id,CCSprite* sprite,CCISOTileset* tileset);
+    CCISOTile();
     
     ~CCISOTile();
+    
+    bool init();
+    
+    bool init(int id,CCISOTileset* tileset);
+    
+    bool init(int id,CCISOTileset* tileset,CCSprite* sprite);
+  
    
     CCSize size(){return m_pSprite->getContentSize();}
 
@@ -32,6 +37,9 @@ public:
     
     virtual CCSprite* getSprite();
     
+    virtual void setProperties(CCDictionary* pProperties);
+    virtual CCDictionary* getProperties();
+    
 protected:
     
     int m_nId;
@@ -41,6 +49,10 @@ protected:
     
     CCSprite* m_pSprite;
 
+    /**
+     * 属性
+     */
+    CCDictionary* m_pProperties;
 };
 
 
