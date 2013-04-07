@@ -5,31 +5,30 @@
 NS_CC_BEGIN
 
 CCISOTilesetInfo::CCISOTilesetInfo()
-:m_uFirstGid(0)
+:m_sName("")
+,m_uFirstGid(0)
+,m_sSourceFile("")
 ,m_tTileSize(CCSizeZero)
 ,m_uSpacing(0)
 ,m_uMargin(0)
+,m_tTileOffset(CCPointZero)
+,m_sImageSource("")
 ,m_tImageSize(CCSizeZero)
+//,m_pProperties(NULL)
+//,m_pTiles(NULL)
+//,m_pTileProperties(NULL)
 {
-
+    m_pProperties=new CCDictionary();
+    m_pTiles=new CCArray();
+    m_pTileProperties=new CCDictionary();
 }
 
 CCISOTilesetInfo::~CCISOTilesetInfo()
 {
     CCLOG("CCISOTilesetInfo destroy");
-}
-
-CCRect CCISOTilesetInfo::rectForGID(unsigned int gid)
-{
-    CCRect rect;
-    rect.size = m_tTileSize;
-    gid &= kCCFlippedMask;
-    gid = gid - m_uFirstGid;
-    int max_x = (int)((m_tImageSize.width - m_uMargin*2 + m_uSpacing) / (m_tTileSize.width + m_uSpacing));
-    //    int max_y = (imageSize.height - margin*2 + spacing) / (tileSize.height + spacing);
-    rect.origin.x = (gid % max_x) * (m_tTileSize.width + m_uSpacing) + m_uMargin;
-    rect.origin.y = (gid / max_x) * (m_tTileSize.height + m_uSpacing) + m_uMargin;
-    return rect;
+    CC_SAFE_RELEASE(m_pProperties);
+    CC_SAFE_RELEASE(m_pTiles);
+    CC_SAFE_RELEASE(m_pTileProperties);
 }
 
 NS_CC_END

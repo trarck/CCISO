@@ -6,15 +6,15 @@
 #define ISO_CCISOTileMapBuilder_H_
 
 #include "cocos2d.h"
+#include "CCISOXMLParser.h"
 #include "CCISOTileLayer.h"
-#include "CCISOObjectGroup.h"
-//#include "CCISOXMLParser.h"
 #include "CCISODynamicComponent.h"
-#include "CCISOTilesetGroup.h"
-
+#include "CCISOObjectInfo.h"
+#include "CCISOObjectGroup.h"
 
 NS_CC_BEGIN
 
+class CCISOTileMap;
 /**
  * 地图分为二种层。
  * 一种是图块图层，通常只显示图形，覆盖整个地图坐标。通常坐为背景层或地表层，主要是静态的物体。
@@ -32,20 +32,49 @@ public:
     
 	~CCISOTileMapBuilder();
     
-       
-    virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    virtual bool init();
     
-    virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    virtual bool init(CCISOTileMap* pMap);
     
     virtual void buildWithMapInfo(CCISOMapInfo* mapInfo);
     
     /**
-     * 主要是构建tile layer
+     * 构建tileset
+     */
+    virtual void buildMapTilesets(CCISOMapInfo* mapInfo);
+    /**
+     * 构建tile layer
      */
     virtual void buildMapLayers(CCISOMapInfo* mapInfo);
     
+    /**
+     * 构建tileset
+     */
+    virtual void buildMapObjectGroups(CCISOMapInfo* mapInfo);
+    
+    virtual void buildMapObjects(CCArray* objects,CCISOObjectGroup* objectGroup);
+    /**
+     * 构建map object
+     */
+    virtual void buildMapObject(CCISOObjectInfo* objectInfo,CCISOObjectGroup* objectGroup);
+    
+    
+    virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    
+    virtual void setMap(CCISOTileMap* pMap){
+        m_pMap=pMap;
+    }
+    virtual CCISOTileMap* getMap(){
+        return m_pMap;
+    }
+   
+    
 protected:
     
+    CCISOTileMap* m_pMap;
     
 };
 

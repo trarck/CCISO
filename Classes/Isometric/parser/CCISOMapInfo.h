@@ -6,6 +6,25 @@
 
 NS_CC_BEGIN
 
+enum {
+    ISOParseLayerAttribNone = 1 << 0,
+    ISOParseLayerAttribBase64 = 1 << 1,
+    ISOParseLayerAttribGzip = 1 << 2,
+    ISOParseLayerAttribZlib = 1 << 3,
+};
+
+enum {
+    ISOParsePropertyNone,
+    ISOParsePropertyMap,
+    ISOParsePropertyTileset,
+    ISOParsePropertyLayer,
+    ISOParsePropertyObjectGroup,
+    ISOParsePropertyObject,
+    ISOParsePropertyTile,
+    ISOParsePropertyImage
+};
+
+
 class CCISOMapInfo : public CCObject{
 
 public:
@@ -31,30 +50,12 @@ public:
     virtual void setTilesets(CCArray* pTilesets);
     virtual CCArray* getTilesets();
     
-    virtual void setObjectGroups(CCArray* pObjectLayers);
+    virtual void setObjectGroups(CCArray* pObjectGroups);
     virtual CCArray* getObjectGroups();
-    
-    virtual void setObjectLayers(CCArray* pObjectLayers);
-    virtual CCArray* getObjectLayers();
-    
-    virtual void setParentElement(int nParentElement);
-    virtual int getParentElement();
-    
-    virtual void setParentGID(unsigned int uParentGID);
-    virtual unsigned int getParentGID();
-    
-    virtual void setLayerAttribs(int nLayerAttribs);
-    virtual int getLayerAttribs();
-    
-    virtual void setStoringCharacters(bool bStoringCharacters);
-    virtual bool getStoringCharacters();
-    
+       
     virtual void setProperties(CCDictionary* pProperties);
     virtual CCDictionary* getProperties();
-    
-    CCDictionary* getTileProperties();
-    void setTileProperties(CCDictionary* tileProperties);
-    
+        
     
 protected:
     int m_nOrientation;
@@ -62,11 +63,8 @@ protected:
     CCSize m_tTileSize;
     CCArray* m_pLayers;
     CCArray* m_pTilesets;
-    CCArray* m_pObjectLayers;
-    int m_nParentElement;
-    unsigned int m_uParentGID;
-    int m_nLayerAttribs;
-    bool m_bStoringCharacters;
+    CCArray* m_pObjectGroups;
+
     CCDictionary* m_pProperties;
 	CCDictionary* m_pTileProperties;
     

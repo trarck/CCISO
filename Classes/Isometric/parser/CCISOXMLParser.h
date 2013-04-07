@@ -44,6 +44,16 @@ public:
     
 private:
     void internalInit(const char* tmxFileName, const char* resourcePath);
+
+    //xml file related
+    int m_nCurrentElement;
+    
+    unsigned int m_uCurrentGid;
+    
+    int m_nLayerAttribs;
+    
+    bool m_bStoringCharacters;
+
 protected:
     //! tmx filename
     std::string m_sTMXFileName;

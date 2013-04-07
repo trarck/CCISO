@@ -9,9 +9,7 @@ CCISOMapInfo::CCISOMapInfo()
 ,m_tTileSize(CCSizeZero)
 ,m_pLayers(NULL)
 ,m_pTilesets(NULL)
-,m_pObjectLayers(NULL)
-,m_nLayerAttribs(0)
-,m_bStoringCharacters(false)
+,m_pObjectGroups(NULL)
 ,m_pProperties(NULL)
 ,m_pTileProperties(NULL)
 {
@@ -25,7 +23,7 @@ CCISOMapInfo::~CCISOMapInfo()
     CC_SAFE_RELEASE(m_pLayers);
     CC_SAFE_RELEASE(m_pProperties);
     CC_SAFE_RELEASE(m_pTileProperties);
-    CC_SAFE_RELEASE(m_pObjectLayers);
+    CC_SAFE_RELEASE(m_pObjectGroups);
 }
 
 bool CCISOMapInfo::init()
@@ -36,17 +34,12 @@ bool CCISOMapInfo::init()
     m_pLayers = CCArray::create();
     m_pLayers->retain();
 
-    m_pObjectLayers = CCArray::createWithCapacity(4);
-    m_pObjectLayers->retain();
+    m_pObjectGroups = CCArray::createWithCapacity(4);
+    m_pObjectGroups->retain();
     
     m_pProperties = new CCDictionary();
     m_pTileProperties = new CCDictionary();
 
-    // tmp vars
-    
-    m_bStoringCharacters = false;
-    m_nLayerAttribs = TMXLayerAttribNone;
-    m_nParentElement = TMXPropertyNone;
 
     return true;
 }
@@ -108,68 +101,16 @@ CCArray* CCISOMapInfo::getTilesets()
 /**
  * keep same for tmx
  */
-void CCISOMapInfo::setObjectGroups(CCArray* pObjectLayers)
+void CCISOMapInfo::setObjectGroups(CCArray* pObjectGroups)
 {
-    CC_SAFE_RETAIN(pObjectLayers);
-    CC_SAFE_RELEASE(m_pObjectLayers);
-    m_pObjectLayers = pObjectLayers;
+    CC_SAFE_RETAIN(pObjectGroups);
+    CC_SAFE_RELEASE(m_pObjectGroups);
+    m_pObjectGroups = pObjectGroups;
 }
 
 CCArray* CCISOMapInfo::getObjectGroups()
 {
-    return m_pObjectLayers;
-}
-
-void CCISOMapInfo::setObjectLayers(CCArray* pObjectLayers)
-{
-    CC_SAFE_RETAIN(pObjectLayers);
-    CC_SAFE_RELEASE(m_pObjectLayers);
-    m_pObjectLayers = pObjectLayers;
-}
-
-CCArray* CCISOMapInfo::getObjectLayers()
-{
-    return m_pObjectLayers;
-}
-
-void CCISOMapInfo::setParentElement(int nParentElement)
-{
-    m_nParentElement = nParentElement;
-}
-
-int CCISOMapInfo::getParentElement()
-{
-    return m_nParentElement;
-}
-
-void CCISOMapInfo::setParentGID(unsigned int uParentGID)
-{
-    m_uParentGID = uParentGID;
-}
-
-unsigned int CCISOMapInfo::getParentGID()
-{
-    return m_uParentGID;
-}
-
-void CCISOMapInfo::setLayerAttribs(int nLayerAttribs)
-{
-    m_nLayerAttribs = nLayerAttribs;
-}
-
-int CCISOMapInfo::getLayerAttribs()
-{
-    return m_nLayerAttribs;
-}
-
-void CCISOMapInfo::setStoringCharacters(bool bStoringCharacters)
-{
-    m_bStoringCharacters = bStoringCharacters;
-}
-
-bool CCISOMapInfo::getStoringCharacters()
-{
-    return m_bStoringCharacters;
+    return m_pObjectGroups;
 }
 
 void CCISOMapInfo::setProperties(CCDictionary* pProperties)

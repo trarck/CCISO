@@ -3,6 +3,10 @@
 #include "support/zip_support/ZipUtils.h"
 #include "support/CCPointExtension.h"
 #include "support/base64.h"
+#include "CCISOTileInfo.h"
+#include "CCISOObjectInfo.h"
+#include "CCISOObjectGroupInfo.h"
+
 
 using namespace std;
 
@@ -147,15 +151,6 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         {
             CCLOG("cocos2d: TMXFormat: Unsupported TMX version: %@", version.c_str());
         }
-        std::string orientationStr = valueForKey("orientation", attributeDict);
-        if( orientationStr == "orthogonal")
-            m_pMapInfo->setOrientation(CCTMXOrientationOrtho);
-        else if ( orientationStr  == "isometric")
-            m_pMapInfo->setOrientation(CCTMXOrientationIso);
-        else if( orientationStr == "hexagonal")
-            m_pMapInfo->setOrientation(CCTMXOrientationHex);
-        else
-            CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", m_pMapInfo->getOrientation());
         
         CCSize s;
         s.width = (float)atof(valueForKey("width", attributeDict));
@@ -167,7 +162,7 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         m_pMapInfo->setTileSize(s);
         
         // The parent element is now "map"
-        m_pMapInfo->setParentElement(TMXPropertyMap);
+        m_nCurrentElement=ISOParsePropertyMap;
     }
     else if(elementName == "tileset")
     {
@@ -190,69 +185,73 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         }
         else
         {
-            CCTMXTilesetInfo *tileset = new CCTMXTilesetInfo();
-            tileset->m_sName = valueForKey("name", attributeDict);
-            tileset->m_uFirstGid = (unsigned int)atoi(valueForKey("firstgid", attributeDict));
-            tileset->m_uSpacing = (unsigned int)atoi(valueForKey("spacing", attributeDict));
-            tileset->m_uMargin = (unsigned int)atoi(valueForKey("margin", attributeDict));
+            CCISOTilesetInfo *tileset = new CCISOTilesetInfo();
+            tileset->setName(valueForKey("name", attributeDict));
+            tileset->setFirstGid((unsigned int)atoi(valueForKey("firstgid", attributeDict)));
+            tileset->setSpacing ((unsigned int)atoi(valueForKey("spacing", attributeDict)));
+            tileset->setMargin ((unsigned int)atoi(valueForKey("margin", attributeDict)));
             CCSize s;
             s.width = (float)atof(valueForKey("tilewidth", attributeDict));
             s.height = (float)atof(valueForKey("tileheight", attributeDict));
-            tileset->m_tTileSize = s;
+            tileset->setTileSize(s);
             
             m_pMapInfo->getTilesets()->addObject(tileset);
             tileset->release();
         }
+        m_nCurrentElement=ISOParsePropertyTileset;
     }
     else if(elementName == "tile")
     {
-        CCTMXTilesetInfo* info = (CCTMXTilesetInfo*)m_pMapInfo->getTilesets()->lastObject();
-        CCDictionary *dict = new CCDictionary();
-        m_pMapInfo->setParentGID(info->m_uFirstGid + atoi(valueForKey("id", attributeDict)));
-        m_pMapInfo->getTileProperties()->setObject(dict, m_pMapInfo->getParentGID());
-        CC_SAFE_RELEASE(dict);
+        CCISOTilesetInfo* tilesetInfo = (CCISOTilesetInfo*)m_pMapInfo->getTilesets()->lastObject();
+        unsigned int tileId= atoi(valueForKey("id", attributeDict));
         
-        m_pMapInfo->setParentElement(TMXPropertyTile);
+        CCISOTileInfo* tileInfo=new CCISOTileInfo();
+        tileInfo->setId(tileId);
+        
+        tilesetInfo->getTiles()->addObject(tileInfo);
+        tileInfo->release();
+       
+        m_nCurrentElement=ISOParsePropertyTile;
         
     }
     else if(elementName == "layer")
     {
-        CCTMXLayerInfo *layer = new CCTMXLayerInfo();
-        layer->m_sName = valueForKey("name", attributeDict);
+        CCISOLayerInfo *layerInfo = new CCISOLayerInfo();
+        layerInfo->setName(valueForKey("name", attributeDict));
         
         CCSize s;
         s.width = (float)atof(valueForKey("width", attributeDict));
         s.height = (float)atof(valueForKey("height", attributeDict));
-        layer->m_tLayerSize = s;
+        layerInfo->setLayerSize(s);
         
         std::string visible = valueForKey("visible", attributeDict);
-        layer->m_bVisible = !(visible == "0");
+        layerInfo->setVisible(!(visible == "0"));
         
         std::string opacity = valueForKey("opacity", attributeDict);
         if( opacity != "" )
         {
-            layer->m_cOpacity = (unsigned char)(255 * atof(opacity.c_str()));
+            layerInfo->setOpacity((unsigned char)255*atof(opacity.c_str()));
         }
         else
         {
-            layer->m_cOpacity = 255;
+            layerInfo->setOpacity(255);
         }
         
         float x = (float)atof(valueForKey("x", attributeDict));
         float y = (float)atof(valueForKey("y", attributeDict));
-        layer->m_tOffset = ccp(x,y);
+        layerInfo->setOffset(ccp(x,y));
         
-        m_pMapInfo->getLayers()->addObject(layer);
-        layer->release();
+        m_pMapInfo->getLayers()->addObject(layerInfo);
+        layerInfo->release();
         
         // The parent element is now "layer"
-        m_pMapInfo->setParentElement(TMXPropertyLayer);
+        m_nCurrentElement=ISOParsePropertyLayer;
         
     }
     else if(elementName == "objectgroup")
     {
-        CCTMXObjectGroup *objectGroup = new CCTMXObjectGroup();
-        objectGroup->setGroupName(valueForKey("name", attributeDict));
+        CCISOObjectGroupInfo *objectGroup = new CCISOObjectGroupInfo();
+        objectGroup->setName(valueForKey("name", attributeDict));
         CCPoint positionOffset;
         positionOffset.x = (float)atof(valueForKey("x", attributeDict)) * m_pMapInfo->getTileSize().width;
         positionOffset.y = (float)atof(valueForKey("y", attributeDict)) * m_pMapInfo->getTileSize().height;
@@ -262,12 +261,12 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         objectGroup->release();
         
         // The parent element is now "objectgroup"
-        m_pMapInfo->setParentElement(TMXPropertyObjectGroup);
+        m_nCurrentElement=ISOParsePropertyObjectGroup;
         
     }
     else if(elementName == "image")
     {
-        CCTMXTilesetInfo* tileset = (CCTMXTilesetInfo*)m_pMapInfo->getTilesets()->lastObject();
+        
         
         // build full path
         std::string imagename = valueForKey("source", attributeDict);
@@ -275,103 +274,122 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         if (m_sTMXFileName.find_last_of("/") != string::npos)
         {
             string dir = m_sTMXFileName.substr(0, m_sTMXFileName.find_last_of("/") + 1);
-            tileset->m_sSourceImage = dir + imagename;
+            imagename=dir+imagename;
         }
         else
         {
-            tileset->m_sSourceImage = m_sResources + (m_sResources.size() ? "/" : "") + imagename;
+            imagename=m_sResources + (m_sResources.size() ? "/" : "") + imagename;
         }
+        
+        //check width and height
+        const char* widthValue = valueForKey("width", attributeDict);
+        const char* heightValue = valueForKey("height", attributeDict);
+        
+        CCISOTilesetInfo* tilesetInfo = (CCISOTilesetInfo*)m_pMapInfo->getTilesets()->lastObject();
+        //use by tileset or tile
+        if ( m_nCurrentElement == ISOParsePropertyTileset ){
+            
+            tilesetInfo->setImageSource(imagename.c_str());
+            
+            if(widthValue && heightValue){
+                CCSize s;
+                s.width=(float)atof(widthValue);
+                s.height=(float)atof(heightValue);
+                tilesetInfo->setImageSize(s);
+            }
+            
+        }else if(m_nCurrentElement == ISOParsePropertyTile){
+            
+            CCISOTileInfo* tileInfo=(CCISOTileInfo*)tilesetInfo->getTiles()->lastObject();
+            
+            tileInfo->setImageSource(imagename.c_str());
+            
+            if(widthValue && heightValue){
+                CCSize s;
+                s.width=(float)atof(widthValue);
+                s.height=(float)atof(heightValue);
+                tileInfo->setImageSize(s);
+            }
+        }
+        
     }
     else if(elementName == "data")
     {
+        //TODO support image data
         std::string encoding = valueForKey("encoding", attributeDict);
         std::string compression = valueForKey("compression", attributeDict);
         
         if( encoding == "base64" )
         {
-            int layerAttribs = m_pMapInfo->getLayerAttribs();
-            m_pMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribBase64);
-            m_pMapInfo->setStoringCharacters(true);
+
+            m_nLayerAttribs |=ISOParseLayerAttribBase64;
+            m_bStoringCharacters=true;
             
             if( compression == "gzip" )
             {
-                layerAttribs = m_pMapInfo->getLayerAttribs();
-                m_pMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribGzip);
+                m_nLayerAttribs |=ISOParseLayerAttribGzip;
             } else
                 if (compression == "zlib")
                 {
-                    layerAttribs = m_pMapInfo->getLayerAttribs();
-                    m_pMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribZlib);
+                    m_nLayerAttribs |=ISOParseLayerAttribZlib;
                 }
             CCAssert( compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method" );
         }
-        CCAssert( m_pMapInfo->getLayerAttribs() != TMXLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported" );
+        CCAssert(m_nLayerAttribs != ISOParseLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported" );
         
     }
     else if(elementName == "object")
     {
-        char buffer[32] = {0};
-        CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pMapInfo->getObjectGroups()->lastObject();
+        CCISOObjectGroupInfo* objectGroupInfo = (CCISOObjectGroupInfo*)m_pMapInfo->getObjectGroups()->lastObject();
         
-        // The value for "type" was blank or not a valid class name
-        // Create an instance of TMXObjectInfo to store the object and its properties
-        CCDictionary *dict = new CCDictionary();
-        // Parse everything automatically
-        const char* pArray[] = {"name", "type", "width", "height", "gid"};
+
+        CCISOObjectInfo *objInfo = new CCISOObjectInfo();
         
-        for( int i = 0; i < sizeof(pArray)/sizeof(pArray[0]); ++i )
-        {
-            const char* key = pArray[i];
-            CCString* obj = new CCString(valueForKey(key, attributeDict));
-            if( obj )
-            {
-                obj->autorelease();
-                dict->setObject(obj, key);
-            }
-        }
+        objInfo->setName(valueForKey("name", attributeDict));
         
+        objInfo->setType(valueForKey("type", attributeDict));
+        
+        CCSize s;
+        s.width = (float)atof(valueForKey("width", attributeDict));
+        s.height = (float)atof(valueForKey("height", attributeDict));
+        objInfo->setSize(s);
         // But X and Y since they need special treatment
         // X
         
+        CCPoint pos;
         const char* value = valueForKey("x", attributeDict);
         if( value )
         {
-            int x = atoi(value) + (int)objectGroup->getPositionOffset().x;
-            sprintf(buffer, "%d", x);
-            CCString* pStr = new CCString(buffer);
-            pStr->autorelease();
-            dict->setObject(pStr, "x");
+            pos.x = (float)atof(value) + objectGroupInfo->getPositionOffset().x;
         }
         
         // Y
         value = valueForKey("y", attributeDict);
         if( value )  {
-            int y = atoi(value) + (int)objectGroup->getPositionOffset().y;
+            float y = (float)atof(value) + objectGroupInfo->getPositionOffset().y;
             
             // Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-            y = (int)(m_pMapInfo->getMapSize().height * m_pMapInfo->getTileSize().height) - y - atoi(valueForKey("height", attributeDict));
-            sprintf(buffer, "%d", y);
-            CCString* pStr = new CCString(buffer);
-            pStr->autorelease();
-            dict->setObject(pStr, "y");
+            pos.y = (m_pMapInfo->getMapSize().height * m_pMapInfo->getTileSize().height) - y - s.height;
         }
         
+        objInfo->setPosition(pos);
+        
         // Add the object to the objectGroup
-        objectGroup->getObjects()->addObject(dict);
-        dict->release();
+        objectGroupInfo->getObjects()->addObject(objInfo);
+        objInfo->release();
         
         // The parent element is now "object"
-        m_pMapInfo->setParentElement(TMXPropertyObject);
+        m_nCurrentElement=ISOParsePropertyObject;
         
     }
     else if(elementName == "property")
     {
-        if ( m_pMapInfo->getParentElement() == TMXPropertyNone )
+        if ( m_nCurrentElement == ISOParsePropertyNone )
         {
             CCLOG( "TMX tile map: Parent element is unsupported. Cannot add property named '%s' with value '%s'",
                   valueForKey("name", attributeDict), valueForKey("value",attributeDict) );
         }
-        else if ( m_pMapInfo->getParentElement() == TMXPropertyMap )
+        else if ( m_nCurrentElement == ISOParsePropertyMap )
         {
             // The parent element is the map
             CCString *value = new CCString(valueForKey("value", attributeDict));
@@ -380,52 +398,53 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
             value->release();
             
         }
-        else if ( m_pMapInfo->getParentElement() == TMXPropertyLayer )
+        else if ( m_nCurrentElement == ISOParsePropertyLayer )
         {
             // The parent element is the last layer
-            CCTMXLayerInfo* layer = (CCTMXLayerInfo*)m_pMapInfo->getLayers()->lastObject();
+            CCISOLayerInfo* layerInfo = (CCISOLayerInfo*)m_pMapInfo->getLayers()->lastObject();
             CCString *value = new CCString(valueForKey("value", attributeDict));
             std::string key = valueForKey("name", attributeDict);
             // Add the property to the layer
-            layer->getProperties()->setObject(value, key.c_str());
+            layerInfo->getProperties()->setObject(value, key.c_str());
             value->release();
             
         }
-        else if ( m_pMapInfo->getParentElement() == TMXPropertyObjectGroup )
+        else if ( m_nCurrentElement == ISOParsePropertyObjectGroup )
         {
             // The parent element is the last object group
-            CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pMapInfo->getObjectGroups()->lastObject();
+            CCISOObjectGroupInfo* objectGroupInfo = (CCISOObjectGroupInfo*)m_pMapInfo->getObjectGroups()->lastObject();
             CCString *value = new CCString(valueForKey("value", attributeDict));
             const char* key = valueForKey("name", attributeDict);
-            objectGroup->getProperties()->setObject(value, key);
+            objectGroupInfo->getProperties()->setObject(value, key);
             value->release();
             
         }
-        else if ( m_pMapInfo->getParentElement() == TMXPropertyObject )
+        else if ( m_nCurrentElement == ISOParsePropertyObject )
         {
             // The parent element is the last object
-            CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pMapInfo->getObjectGroups()->lastObject();
-            CCDictionary* dict = (CCDictionary*)objectGroup->getObjects()->lastObject();
+            CCISOObjectGroupInfo* objectGroupInfo = (CCISOObjectGroupInfo*)m_pMapInfo->getObjectGroups()->lastObject();
+            CCISOObjectInfo* objInfo = (CCISOObjectInfo*)objectGroupInfo->getObjects()->lastObject();
             
-            const char* propertyName = valueForKey("name", attributeDict);
-            CCString *propertyValue = new CCString(valueForKey("value", attributeDict));
-            dict->setObject(propertyValue, propertyName);
-            propertyValue->release();
+            CCString *value = new CCString(valueForKey("value", attributeDict));
+            std::string key = valueForKey("name", attributeDict);
+            objInfo->getProperties()->setObject(value,key.c_str());
+            value->release();
         }
-        else if ( m_pMapInfo->getParentElement() == TMXPropertyTile )
+        else if ( m_nCurrentElement == ISOParsePropertyTile )
         {
-            CCDictionary* dict = (CCDictionary*)m_pMapInfo->getTileProperties()->objectForKey(m_pMapInfo->getParentGID());
+            CCISOTilesetInfo* tilesetInfo =(CCISOTilesetInfo*)m_pMapInfo->getTilesets()->lastObject();
+            CCISOTileInfo* tileInfo=(CCISOTileInfo*)tilesetInfo->getTiles()->lastObject();
             
-            const char* propertyName = valueForKey("name", attributeDict);
-            CCString *propertyValue = new CCString(valueForKey("value", attributeDict));
-            dict->setObject(propertyValue, propertyName);
-            propertyValue->release();
+            CCString *value = new CCString(valueForKey("value", attributeDict));
+            std::string key = valueForKey("name", attributeDict);
+            tileInfo->getProperties()->setObject(value, key.c_str());
+            value->release();
         }
     }
     else if (elementName == "polygon")
     {
         // find parent object's dict and add polygon-points to it
-        // CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pObjectGroups->lastObject();
+        // CCISOObjectGroupInfo* objectGroup = (CCISOObjectGroupInfo*)m_pObjectGroups->lastObject();
         // CCDictionary* dict = (CCDictionary*)objectGroup->getObjects()->lastObject();
         // TODO: dict->setObject(attributeDict objectForKey:@"points"] forKey:@"polygonPoints"];
         
@@ -433,7 +452,7 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
     else if (elementName == "polyline")
     {
         // find parent object's dict and add polyline-points to it
-        // CCTMXObjectGroup* objectGroup = (CCTMXObjectGroup*)m_pObjectGroups->lastObject();
+        // CCISOObjectGroupInfo* objectGroup = (CCISOObjectGroupInfo*)m_pObjectGroups->lastObject();
         // CCDictionary* dict = (CCDictionary*)objectGroup->getObjects()->lastObject();
         // TODO: dict->setObject:[attributeDict objectForKey:@"points"] forKey:@"polylinePoints"];
     }
@@ -452,11 +471,11 @@ void CCISOXMLParser::endElement(void *ctx, const char *name)
     
     int len = 0;
     
-    if(elementName == "data" && m_pMapInfo->getLayerAttribs()&TMXLayerAttribBase64)
+    if(elementName == "data" && m_nLayerAttribs&ISOParseLayerAttribBase64)
     {
-        m_pMapInfo->setStoringCharacters(false);
+        m_bStoringCharacters=false;
         
-        CCTMXLayerInfo* layer = (CCTMXLayerInfo*)m_pMapInfo->getLayers()->lastObject();
+        CCISOLayerInfo* layerInfo = (CCISOLayerInfo*)m_pMapInfo->getLayers()->lastObject();
         
         std::string currentString = this->getCurrentString();
         unsigned char *buffer;
@@ -467,10 +486,10 @@ void CCISOXMLParser::endElement(void *ctx, const char *name)
             return;
         }
         
-        if( m_pMapInfo->getLayerAttribs() & (TMXLayerAttribGzip | TMXLayerAttribZlib) )
+        if( m_nLayerAttribs & (ISOParseLayerAttribGzip | ISOParseLayerAttribZlib) )
         {
             unsigned char *deflated;
-            CCSize s = layer->m_tLayerSize;
+            CCSize s = layerInfo->getLayerSize();
             // int sizeHint = s.width * s.height * sizeof(uint32_t);
             int sizeHint = (int)(s.width * s.height * sizeof(unsigned int));
             
@@ -488,11 +507,11 @@ void CCISOXMLParser::endElement(void *ctx, const char *name)
                 return;
             }
             
-            layer->m_pTiles = (unsigned int*) deflated;
+            layerInfo->setTiles((unsigned int*) deflated);
         }
         else
         {
-            layer->m_pTiles = (unsigned int*) buffer;
+            layerInfo->setTiles((unsigned int*) buffer);
         }
         
         this->setCurrentString("");
@@ -501,22 +520,32 @@ void CCISOXMLParser::endElement(void *ctx, const char *name)
     else if (elementName == "map")
     {
         // The map element has ended
-        m_pMapInfo->setParentElement(TMXPropertyNone);
+        m_nCurrentElement=ISOParsePropertyNone;
+    }
+    else if (elementName == "tileset")
+    {
+        // The tileset element has ended
+        m_nCurrentElement=ISOParsePropertyNone;
     }
     else if (elementName == "layer")
     {
         // The layer element has ended
-        m_pMapInfo->setParentElement(TMXPropertyNone);
+        m_nCurrentElement=ISOParsePropertyNone;
     }
     else if (elementName == "objectgroup")
     {
         // The objectgroup element has ended
-        m_pMapInfo->setParentElement(TMXPropertyNone);
+        m_nCurrentElement=ISOParsePropertyNone;
     }
     else if (elementName == "object")
     {
         // The object element has ended
-        m_pMapInfo->setParentElement(TMXPropertyNone);
+        m_nCurrentElement=ISOParsePropertyNone;
+    }
+    else if (elementName == "tile")
+    {
+        // The tile element has ended
+        m_nCurrentElement=ISOParsePropertyNone;
     }
 }
 
@@ -525,7 +554,7 @@ void CCISOXMLParser::textHandler(void *ctx, const char *ch, int len)
     CC_UNUSED_PARAM(ctx);
     std::string pText((char*)ch,0,len);
     
-    if (m_pMapInfo->getStoringCharacters())
+    if (m_bStoringCharacters)
     {
         std::string currentString = this->getCurrentString();
         currentString += pText;
