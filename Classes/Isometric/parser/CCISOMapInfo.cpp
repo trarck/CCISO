@@ -11,7 +11,6 @@ CCISOMapInfo::CCISOMapInfo()
 ,m_pTilesets(NULL)
 ,m_pObjectGroups(NULL)
 ,m_pProperties(NULL)
-,m_pTileProperties(NULL)
 {
 
 }
@@ -22,7 +21,6 @@ CCISOMapInfo::~CCISOMapInfo()
     CC_SAFE_RELEASE(m_pTilesets);
     CC_SAFE_RELEASE(m_pLayers);
     CC_SAFE_RELEASE(m_pProperties);
-    CC_SAFE_RELEASE(m_pTileProperties);
     CC_SAFE_RELEASE(m_pObjectGroups);
 }
 
@@ -38,8 +36,6 @@ bool CCISOMapInfo::init()
     m_pObjectGroups->retain();
     
     m_pProperties = new CCDictionary();
-    m_pTileProperties = new CCDictionary();
-
 
     return true;
 }
@@ -123,18 +119,6 @@ void CCISOMapInfo::setProperties(CCDictionary* pProperties)
 CCDictionary* CCISOMapInfo::getProperties()
 {
     return m_pProperties;
-}
-
-CCDictionary* CCISOMapInfo::getTileProperties()
-{
-    return m_pTileProperties;
-}
-
-void CCISOMapInfo::setTileProperties(CCDictionary* tileProperties)
-{
-    CC_SAFE_RETAIN(tileProperties);
-    CC_SAFE_RELEASE(m_pTileProperties);
-    m_pTileProperties = tileProperties;
 }
 
 NS_CC_END

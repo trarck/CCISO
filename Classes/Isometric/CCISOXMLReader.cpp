@@ -42,12 +42,12 @@ CCISOXMLReader::CCISOXMLReader()
 CCISOXMLReader::~CCISOXMLReader()
 {
     CCLOG("CCISOXMLReader destroy");
-    CC_SAFE_RELEASE(m_pMap);
 }
 
-CCISOXMLReader * CCISOXMLReader::formatWithXMLFile(const char *tmxFile)
+CCISOXMLReader * CCISOXMLReader::formatWithXMLFile(CCISOTileMap* pMap,const char *tmxFile)
 {
     CCISOXMLReader *pRet = new CCISOXMLReader();
+    pRet->setMap(pMap);
     if(pRet->initWithTMXFile(tmxFile))
     {
         pRet->autorelease();
@@ -57,9 +57,10 @@ CCISOXMLReader * CCISOXMLReader::formatWithXMLFile(const char *tmxFile)
     return NULL;
 }
 
-CCISOXMLReader * CCISOXMLReader::formatWithXML(const char* tmxString, const char* resourcePath)
+CCISOXMLReader * CCISOXMLReader::formatWithXML(CCISOTileMap* pMap,const char* tmxString, const char* resourcePath)
 {
     CCISOXMLReader *pRet = new CCISOXMLReader();
+    pRet->setMap(pMap);
     if(pRet->initWithXML(tmxString, resourcePath))
     {
         pRet->autorelease();
@@ -71,10 +72,8 @@ CCISOXMLReader * CCISOXMLReader::formatWithXML(const char* tmxString, const char
 
 void CCISOXMLReader::internalInit(const char* tmxFileName, const char* resourcePath)
 {
-    m_pMap=new CCISOTileMap();
-    m_pMap->init();
+    CCAssert(m_pMap!=NULL, "CCISOXMLReader::internalInit must set map before reader");
     
-        
     if (tmxFileName != NULL)
     {
         m_sTMXFileName = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(tmxFileName);
@@ -210,6 +209,7 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
             
             tileset->release();
         }
+        m_nCurrentElement=ISOPropertyTileset;
     }
     else if(elementName == "tile")
     {
@@ -298,16 +298,49 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
             imagename=m_sResources + (m_sResources.size() ? "/" : "") + imagename;
 
         }
-
         
-        if ( m_nCurrentElement == ISOPropertyLayer ){
-            
+        //check width and height
+        const char* widthValue = valueForKey("width", attributeDict);
+        const char* heightValue = valueForKey("height", attributeDict);
+        
+        //use by tileset or tile
+        if ( m_nCurrentElement == ISOPropertyTileset ){
+
             CCISOTileset* tileset = (CCISOTileset*)m_pMap->getTilesetGroup()->getTilesets()->lastObject();
+            
             tileset->setImageSource(imagename.c_str());
+            
+            if(widthValue && heightValue){
+                CCSize s;
+                s.width=(float)atof(widthValue);
+                s.height=(float)atof(heightValue);
+                tileset->setImageSize(s);
+            }
             
         }else if(m_nCurrentElement == ISOPropertyTile){
             CCISOTileset* tileset = (CCISOTileset*)m_pMap->getTilesetGroup()->getTilesets()->lastObject();
+            CCISOTile* tile=(CCISOTile*)tileset->getTiles()->lastObject();
             
+            if(widthValue && heightValue){
+                
+                CCRect rect;
+                //support origin 
+                const char* originXValue = valueForKey("originX", attributeDict);
+                const char* originYValue = valueForKey("originY", attributeDict);
+                if(originXValue && originYValue){
+                    rect.origin.x=(float)atof(originXValue);
+                    rect.origin.y=(float)atof(originYValue);
+                }else{
+                    rect.origin=ccp(0, 0);
+                }
+                
+                rect.size.width=(float)atof(widthValue);
+                rect.size.height=(float)atof(heightValue);
+                tile->setSprite(CCSprite::create(imagename.c_str(), rect));
+                
+            }else{
+                tile->setSprite(CCSprite::create(imagename.c_str()));
+            }
         }
     }
     else if(elementName == "data")
@@ -520,6 +553,11 @@ void CCISOXMLReader::endElement(void *ctx, const char *name)
         // The map element has ended
         m_nCurrentElement=ISOPropertyNone;
     }
+    else if (elementName == "tileset")
+    {
+        // The tileset element has ended
+        m_nCurrentElement=ISOPropertyNone;
+    }
     else if (elementName == "layer")
     {
         // The layer element has ended
@@ -558,6 +596,11 @@ void CCISOXMLReader::textHandler(void *ctx, const char *ch, int len)
 CCISOTileMap* CCISOXMLReader::getMap()
 {
     return m_pMap;
+}
+
+void CCISOXMLReader::setMap(CCISOTileMap* pMap)
+{
+    m_pMap=pMap;
 }
 
 

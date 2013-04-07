@@ -7,10 +7,11 @@
 
 #include "cocos2d.h"
 #include "CCISOTileLayer.h"
-#include "CCISOObjectLayer.h"
+#include "CCISOObjectGroup.h"
 //#include "CCISOXMLParser.h"
 #include "CCISODynamicComponent.h"
 #include "CCISOTilesetGroup.h"
+
 
 NS_CC_BEGIN
 
@@ -50,6 +51,11 @@ public:
     bool initWithJSON(const char* jsonString,const char* resourcePath);
     
     /**
+     * 取得贴图
+     */
+	CCISOTileset* tilesetNamed(const char* tilesetName);
+    
+    /**
      * 取得普通层
      */
 	CCISOTileLayer* layerNamed(const char* layerName);
@@ -57,7 +63,7 @@ public:
     /**
      * 取得对象层
      */
-    CCISOObjectLayer* objectLayerNamed(const char *layerName);
+    CCISOObjectGroup* objectGroupNamed(const char *objectGroupName);
     
     
     /**
@@ -65,12 +71,12 @@ public:
      */
 	CCString *propertyNamed(const char *propertyName);
 
-	/** return properties dictionary for tile GID */
-    CCDictionary* propertiesForGID(int GID);
-    
+   
     void updateComponentMapCoordinate(unsigned int index,float deltaMapX,float deltaMapY);
     
-    //==============属性===============//
+    virtual CCISOTileLayer* createLayer();
+    
+public://==============属性===============//
     
 	virtual void setMapSize(CCSize tMapSize);
     
@@ -118,16 +124,16 @@ public:
     
 protected:
     
-    virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    virtual void buildWithMapInfo(CCISOMapInfo* mapInfo);
-    
-    /**
-     * 主要是构建tile layer
-     */
-    virtual void buildMapLayers(CCISOMapInfo* mapInfo);
+//    virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+//    
+//    virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+//    
+//    virtual void buildWithMapInfo(CCISOMapInfo* mapInfo);
+//    
+//    /**
+//     * 主要是构建tile layer
+//     */
+//    virtual void buildMapLayers(CCISOMapInfo* mapInfo);
     
 protected:
     /**

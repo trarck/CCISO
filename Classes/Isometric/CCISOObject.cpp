@@ -16,16 +16,6 @@ CCISOObject::~CCISOObject()
     CC_SAFE_RELEASE(m_pProperties);
 }
 
-void CCISOObject::setName(const char *pName)
-{
-    m_sName = pName;
-}
-
-std::string& CCISOObject::getName()
-{
-    return m_sName;
-}
-
 void CCISOObject::setType(const char * pType)
 {
     m_sType = pType;

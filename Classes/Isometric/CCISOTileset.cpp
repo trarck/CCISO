@@ -5,16 +5,17 @@
 NS_CC_BEGIN
 
 CCISOTileset::CCISOTileset()
-:m_tName("")
-,m_tFileName("")
-,m_tImageSource("")
+:m_sName("")
+,m_sFileName("")
+,m_sImageSource("")
 ,m_nTileWidth(0)
 ,m_nTileHeight(0)
 ,m_nTileSpacing(0)
 ,m_nMargin(0)
 ,m_tTileOffset(CCPointZero)
-,m_nImageWidth(0)
-,m_nImageHeight(0)
+//,m_nImageWidth(0)
+//,m_nImageHeight(0)
+,m_tImageSize(CCSizeZero)
 ,m_nColumnCount(0)
 ,m_pTiles(NULL)
 ,m_uFirstGid(0)
@@ -28,23 +29,23 @@ CCISOTileset::~CCISOTileset()
     CCLOG("CCISOTileset destroy");
 }
 
-int CCISOTileset::columnCountForWidth(int width)
+int CCISOTileset::columnCountForWidth(float width)
 {
     CCAssert(m_nTileWidth > 0,"CCISOTileset::columnCountForWidth m_nTileWidth must big then 0");
-    return (width - m_nMargin + m_nTileSpacing) / (m_nTileWidth + m_nTileSpacing);
+    return (int)(width - m_nMargin + m_nTileSpacing) / (m_nTileWidth + m_nTileSpacing);
 }
 
-int CCISOTileset::rowCountForHeight(int height)
+int CCISOTileset::rowCountForHeight(float height)
 {
     CCAssert(m_nTileHeight > 0,"CCISOTileset::columnRowForHeight m_nTileHeight must big then 0");
-    return (height - m_nMargin + m_nTileSpacing) / (m_nTileHeight + m_nTileSpacing);
+    return (int)(height - m_nMargin + m_nTileSpacing) / (m_nTileHeight + m_nTileSpacing);
 }
 
 unsigned int CCISOTileset::lastGid()
 {
-    CCAssert(m_nImageHeight>0 && m_nImageWidth>0, "CCISOTileset::lastGid the image size shuold not 0");
-    int column=columnCountForWidth(m_nImageWidth);
-    int row=rowCountForHeight(m_nImageHeight);
+    CCAssert(m_tImageSize.width>0 && m_tImageSize.height>0, "CCISOTileset::lastGid the image size shuold not 0");
+    int column=columnCountForWidth(m_tImageSize.width);
+    int row=rowCountForHeight(m_tImageSize.height);
     CCAssert(column*row>0, "CCISOTileset::lastGid column*row must big then 0");
     return m_uFirstGid+(column*row-1);
 }
@@ -73,19 +74,26 @@ CCRect CCISOTileset::rectForGid(unsigned int gid)
     CCRect rect;
     rect.size = CCSizeMake(m_nTileWidth, m_nTileHeight);
     gid = gid - m_uFirstGid;
-    int max_x = (int)((m_nImageWidth - m_nMargin*2 + m_nTileSpacing) / (m_nImageWidth + m_nTileSpacing));
+    int max_x = (int)((m_tImageSize.width - m_nMargin*2 + m_nTileSpacing) / (m_tImageSize.width + m_nTileSpacing));
     rect.origin.x = (gid % max_x) * (m_nTileWidth + m_nTileSpacing) + m_nMargin;
     rect.origin.y = (gid / max_x) * (m_nTileHeight + m_nTileSpacing) + m_nMargin;
     return rect;
 }
 
+CCSprite* CCISOTileset::tileSpriteForGid(unsigned int gid)
+{
+    CCSprite* sprite=new CCSprite();
+    CCRect rect=rectForGid(gid);
+    sprite->initWithTexture(m_pTexture,rect);
+    sprite->autorelease();
+    
+    return sprite;
+}
 
 CCISOTile* CCISOTileset::tileForGid(unsigned int gid)
 {
     
-    CCSprite* sprite=new CCSprite();
-    CCRect rect=rectForGid(gid);
-    sprite->initWithTexture(m_pTexture,rect);
+    CCSprite* sprite=tileSpriteForGid(gid);
     //dynamic
     CCISOTile* tile=new CCISOTile();
     tile->init(gid, this, sprite);
@@ -93,34 +101,24 @@ CCISOTile* CCISOTileset::tileForGid(unsigned int gid)
     return tile;
 }
 
-void CCISOTileset::setName(const char* pName)
-{
-    m_tName = pName;
-}
-
-std::string& CCISOTileset::getName()
-{
-    return m_tName;
-}
-
 void CCISOTileset::setFileName(const char* pFileName)
 {
-    m_tFileName = pFileName;
+    m_sFileName = pFileName;
 }
 
 std::string& CCISOTileset::getFileName()
 {
-    return m_tFileName;
+    return m_sFileName;
 }
 
 void CCISOTileset::setImageSource(const char* pImageSource)
 {
-    m_tImageSource = pImageSource;
+    m_sImageSource = pImageSource;
 }
 
 std::string& CCISOTileset::getImageSource()
 {
-    return m_tImageSource;
+    return m_sImageSource;
 }
 
 void CCISOTileset::setTileWidth(int nTileWidth)
@@ -173,25 +171,25 @@ CCPoint CCISOTileset::getTileOffset()
     return m_tTileOffset;
 }
 
-void CCISOTileset::setImageWidth(int nImageWidth)
-{
-    m_nImageWidth = nImageWidth;
-}
-
-int CCISOTileset::getImageWidth()
-{
-    return m_nImageWidth;
-}
-
-void CCISOTileset::setImageHeight(int nImageHeight)
-{
-    m_nImageHeight = nImageHeight;
-}
-
-int CCISOTileset::getImageHeight()
-{
-    return m_nImageHeight;
-}
+//void CCISOTileset::setImageWidth(int nImageWidth)
+//{
+//    m_nImageWidth = nImageWidth;
+//}
+//
+//int CCISOTileset::getImageWidth()
+//{
+//    return m_nImageWidth;
+//}
+//
+//void CCISOTileset::setImageHeight(int nImageHeight)
+//{
+//    m_nImageHeight = nImageHeight;
+//}
+//
+//int CCISOTileset::getImageHeight()
+//{
+//    return m_nImageHeight;
+//}
 
 void CCISOTileset::setColumnCount(int nColumnCount)
 {

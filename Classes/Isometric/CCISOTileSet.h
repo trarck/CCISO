@@ -20,7 +20,7 @@ public:
     
     ~CCISOTileset();
 
-    bool isExternal() const { return !m_tFileName.empty(); }
+    bool isExternal() const { return !m_sFileName.empty(); }
     
     int tileCount() const { return m_pTiles->count(); }
     
@@ -39,19 +39,23 @@ public:
     
     CCRect rectForGid(unsigned int gid);
     
+    CCSprite* tileSpriteForGid(unsigned int gid);
+    
     CCISOTile* tileForGid(unsigned int gid);
     
     
-    int columnCountForWidth(int width);
     
-    int rowCountForHeight(int height);
+    int columnCountForWidth(float width);
+    
+    int rowCountForHeight(float height);
     
     unsigned int lastGid();
     
 public:
     
-    virtual void setName(const char* pName);
-    virtual std::string& getName();
+    inline const char* getName(){ return m_sName.c_str(); }
+    inline void setName(const char *name){ m_sName = name; }
+    
     virtual void setFileName(const char* pFileName);
     virtual std::string& getFileName();
     virtual void setImageSource(const char* pImageSource);
@@ -66,10 +70,10 @@ public:
     virtual int getMargin();
     virtual void setTileOffset(CCPoint tTileOffset);
     virtual CCPoint getTileOffset();
-    virtual void setImageWidth(int nImageWidth);
-    virtual int getImageWidth();
-    virtual void setImageHeight(int nImageHeight);
-    virtual int getImageHeight();
+//    virtual void setImageWidth(int nImageWidth);
+//    virtual int getImageWidth();
+//    virtual void setImageHeight(int nImageHeight);
+//    virtual int getImageHeight();
     virtual void setColumnCount(int nColumnCount);
     virtual int getColumnCount();
     virtual void setTiles(CCArray* pTiles);
@@ -78,6 +82,16 @@ public:
     virtual void setProperties(CCDictionary* pProperties);
     virtual CCDictionary* getProperties();
     
+    inline void setImageSize(CCSize& tImageSize)
+    {
+        m_tImageSize = tImageSize;
+    }
+    
+    inline CCSize& getImageSize()
+    {
+        return m_tImageSize;
+    }
+
 
     virtual void setFirstGid(unsigned int uFirstGid);
     virtual unsigned int getFirstGid();
@@ -95,12 +109,12 @@ public:
     /**
      * 名称
      */
-    std::string m_tName;
+    std::string m_sName;
     
     /**
      * 单独定义的文件名
      */
-    std::string m_tFileName;
+    std::string m_sFileName;
     
     /**
      * 每个tile的宽
@@ -130,17 +144,19 @@ public:
     /**
      * tile拼成的图片名
      */
-    std::string m_tImageSource;
+    std::string m_sImageSource;
     
-    /**
-     * tile拼成的图片宽
-     */
-    int m_nImageWidth;
+//    /**
+//     * tile拼成的图片宽
+//     */
+//    int m_nImageWidth;
+//    
+//    /**
+//     * tile拼成的图片高
+//     */
+//    int m_nImageHeight;
     
-    /**
-     * tile拼成的图片高
-     */
-    int m_nImageHeight;
+    CCSize m_tImageSize;
     
     /**
      * tile拼成的图片

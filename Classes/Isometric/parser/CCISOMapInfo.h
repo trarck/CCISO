@@ -66,8 +66,7 @@ protected:
     CCArray* m_pObjectGroups;
 
     CCDictionary* m_pProperties;
-	CCDictionary* m_pTileProperties;
-    
+   
 };
 
 

@@ -2,7 +2,6 @@
 #define ISO_CCISOXMLParser_H_
 
 #include "cocos2d.h"
-#include "CCISOTileMap.h"
 
 NS_CC_BEGIN
 
@@ -18,6 +17,7 @@ enum {
 enum {
     ISOPropertyNone,
     ISOPropertyMap,
+    ISOPropertyTileset,
     ISOPropertyLayer,
     ISOPropertyObjectGroup,
     ISOPropertyObject,
@@ -35,9 +35,9 @@ public:
     ~CCISOXMLReader();
     
 
-    static CCISOXMLReader * formatWithXMLFile(const char *tmxFile);
+    static CCISOXMLReader * formatWithXMLFile(CCISOTileMap* pMap,const char *tmxFile);
     /** creates a TMX Format with an XML string and a TMX resource path */
-    static CCISOXMLReader * formatWithXML(const char* tmxString, const char* resourcePath);
+    static CCISOXMLReader * formatWithXML(CCISOTileMap* pMap,const char* tmxString, const char* resourcePath);
     /** initializes a TMX format with a  tmx file */
     bool initWithTMXFile(const char *tmxFile);
     /** initializes a TMX format with an XML string and a TMX resource path */
@@ -60,6 +60,7 @@ public:
     inline void setTMXFileName(const char *fileName){ m_sTMXFileName = fileName; }
     
     virtual CCISOTileMap* getMap();
+    virtual void setMap(CCISOTileMap* pMap);
     
 private:
     void internalInit(const char* tmxFileName, const char* resourcePath);

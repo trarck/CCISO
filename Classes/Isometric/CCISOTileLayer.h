@@ -8,6 +8,8 @@
 
 NS_CC_BEGIN
 
+class CCISOTileMap;
+
 /**
  * tile layer 图块图层。
  * 没有复杂的游戏逻辑，通常只做显示。
@@ -20,11 +22,14 @@ class CCISOTileLayer : public CCNode {
 public:
 	
 	CCISOTileLayer();
+    
 	~CCISOTileLayer(void);
 	
     virtual bool init();
     
     virtual bool init(CCSize& mapTileSize,CCPoint& offset);
+    
+    static CCISOTileLayer* create();
     
     /**
      * 初始化显示tiles
@@ -112,6 +117,16 @@ public:
     
     virtual unsigned int* getTiles();
     
+    inline void setMap(CCISOTileMap* pMap)
+    {
+        m_pMap = pMap;
+    }
+    
+    inline CCISOTileMap* getMap()
+    {
+        return m_pMap;
+    }
+    
 protected:
     /**
      * 处理扩展属性
@@ -177,6 +192,7 @@ protected:
     // used for retina display
     float               m_fContentScaleFactor;
 
+    CCISOTileMap* m_pMap;
 };
 
 

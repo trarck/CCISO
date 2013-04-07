@@ -8,7 +8,7 @@
 #include "Player.h"
 
 #include "CCISOTileLayer.h"
-#include "CCISOTileLayerDynamicComponent.h"
+//#include "CCISOTileLayerDynamicComponent.h"
 #include "CCISOTileMap.h"
 #include "CCISODynamicTileLayer.h"
 

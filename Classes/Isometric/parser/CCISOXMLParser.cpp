@@ -236,10 +236,11 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         {
             layerInfo->setOpacity(255);
         }
+        CCPoint pos;
         
-        float x = (float)atof(valueForKey("x", attributeDict));
-        float y = (float)atof(valueForKey("y", attributeDict));
-        layerInfo->setOffset(ccp(x,y));
+        pos.x = (float)atof(valueForKey("x", attributeDict));
+        pos.y = (float)atof(valueForKey("y", attributeDict));
+        layerInfo->setOffset(pos);
         
         m_pMapInfo->getLayers()->addObject(layerInfo);
         layerInfo->release();

@@ -53,6 +53,18 @@ void CCISOTileLayer::initOffset(float x,float y)
 	this->initOffset(ccp(x,y));
 }
 
+CCISOTileLayer* CCISOTileLayer::create()
+{
+    CCISOTileLayer* pRet=new CCISOTileLayer();
+    if(pRet->init()){
+        pRet->autorelease();
+        return pRet;
+    }else{
+        delete pRet;
+        pRet = NULL;
+        return NULL; 
+    }
+}
 
 void CCISOTileLayer::releaseLayer()
 {

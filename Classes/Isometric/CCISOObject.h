@@ -15,8 +15,9 @@ public:
    
 public:
     
-    virtual void setName(const char *pName);
-    virtual std::string& getName();
+    inline const char* getName(){ return m_sName.c_str(); }
+    inline void setName(const char *name){ m_sName = name; }
+    
     virtual void setType(const char *pType);
     virtual std::string& getType();
     virtual void setPosition(CCPoint tPosition);

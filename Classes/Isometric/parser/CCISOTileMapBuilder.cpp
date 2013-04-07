@@ -41,7 +41,7 @@ void CCISOTileMapBuilder::buildWithMapInfo(CCISOMapInfo* mapInfo)
     
     this->buildMapTilesets(mapInfo);
     this->buildMapLayers(mapInfo);
-    this->buildMapOjbectGroups(mapInfo);
+    this->buildMapObjectGroups(mapInfo);
 }
 
 

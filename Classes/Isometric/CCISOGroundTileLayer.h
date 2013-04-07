@@ -18,18 +18,11 @@ class CCISOGroundTileLayer : public CCISOTileLayer {
 public:
 	
 	CCISOGroundTileLayer();
+    
 	~CCISOGroundTileLayer(void);
 	
-    virtual bool init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** creates a CCISOGroundTileLayer with an tileset info, a layer info and a map info
-     @deprecated: This interface will be deprecated sooner or later.
-     */
-    CC_DEPRECATED_ATTRIBUTE static CCISOGroundTileLayer * layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** creates a CCISOGroundTileLayer with an tileset info, a layer info and a map info */
-    static CCISOGroundTileLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
+    virtual bool init(CCISOTileMap *pMap);
+
     /** dealloc the map that contains the tile position from memory.
      Unless you want to know at runtime the tiles positions, you can safely call this method.
      If you are going to call layer->tileGIDAt() then, don't release the map
@@ -108,38 +101,17 @@ protected:
      * 设置tile
      */
     void setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid);
-    CCSprite* reusedTileWithRect(CCRect rect);
     
     CCSprite* appendTileForGID(unsigned int gid, const CCPoint& pos);
     CCSprite* insertTileForGID(unsigned int gid, const CCPoint& pos);
     CCSprite* updateTileForGID(unsigned int gid, const CCPoint& pos);
     
-    unsigned int atlasIndexForExistantZ(unsigned int z);
-    unsigned int atlasIndexForNewZ(int z);
-    
-    void addQuadFromSprite(CCSprite *sprite, unsigned int index);
-    void addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag);
-    
 protected:
 
-    unsigned int* m_pTiles;
-    CCISOTilesetInfo* m_pTileSet;
-    //对于多个tileSet的支持。这样就不能使用batch node。所以最好一个layer使用一个tileSet
-    CCArray* m_pTileSets;
-    
-    CCSpriteBatchNode* m_pSpriteBatchNode;
-    
-    
+    unsigned int* m_pTiles;    
     
     unsigned int        m_uMinGID;
     unsigned int        m_uMaxGID;
-       
-    //! used for optimization
-    CCSprite*           m_pReusedTile;
-    ccCArray*           m_pAtlasIndexArray;
-    
-    // used for retina display
-    float               m_fContentScaleFactor;
 
 };
 
