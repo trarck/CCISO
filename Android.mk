@@ -20,7 +20,6 @@ Classes/Isometric/CCISOOptimizedTileLayer.cpp \
 Classes/Isometric/CCISOComponentNode.cpp \
 Classes/Isometric/CCISODynamicComponent.cpp \
 Classes/Isometric/CCISODynamicTileLayer.cpp \
-Classes/Isometric/CCISOTileLayerDynamicComponent.cpp \
 Classes/Isometric/CCISOLayerInfo.cpp \
 Classes/Isometric/CCISOTilesetInfo.cpp \
 Classes/Isometric/CCISOMapInfo.cpp \

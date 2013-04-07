@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5709D5D7170BFA22004EA62A /* CCISOLayerInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5709D5D1170BFA22004EA62A /* CCISOLayerInfo.cpp */; };
-		5709D5D8170BFA22004EA62A /* CCISOMapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5709D5D3170BFA22004EA62A /* CCISOMapInfo.cpp */; };
-		5709D5D9170BFA22004EA62A /* CCISOTilesetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5709D5D5170BFA22004EA62A /* CCISOTilesetInfo.cpp */; };
 		5709D5DC170C171D004EA62A /* CCISOObjectGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5709D5DA170C171D004EA62A /* CCISOObjectGroup.cpp */; };
 		5709D5E5170C1B47004EA62A /* CCISOObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5709D5E3170C1B46004EA62A /* CCISOObject.cpp */; };
 		5716B5B8163932D900FAE4B5 /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5716B5B6163932D900FAE4B5 /* Unit.cpp */; };
@@ -21,6 +18,14 @@
 		57584246162D1B85008DA210 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584244162D1B85008DA210 /* Monster.cpp */; };
 		57584249162D3884008DA210 /* AutoAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584247162D3884008DA210 /* AutoAttackComponent.cpp */; };
 		5758424C162D39A0008DA210 /* ManualAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5758424A162D39A0008DA210 /* ManualAttackComponent.cpp */; };
+		5759091B171113D30037F46F /* CCISOLayerInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57590915171113D30037F46F /* CCISOLayerInfo.cpp */; };
+		5759091C171113D30037F46F /* CCISOMapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57590917171113D30037F46F /* CCISOMapInfo.cpp */; };
+		5759091D171113D30037F46F /* CCISOTilesetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57590919171113D30037F46F /* CCISOTilesetInfo.cpp */; };
+		57590920171120630037F46F /* CCISOTileMapBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5759091E171120630037F46F /* CCISOTileMapBuilder.cpp */; };
+		57590923171121E30037F46F /* CCISOXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57590921171121E30037F46F /* CCISOXMLParser.cpp */; };
+		5759092617112B9E0037F46F /* CCISOObjectGroupInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5759092417112B9E0037F46F /* CCISOObjectGroupInfo.cpp */; };
+		5759092917112D2C0037F46F /* CCISOObjectInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5759092717112D2B0037F46F /* CCISOObjectInfo.cpp */; };
+		5759092C1711513D0037F46F /* CCISOTileInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5759092A1711513C0037F46F /* CCISOTileInfo.cpp */; };
 		5761F5CF1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5761F5CD1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp */; };
 		5763BF9F1608554E0068D420 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5763BF9E1608554E0068D420 /* QuartzCore.framework */; };
 		5763BFA11608554E0068D420 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5763BFA01608554E0068D420 /* OpenGLES.framework */; };
@@ -50,7 +55,6 @@
 		5763C2E01608570A0068D420 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2801608570A0068D420 /* CocosDenshion.m */; };
 		5763C2E11608570A0068D420 /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2811608570A0068D420 /* SimpleAudioEngine.mm */; };
 		5763C2E21608570A0068D420 /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763C2831608570A0068D420 /* SimpleAudioEngine_objc.m */; };
-		577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */; };
 		57851A6E16968B1300BB6701 /* ISOCoordinateLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851A6C16968B1300BB6701 /* ISOCoordinateLayer.cpp */; };
 		57851A7116968BF200BB6701 /* GridMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851A6F16968BF200BB6701 /* GridMoveComponent.cpp */; };
 		57851A7F1696A1D800BB6701 /* CCMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851A771696A1D800BB6701 /* CCMessage.cpp */; };
@@ -77,7 +81,6 @@
 		5791DDE5160982EE00D996E9 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE3160982EE00D996E9 /* Player.cpp */; };
 		5791DE181609B7AE00D996E9 /* GameEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5791DDE0160982C200D996E9 /* GameEntity.cpp */; };
 		57A25D8016A69C7F00DCEA93 /* CCISOComponentNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */; };
-		57A47CD816B229A1000800D3 /* CCISOObjectLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */; };
 		57A47CDA16B268A8000800D3 /* grid12.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CD916B268A8000800D3 /* grid12.png */; };
 		57A47CDC16B26BE6000800D3 /* grid13.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CDB16B26BE6000800D3 /* grid13.png */; };
 		57A47CDE16B26E34000800D3 /* grid14.png in Resources */ = {isa = PBXBuildFile; fileRef = 57A47CDD16B26E34000800D3 /* grid14.png */; };
@@ -85,7 +88,6 @@
 		57BAD23E170583DB00F9B542 /* CCISODynamicTileLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57BAD23C170583D800F9B542 /* CCISODynamicTileLayer.cpp */; };
 		57D9CCFE16B6207100DE7D92 /* CCISOTileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */; };
 		57D9CD0316B6336000DE7D92 /* CCISODynamicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */; };
-		57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */; };
 		57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */; };
 /* End PBXBuildFile section */
 
@@ -107,12 +109,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5709D5D1170BFA22004EA62A /* CCISOLayerInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOLayerInfo.cpp; sourceTree = "<group>"; };
-		5709D5D2170BFA22004EA62A /* CCISOLayerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOLayerInfo.h; sourceTree = "<group>"; };
-		5709D5D3170BFA22004EA62A /* CCISOMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOMapInfo.cpp; sourceTree = "<group>"; };
-		5709D5D4170BFA22004EA62A /* CCISOMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOMapInfo.h; sourceTree = "<group>"; };
-		5709D5D5170BFA22004EA62A /* CCISOTilesetInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTilesetInfo.cpp; sourceTree = "<group>"; };
-		5709D5D6170BFA22004EA62A /* CCISOTilesetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTilesetInfo.h; sourceTree = "<group>"; };
 		5709D5DA170C171D004EA62A /* CCISOObjectGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOObjectGroup.cpp; sourceTree = "<group>"; };
 		5709D5DB170C171D004EA62A /* CCISOObjectGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOObjectGroup.h; sourceTree = "<group>"; };
 		5709D5E3170C1B46004EA62A /* CCISOObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOObject.cpp; sourceTree = "<group>"; };
@@ -138,6 +134,22 @@
 		57584248162D3884008DA210 /* AutoAttackComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoAttackComponent.h; sourceTree = "<group>"; };
 		5758424A162D39A0008DA210 /* ManualAttackComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualAttackComponent.cpp; sourceTree = "<group>"; };
 		5758424B162D39A0008DA210 /* ManualAttackComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualAttackComponent.h; sourceTree = "<group>"; };
+		57590915171113D30037F46F /* CCISOLayerInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOLayerInfo.cpp; sourceTree = "<group>"; };
+		57590916171113D30037F46F /* CCISOLayerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOLayerInfo.h; sourceTree = "<group>"; };
+		57590917171113D30037F46F /* CCISOMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOMapInfo.cpp; sourceTree = "<group>"; };
+		57590918171113D30037F46F /* CCISOMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOMapInfo.h; sourceTree = "<group>"; };
+		57590919171113D30037F46F /* CCISOTilesetInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTilesetInfo.cpp; sourceTree = "<group>"; };
+		5759091A171113D30037F46F /* CCISOTilesetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTilesetInfo.h; sourceTree = "<group>"; };
+		5759091E171120630037F46F /* CCISOTileMapBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileMapBuilder.cpp; sourceTree = "<group>"; };
+		5759091F171120630037F46F /* CCISOTileMapBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileMapBuilder.h; sourceTree = "<group>"; };
+		57590921171121E30037F46F /* CCISOXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOXMLParser.cpp; sourceTree = "<group>"; };
+		57590922171121E30037F46F /* CCISOXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOXMLParser.h; sourceTree = "<group>"; };
+		5759092417112B9E0037F46F /* CCISOObjectGroupInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOObjectGroupInfo.cpp; sourceTree = "<group>"; };
+		5759092517112B9E0037F46F /* CCISOObjectGroupInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOObjectGroupInfo.h; sourceTree = "<group>"; };
+		5759092717112D2B0037F46F /* CCISOObjectInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOObjectInfo.cpp; sourceTree = "<group>"; };
+		5759092817112D2C0037F46F /* CCISOObjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOObjectInfo.h; sourceTree = "<group>"; };
+		5759092A1711513C0037F46F /* CCISOTileInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileInfo.cpp; sourceTree = "<group>"; };
+		5759092B1711513C0037F46F /* CCISOTileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileInfo.h; sourceTree = "<group>"; };
 		5761F5CD1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOOptimizedTileLayer.cpp; sourceTree = "<group>"; };
 		5761F5CE1705A08000DF1F6E /* CCISOOptimizedTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOOptimizedTileLayer.h; sourceTree = "<group>"; };
 		5763BF9A1608554E0068D420 /* CCISO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCISO.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,8 +191,6 @@
 		5763C2811608570A0068D420 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
 		5763C2821608570A0068D420 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
 		5763C2831608570A0068D420 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
-		577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOXMLParser.cpp; sourceTree = "<group>"; };
-		577D8C7E16A8E6B3007C45E3 /* CCISOXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOXMLParser.h; sourceTree = "<group>"; };
 		57851A6C16968B1300BB6701 /* ISOCoordinateLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ISOCoordinateLayer.cpp; sourceTree = "<group>"; };
 		57851A6D16968B1300BB6701 /* ISOCoordinateLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOCoordinateLayer.h; sourceTree = "<group>"; };
 		57851A6F16968BF200BB6701 /* GridMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridMoveComponent.cpp; sourceTree = "<group>"; };
@@ -238,8 +248,6 @@
 		5791DE141609935600D996E9 /* GameMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMessages.h; sourceTree = "<group>"; };
 		57A25D7E16A69C7F00DCEA93 /* CCISOComponentNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOComponentNode.cpp; sourceTree = "<group>"; };
 		57A25D7F16A69C7F00DCEA93 /* CCISOComponentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOComponentNode.h; sourceTree = "<group>"; };
-		57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOObjectLayer.cpp; sourceTree = "<group>"; };
-		57A47CD716B229A1000800D3 /* CCISOObjectLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOObjectLayer.h; sourceTree = "<group>"; };
 		57A47CD916B268A8000800D3 /* grid12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid12.png; sourceTree = "<group>"; };
 		57A47CDB16B26BE6000800D3 /* grid13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid13.png; sourceTree = "<group>"; };
 		57A47CDD16B26E34000800D3 /* grid14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid14.png; sourceTree = "<group>"; };
@@ -248,8 +256,6 @@
 		57BAD23D170583DA00F9B542 /* CCISODynamicTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISODynamicTileLayer.h; sourceTree = "<group>"; };
 		57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISODynamicComponent.cpp; sourceTree = "<group>"; };
 		57D9CD0016B62D7400DE7D92 /* CCISODynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISODynamicComponent.h; sourceTree = "<group>"; };
-		57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOTileLayerDynamicComponent.cpp; sourceTree = "<group>"; };
-		57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOTileLayerDynamicComponent.h; sourceTree = "<group>"; };
 		57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleMoveComponent.cpp; sourceTree = "<group>"; };
 		57FE5A3F1636A0ED00FCD88B /* SimpleMoveComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMoveComponent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -274,25 +280,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5709D5D0170BF266004EA62A /* reader */ = {
-			isa = PBXGroup;
-			children = (
-				5709D5D1170BFA22004EA62A /* CCISOLayerInfo.cpp */,
-				5709D5D2170BFA22004EA62A /* CCISOLayerInfo.h */,
-				5709D5D3170BFA22004EA62A /* CCISOMapInfo.cpp */,
-				5709D5D4170BFA22004EA62A /* CCISOMapInfo.h */,
-				5709D5D5170BFA22004EA62A /* CCISOTilesetInfo.cpp */,
-				5709D5D6170BFA22004EA62A /* CCISOTilesetInfo.h */,
-			);
-			path = reader;
-			sourceTree = "<group>";
-		};
 		57248D94170A74FB002CAE13 /* interface */ = {
 			isa = PBXGroup;
 			children = (
 				57248DA1170AD47D002CAE13 /* CCISOReaderInterface.h */,
 			);
 			path = interface;
+			sourceTree = "<group>";
+		};
+		57590914171113D30037F46F /* parser */ = {
+			isa = PBXGroup;
+			children = (
+				5759092A1711513C0037F46F /* CCISOTileInfo.cpp */,
+				5759092B1711513C0037F46F /* CCISOTileInfo.h */,
+				5759092717112D2B0037F46F /* CCISOObjectInfo.cpp */,
+				5759092817112D2C0037F46F /* CCISOObjectInfo.h */,
+				5759092417112B9E0037F46F /* CCISOObjectGroupInfo.cpp */,
+				5759092517112B9E0037F46F /* CCISOObjectGroupInfo.h */,
+				57590921171121E30037F46F /* CCISOXMLParser.cpp */,
+				57590922171121E30037F46F /* CCISOXMLParser.h */,
+				5759091E171120630037F46F /* CCISOTileMapBuilder.cpp */,
+				5759091F171120630037F46F /* CCISOTileMapBuilder.h */,
+				57590915171113D30037F46F /* CCISOLayerInfo.cpp */,
+				57590916171113D30037F46F /* CCISOLayerInfo.h */,
+				57590917171113D30037F46F /* CCISOMapInfo.cpp */,
+				57590918171113D30037F46F /* CCISOMapInfo.h */,
+				57590919171113D30037F46F /* CCISOTilesetInfo.cpp */,
+				5759091A171113D30037F46F /* CCISOTilesetInfo.h */,
+			);
+			path = parser;
 			sourceTree = "<group>";
 		};
 		5763BF8F1608554D0068D420 = {
@@ -465,7 +481,7 @@
 		57851A9A1696B27800BB6701 /* Isometric */ = {
 			isa = PBXGroup;
 			children = (
-				5709D5D0170BF266004EA62A /* reader */,
+				57590914171113D30037F46F /* parser */,
 				57248D9E170ACF73002CAE13 /* CCISOXMLReader.cpp */,
 				57248D9F170ACF74002CAE13 /* CCISOXMLReader.h */,
 				5709D5E3170C1B46004EA62A /* CCISOObject.cpp */,
@@ -489,12 +505,6 @@
 				57A25D7F16A69C7F00DCEA93 /* CCISOComponentNode.h */,
 				57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */,
 				57D9CD0016B62D7400DE7D92 /* CCISODynamicComponent.h */,
-				57A47CD616B229A1000800D3 /* CCISOObjectLayer.cpp */,
-				57A47CD716B229A1000800D3 /* CCISOObjectLayer.h */,
-				577D8C7D16A8E6B3007C45E3 /* CCISOXMLParser.cpp */,
-				577D8C7E16A8E6B3007C45E3 /* CCISOXMLParser.h */,
-				57F6F2A5169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp */,
-				57F6F2A6169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.h */,
 				57851AB11696D1A900BB6701 /* CCISOTileLayer.cpp */,
 				57851AB21696D1A900BB6701 /* CCISOTileLayer.h */,
 				57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */,
@@ -695,10 +705,7 @@
 				57851AAF1696B27800BB6701 /* CCZIndex.cpp in Sources */,
 				57851AB01696B27800BB6701 /* CCZIndexNode.cpp in Sources */,
 				578A6B67169936C9000BCC72 /* CCISOTileLayer.cpp in Sources */,
-				57F6F2A7169E6DA400FAC8C7 /* CCISOTileLayerDynamicComponent.cpp in Sources */,
 				57A25D8016A69C7F00DCEA93 /* CCISOComponentNode.cpp in Sources */,
-				577D8C7F16A8E6B3007C45E3 /* CCISOXMLParser.cpp in Sources */,
-				57A47CD816B229A1000800D3 /* CCISOObjectLayer.cpp in Sources */,
 				57D9CCFE16B6207100DE7D92 /* CCISOTileMap.cpp in Sources */,
 				57D9CD0316B6336000DE7D92 /* CCISODynamicComponent.cpp in Sources */,
 				57BAD23E170583DB00F9B542 /* CCISODynamicTileLayer.cpp in Sources */,
@@ -708,11 +715,16 @@
 				57248D9C170A7FB4002CAE13 /* CCISOTilesetGroup.cpp in Sources */,
 				57248D9D170A7FB4002CAE13 /* CCISOTileset.cpp in Sources */,
 				57248DA0170ACF74002CAE13 /* CCISOXMLReader.cpp in Sources */,
-				5709D5D7170BFA22004EA62A /* CCISOLayerInfo.cpp in Sources */,
-				5709D5D8170BFA22004EA62A /* CCISOMapInfo.cpp in Sources */,
-				5709D5D9170BFA22004EA62A /* CCISOTilesetInfo.cpp in Sources */,
 				5709D5DC170C171D004EA62A /* CCISOObjectGroup.cpp in Sources */,
 				5709D5E5170C1B47004EA62A /* CCISOObject.cpp in Sources */,
+				5759091B171113D30037F46F /* CCISOLayerInfo.cpp in Sources */,
+				5759091C171113D30037F46F /* CCISOMapInfo.cpp in Sources */,
+				5759091D171113D30037F46F /* CCISOTilesetInfo.cpp in Sources */,
+				57590920171120630037F46F /* CCISOTileMapBuilder.cpp in Sources */,
+				57590923171121E30037F46F /* CCISOXMLParser.cpp in Sources */,
+				5759092617112B9E0037F46F /* CCISOObjectGroupInfo.cpp in Sources */,
+				5759092917112D2C0037F46F /* CCISOObjectInfo.cpp in Sources */,
+				5759092C1711513D0037F46F /* CCISOTileInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
