@@ -3,9 +3,11 @@
 #include "support/zip_support/ZipUtils.h"
 #include "support/CCPointExtension.h"
 #include "support/base64.h"
-#include "CCISOTileInfo.h"
-#include "CCISOObjectInfo.h"
 #include "CCISOObjectGroupInfo.h"
+#include "CCISOObjectInfo.h"
+#include "CCISOLayerInfo.h"
+#include "CCISOTileInfo.h"
+#include "CCISOTilesetInfo.h"
 
 
 using namespace std;

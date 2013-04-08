@@ -6,11 +6,20 @@
 #define ISO_CCISOTileMapBuilder_H_
 
 #include "cocos2d.h"
+#include "CCISOMapInfo.h"
+#include "CCISOObjectGroupInfo.h"
+#include "CCISOObjectInfo.h"
+#include "CCISOLayerInfo.h"
+#include "CCISOTileInfo.h"
+#include "CCISOTilesetInfo.h"
+
 #include "CCISOXMLParser.h"
 #include "CCISOTileLayer.h"
 #include "CCISODynamicComponent.h"
-#include "CCISOObjectInfo.h"
+
 #include "CCISOObjectGroup.h"
+
+
 
 NS_CC_BEGIN
 

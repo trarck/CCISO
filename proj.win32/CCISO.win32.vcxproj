@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\Classes;..\Classes\Components;..\Classes\Entities;..\Classes\Isometric;..\Classes\Message;..\Classes\Scenes;..\Classes\Layers;$(SolutionDir)cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\kazmath\include;$(SolutionDir)cocos2dx\platform\win32;$(SolutionDir)cocos2dx\platform\third_party\win32;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)CocosDenshion\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Classes;..\Classes\Components;..\Classes\Entities;..\Classes\Isometric;..\Classes\Isometric\parser;..\Classes\Message;..\Classes\Scenes;..\Classes\Layers;$(SolutionDir)cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\kazmath\include;$(SolutionDir)cocos2dx\platform\win32;$(SolutionDir)cocos2dx\platform\third_party\win32;$(SolutionDir)cocos2dx\platform\third_party\win32\OGLES;$(SolutionDir)CocosDenshion\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -55,7 +55,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;COCOS2D_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;COCOS2D_DEBUG=1;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -157,18 +157,29 @@
     <ClInclude Include="..\Classes\Isometric\CCCoordinate.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOComponentNode.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOCoordinate.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOLayerInfo.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOMapInfo.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOObjectLayer.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISODynamicComponent.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISODynamicTileLayer.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOGroundTileLayer.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOInfos.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOObject.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOObjectGroup.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOOptimizedTileLayer.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOTile.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOTileLayer.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOTileLayerDynamicComponent.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOTileLayerOptimization.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOTileMap.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOTilesetInfo.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOTileSimpleGroundLayer.h" />
-    <ClInclude Include="..\Classes\Isometric\CCISOXMLParser.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOTileSet.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOTilesetGroup.h" />
     <ClInclude Include="..\Classes\Isometric\CCZIndex.h" />
     <ClInclude Include="..\Classes\Isometric\CCZIndexNode.h" />
+    <ClInclude Include="..\Classes\Isometric\interface\CCISOReaderInterface.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOLayerInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOMapInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOObjectGroupInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOObjectInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOTileInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOTileMapBuilder.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOTilesetInfo.h" />
+    <ClInclude Include="..\Classes\Isometric\parser\CCISOXMLParser.h" />
     <ClInclude Include="..\Classes\Layers\ISOCoordinateLayer.h" />
     <ClInclude Include="..\Classes\Message\CCIMessageManager.h" />
     <ClInclude Include="..\Classes\Message\CCMessage.h" />
@@ -202,18 +213,27 @@
     <ClCompile Include="..\Classes\Isometric\CCAstarNode.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCCoordinate.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOComponentNode.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOLayerInfo.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOMapInfo.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOObjectLayer.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISODynamicComponent.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISODynamicTileLayer.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOGroundTileLayer.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOObject.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOObjectGroup.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOOptimizedTileLayer.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOTile.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOTileLayer.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOTileLayerDynamicComponent.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOTileLayerOptimization.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOTileMap.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOTilesetInfo.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOTileSimpleGroundLayer.cpp" />
-    <ClCompile Include="..\Classes\Isometric\CCISOXMLParser.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOTileset.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOTilesetGroup.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCZIndex.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCZIndexNode.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOLayerInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOMapInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOObjectGroupInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOObjectInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOTileInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOTileMapBuilder.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOTilesetInfo.cpp" />
+    <ClCompile Include="..\Classes\Isometric\parser\CCISOXMLParser.cpp" />
     <ClCompile Include="..\Classes\Layers\ISOCoordinateLayer.cpp" />
     <ClCompile Include="..\Classes\Message\CCMessage.cpp" />
     <ClCompile Include="..\Classes\Message\CCMessageHandler.cpp" />

@@ -3,11 +3,8 @@
 
 #include "cocos2d.h"
 #include "CCISOTileLayer.h"
-#include "CCISOMapInfo.h"
-#include "CCISOTilesetInfo.h"
-#include "CCISOLayerInfo.h"
+#include "CCISOInfos.h"
 #include "cocoa/CCArray.h"
-
 
 NS_CC_BEGIN
 
