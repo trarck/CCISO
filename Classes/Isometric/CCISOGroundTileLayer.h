@@ -62,10 +62,6 @@ public:
     virtual void removeTileAt(const CCPoint& pos);
 
     
-
-    
-    virtual void removeChild(CCNode* child, bool cleanup);
-    
     void setTiles(unsigned int* pTiles);
     unsigned int* getTiles();
     
