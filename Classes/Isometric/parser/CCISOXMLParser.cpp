@@ -126,7 +126,7 @@ bool CCISOXMLParser::parseXMLFile(const char *xmlFilename)
     }
     
     parser.setDelegator(this);
-    
+
     return parser.parse(xmlFilename);
 }
 

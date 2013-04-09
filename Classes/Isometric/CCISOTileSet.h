@@ -9,8 +9,13 @@ NS_CC_BEGIN
 
 /**
  * tile的二种表示方式
- * 1.整张图片。每个tile的id按照从左到右，从下到下增加。静态的物体。
- * 2.分开的图片。可以是精灵动画。比较灵活，占用一定内存
+ *    1.整张图片。每个tile的id按照从左到右，从下到下增加。静态的物体。
+ *    2.分开的图片。可以是精灵动画。比较灵活，占用一定内存。
+ *    3.整张不等大图片(sprite sheet).主要用于object。
+ *     .前二种的混合。没有实际意义，会使得tileset变的复杂。这里不支持//由于tileset只支持一个imagesouce,所以imagesouce的id先于,tile的定义。如果tile定义的id包含在imagesouce里，则是定义imagesouce的属性。注意先后顺序。
+ * TODO:
+ *    1.支持sprite sheet.即不规则tile.
+ *      id到名称的映射表，一个描述sprite sheet文件。
  */
 class CCISOTileset : public CCObject{
 
@@ -24,13 +29,36 @@ public:
     
     int tileCount() const { return m_pTiles->count(); }
     
-    void addTile(const char* imageName);
+    /**
+     * 删除image tile
+     */
+//    virtual void cleanImageSourceTiles();
     
-    void setTileImage(unsigned int index,const char* imageName);
+    virtual void loadFromImageSource();
     
-    void addTile(CCSprite* sprite);
+    void appendTile(const char* imageName);
     
-    void setTileImage(unsigned int index,CCSprite* sprite);
+    void appendTile(CCSprite* sprite);
+    
+    void setTile(unsigned int id,const char* imageName);
+    
+    void setTile(unsigned int id,CCSprite* sprite);
+    
+    void addTile(unsigned int id,const char* imageName);
+    
+    void addTile(unsigned int id,CCSprite* sprite);
+    
+    void addTile(CCISOTile* tile);
+    
+    
+    /**
+     * 内置索引id
+     */
+    CCRect rectForId(unsigned int id);
+    
+    CCSprite* tileSpriteForId(unsigned int id);
+    
+    CCISOTile* tileForId(unsigned int id);
     
     /**
      * 是否包含某个id
@@ -43,13 +71,13 @@ public:
     
     CCISOTile* tileForGid(unsigned int gid);
     
-    
+    unsigned int lastGid();
     
     int columnCountForWidth(float width);
     
-    int rowCountForHeight(float height);
+    int rowCountForHeight(float height);    
     
-    unsigned int lastGid();
+    
     
 public:
     
@@ -105,7 +133,40 @@ public:
     
     virtual void setTileProperties(CCDictionary* pTileProperties);
     virtual CCDictionary* getTileProperties();
+    
+    inline void setTexture(CCTexture2D* pTexture)
+    {
+        CC_SAFE_RETAIN(pTexture);
+        CC_SAFE_RELEASE(m_pTexture);
+        m_pTexture = pTexture;
+    }
+    
+    inline CCTexture2D* getTexture()
+    {
+        return m_pTexture;
+    }
+    
+    inline void setComposeType(unsigned int uComposeType)
+    {
+        m_uComposeType = uComposeType;
+    }
+    
+    inline unsigned int getComposeType()
+    {
+        return m_uComposeType;
+    }
+    
+    
+
 public:
+    //tileset 的三种方式
+    enum ComposeType{
+        ComposeTypeOnlyImage,
+        ComposeTypeOnlyTiles
+//        ComposeTypeImageAndTiles
+    };
+    
+protected:
     /**
      * 名称
      */
@@ -192,6 +253,8 @@ public:
      * tile的属性
      */
     CCDictionary* m_pTileProperties;
+    
+    unsigned int m_uComposeType;
     
 };
 

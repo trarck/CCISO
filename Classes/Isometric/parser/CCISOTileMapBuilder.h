@@ -13,11 +13,11 @@
 #include "CCISOTileInfo.h"
 #include "CCISOTilesetInfo.h"
 
-#include "CCISOXMLParser.h"
 #include "CCISOTileLayer.h"
 #include "CCISODynamicComponent.h"
 
 #include "CCISOObjectGroup.h"
+#include "CCISOTilesetGroup.h"
 
 
 
@@ -48,26 +48,43 @@ public:
     virtual void buildWithMapInfo(CCISOMapInfo* mapInfo);
     
     /**
-     * 构建tileset
+     * 构建tilesets
      */
     virtual void buildMapTilesets(CCISOMapInfo* mapInfo);
-    /**
-     * 构建tile layer
-     */
-    virtual void buildMapLayers(CCISOMapInfo* mapInfo);
     
     /**
      * 构建tileset
      */
-    virtual void buildMapObjectGroups(CCISOMapInfo* mapInfo);
+    virtual void buildMapTileset(CCISOTilesetInfo* tilesetInfo,CCISOMapInfo* mapInfo,CCISOTilesetGroup* tilesetGroup);
     
+    /**
+     * 构建tiles
+     */
+    virtual void buildMapTiles(CCArray* tileInfos,CCISOTileset* tileset);
+    
+    /**
+     * 设置tile属性
+     */
+    virtual void setMapTilesProperties(CCArray* tileInfos,CCISOTileset* tileset);
+    /**
+     * 构建object groups
+     */
+    virtual void buildMapObjectGroups(CCISOMapInfo* mapInfo);
+    /**
+     * 构建objects
+     */
     virtual void buildMapObjects(CCArray* objects,CCISOObjectGroup* objectGroup);
     /**
      * 构建map object
      */
     virtual void buildMapObject(CCISOObjectInfo* objectInfo,CCISOObjectGroup* objectGroup);
     
+    /**
+     * 构建tile layer
+     */
+    virtual void buildMapLayers(CCISOMapInfo* mapInfo);
     
+
     virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
     virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);

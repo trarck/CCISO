@@ -29,6 +29,65 @@ CCISOTileset::~CCISOTileset()
     CCLOG("CCISOTileset destroy");
 }
 
+//void CCISOTileset::cleanImageSourceTiles()
+//{
+//    if(!m_sImageSource.empty()){
+//        int column=columnCountForWidth(m_tImageSize.width);
+//        int row=rowCountForHeight(m_tImageSize.height);
+//        
+//        int imageTileCount=row*column;
+//        
+//        if(m_pTiles->count()>imageTileCount){
+//            int leftCount=m_pTiles->count()-imageTileCount;
+//            //还有独立的tile定义.剩下的放入新的tiles里
+//            CCArray* newTiles=new CCArray(leftCount);
+//            CCObject* pObj;
+//                                                            
+//            for(CCObject** arr = m_pTiles->data->arr+imageTileCount, **end = m_pTiles->data->arr + m_pTiles->data->num-1;
+//                arr <= end && ((pObj = *arr) != NULL/* || true*/);                                                
+//                arr++){
+//                newTiles->addObject(pObj);
+//            }
+//            setTiles(newTiles);
+//            newTiles->release();
+//        }else{
+//            m_pTiles->removeAllObjects();
+//        }
+//    }
+//}
+
+void CCISOTileset::loadFromImageSource()
+{
+    if(!m_sImageSource.empty()){
+        
+        setTexture(CCTextureCache::sharedTextureCache()->addImage(m_sImageSource.c_str()));
+        
+        if(m_tImageSize.width==0 || m_tImageSize.height==0){
+            m_tImageSize=m_pTexture->getContentSize();
+        }
+        
+        int column=columnCountForWidth(m_tImageSize.width);
+        int row=rowCountForHeight(m_tImageSize.height);
+        
+        int idx=0;
+        int oldTilesSize=m_pTiles->count();
+        for (int j=0; j<row; ++j) {
+            for(int i=0;i<column;++i){
+                CCISOTile* tile=new CCISOTile();
+                tile->init(idx, this,tileSpriteForId(idx));
+                if(idx<oldTilesSize){
+                    m_pTiles->replaceObjectAtIndex(idx, tile);
+                }else{
+                    m_pTiles->addObject(tile);
+                }
+                tile->release();
+                ++idx;
+            }
+        }
+        m_uLastGid=lastGid();
+    }
+}
+
 int CCISOTileset::columnCountForWidth(float width)
 {
     CCAssert(m_nTileWidth > 0,"CCISOTileset::columnCountForWidth m_nTileWidth must big then 0");
@@ -41,26 +100,45 @@ int CCISOTileset::rowCountForHeight(float height)
     return (int)(height - m_nMargin + m_nTileSpacing) / (m_nTileHeight + m_nTileSpacing);
 }
 
+CCRect CCISOTileset::rectForId(unsigned int id)
+{
+    CCRect rect;
+    rect.size = CCSizeMake(m_nTileWidth, m_nTileHeight);
+    int max_x = (int)((m_tImageSize.width - m_nMargin*2 + m_nTileSpacing) / (m_tImageSize.width + m_nTileSpacing));
+    rect.origin.x = (id % max_x) * (m_nTileWidth + m_nTileSpacing) + m_nMargin;
+    rect.origin.y = (id / max_x) * (m_nTileHeight + m_nTileSpacing) + m_nMargin;
+    return rect;
+}
+
+CCSprite* CCISOTileset::tileSpriteForId(unsigned int id)
+{
+    CCSprite* sprite=new CCSprite();
+    CCRect rect=rectForId(id);
+    sprite->initWithTexture(m_pTexture,rect);
+    sprite->autorelease();
+    
+    return sprite;
+}
+
+CCISOTile* CCISOTileset::tileForId(unsigned int id)
+{
+    return (CCISOTile*)m_pTiles->objectAtIndex(id);
+//    //dynamic
+//       CCSprite* sprite=tileSpriteForId(id);
+//    CCISOTile* tile=new CCISOTile();
+//    tile->init(id, this, sprite);
+//    tile->autorelease();
+//    return tile;
+}
+
 unsigned int CCISOTileset::lastGid()
 {
-    CCAssert(m_tImageSize.width>0 && m_tImageSize.height>0, "CCISOTileset::lastGid the image size shuold not 0");
-    int column=columnCountForWidth(m_tImageSize.width);
-    int row=rowCountForHeight(m_tImageSize.height);
-    CCAssert(column*row>0, "CCISOTileset::lastGid column*row must big then 0");
-    return m_uFirstGid+(column*row-1);
-}
-
-unsigned int CCISOTileset::getLastGid()
-{
-    if(this->m_uLastGid==0){
-        this->m_uLastGid=this->lastGid();
-    }
-    return this->m_uLastGid;
-}
-
-void CCISOTileset::setLastGid(unsigned int gid)
-{
-    this->m_uLastGid=gid;
+    return m_uFirstGid+m_pTiles->count()-1;
+//    CCAssert(m_tImageSize.width>0 && m_tImageSize.height>0, "CCISOTileset::lastGid the image size shuold not 0");
+//    int column=columnCountForWidth(m_tImageSize.width);
+//    int row=rowCountForHeight(m_tImageSize.height);
+//    CCAssert(column*row>0, "CCISOTileset::lastGid column*row must big then 0");
+//    return m_uFirstGid+(column*row-1);
 }
 
 bool CCISOTileset::contains(unsigned int gid)
@@ -70,36 +148,101 @@ bool CCISOTileset::contains(unsigned int gid)
 
 CCRect CCISOTileset::rectForGid(unsigned int gid)
 {
-    
-    CCRect rect;
-    rect.size = CCSizeMake(m_nTileWidth, m_nTileHeight);
-    gid = gid - m_uFirstGid;
-    int max_x = (int)((m_tImageSize.width - m_nMargin*2 + m_nTileSpacing) / (m_tImageSize.width + m_nTileSpacing));
-    rect.origin.x = (gid % max_x) * (m_nTileWidth + m_nTileSpacing) + m_nMargin;
-    rect.origin.y = (gid / max_x) * (m_nTileHeight + m_nTileSpacing) + m_nMargin;
-    return rect;
+    return rectForId(gid - m_uFirstGid);
 }
 
 CCSprite* CCISOTileset::tileSpriteForGid(unsigned int gid)
 {
-    CCSprite* sprite=new CCSprite();
-    CCRect rect=rectForGid(gid);
-    sprite->initWithTexture(m_pTexture,rect);
-    sprite->autorelease();
-    
-    return sprite;
+    return tileSpriteForGid(gid - m_uFirstGid);
 }
 
 CCISOTile* CCISOTileset::tileForGid(unsigned int gid)
 {
-    
-    CCSprite* sprite=tileSpriteForGid(gid);
-    //dynamic
-    CCISOTile* tile=new CCISOTile();
-    tile->init(gid, this, sprite);
-    tile->autorelease();
-    return tile;
+    return tileForId(gid - m_uFirstGid);
 }
+
+void CCISOTileset::appendTile(const char* imageName)
+{
+    CCSprite* sprite=CCSprite::create(imageName);
+    appendTile(sprite);
+}
+
+void CCISOTileset::appendTile(CCSprite* sprite)
+{
+    CCISOTile* tile=new CCISOTile();
+    tile->init(tileCount(), this, sprite);
+    m_pTiles->addObject(tile);
+    tile->release();
+    
+    m_uLastGid=lastGid();
+}
+
+void CCISOTileset::setTile(unsigned int id,const char* imageName)
+{
+    CCSprite* sprite=CCSprite::create(imageName);
+    setTile(id, sprite);
+}
+
+void CCISOTileset::setTile(unsigned int id,CCSprite* sprite)
+{
+    CCISOTile* tile=(CCISOTile*)m_pTiles->objectAtIndex(id);
+    if(tile){
+        tile->setSprite(sprite);
+    }else{
+        CCISOTile* tile=new CCISOTile();
+        tile->init(id, this, sprite);
+        m_pTiles->replaceObjectAtIndex(id, tile);
+        tile->release();
+    }
+}
+
+void CCISOTileset::addTile(unsigned int id,const char* imageName)
+{
+    CCSprite* sprite=CCSprite::create(imageName);
+    addTile(id, sprite);
+}
+
+void CCISOTileset::addTile(unsigned int id,CCSprite* sprite)
+{
+    //如果index大于tile count，则中间插入空的
+    unsigned int tileCount=this->tileCount();
+    if(id<tileCount){
+        //replace
+        setTile(id, sprite);
+    }else if(id==tileCount){
+        appendTile(sprite);
+    }else{
+        //补充空的tile
+        unsigned int padCount=id-tileCount;
+        for(int i=0;i<padCount;++i){
+            m_pTiles->addObject(NULL);
+        }
+        //增加新的tile
+        appendTile(sprite);
+    }
+}
+
+void CCISOTileset::addTile(CCISOTile* tile)
+{
+    //如果index大于tile count，则中间插入空的
+    unsigned int tileCount=this->tileCount();
+    unsigned int id=tile->getId();
+    if(id<tileCount){
+        //replace
+        m_pTiles->replaceObjectAtIndex(id, tile);
+    }else if(id==tileCount){
+        m_pTiles->addObject(tile);
+    }else{
+        //补充空的tile
+        unsigned int padCount=id-tileCount;
+        for(int i=0;i<padCount;++i){
+            m_pTiles->addObject(NULL);
+        }
+        //增加新的tile
+        m_pTiles->addObject(tile);
+    }
+}
+
 
 void CCISOTileset::setFileName(const char* pFileName)
 {
@@ -113,7 +256,7 @@ std::string& CCISOTileset::getFileName()
 
 void CCISOTileset::setImageSource(const char* pImageSource)
 {
-    m_sImageSource = pImageSource;
+    m_sImageSource = pImageSource;    
 }
 
 std::string& CCISOTileset::getImageSource()
@@ -221,6 +364,16 @@ void CCISOTileset::setFirstGid(unsigned int uFirstGid)
 unsigned int CCISOTileset::getFirstGid()
 {
     return m_uFirstGid;
+}
+
+unsigned int CCISOTileset::getLastGid()
+{
+    return this->m_uLastGid;
+}
+
+void CCISOTileset::setLastGid(unsigned int gid)
+{
+    this->m_uLastGid=gid;
 }
 
 void CCISOTileset::setTileProperties(CCDictionary* pTileProperties)

@@ -3,7 +3,6 @@
 #include "CCISOObjectGroupInfo.h"
 
 #include "CCISOTileset.h"
-#include "CCISOTilesetGroup.h"
 #include "CCISOTileLayer.h"
 #include "CCISOTileMap.h"
 #include "CCISOObject.h"
@@ -51,9 +50,6 @@ void CCISOTileMapBuilder::buildMapTilesets(CCISOMapInfo* mapInfo)
     CCArray* tilesets = mapInfo->getTilesets();
     if (tilesets && tilesets->count()>0)
     {
-        CCSize tileSize=mapInfo->getTileSize();
-        int tileWidth=(int)tileSize.width;
-        int tileHeight=(int)tileSize.height;
         
         CCISOTilesetGroup* tilesetGroup=new CCISOTilesetGroup();
         
@@ -64,21 +60,7 @@ void CCISOTileMapBuilder::buildMapTilesets(CCISOMapInfo* mapInfo)
             tilesetInfo = (CCISOTilesetInfo*)pObj;
             if (tilesetInfo)
             {
-                CCISOTileset* tileset=new CCISOTileset();
-                
-                tileset->setTileWidth(tileWidth);
-                tileset->setTileHeight(tileHeight);
-                
-                tileset->setName(tilesetInfo->getName());
-                tileset->setFirstGid(tilesetInfo->getFirstGid());
-                tileset->setImageSource(tilesetInfo->getImageSource());
-                tileset->setImageSize(tilesetInfo->getImageSize());
-                tileset->setTileSpacing(tilesetInfo->getSpacing());
-                tileset->setMargin(tilesetInfo->getMargin());
-                tileset->setTileOffset(tilesetInfo->getTileOffset());
-                tileset->setProperties(tilesetInfo->getProperties());
-                tilesetGroup->addTileset(tileset);
-                tileset->release();
+                buildMapTileset(tilesetInfo, mapInfo, tilesetGroup);
             }
         }
         
@@ -87,38 +69,81 @@ void CCISOTileMapBuilder::buildMapTilesets(CCISOMapInfo* mapInfo)
     }
 }
 
-
-void CCISOTileMapBuilder::buildMapLayers(CCISOMapInfo* mapInfo)
+void CCISOTileMapBuilder::buildMapTileset(CCISOTilesetInfo* tilesetInfo,CCISOMapInfo* mapInfo,CCISOTilesetGroup* tilesetGroup)
 {
-    int idx=0;
+    CCSize tileSize=mapInfo->getTileSize();
+    int tileWidth=(int)tileSize.width;
+    int tileHeight=(int)tileSize.height;
     
-    CCArray* layers = mapInfo->getLayers();
-    if (layers && layers->count()>0)
-    {
-        CCISOLayerInfo* layerInfo = NULL;
-        CCObject* pObj = NULL;
-        CCARRAY_FOREACH(layers, pObj)
-        {
-            layerInfo = (CCISOLayerInfo*)pObj;
-            if (layerInfo && layerInfo->getVisible())
-            {
-                CCISOTileLayer *child = parseLayer(layerInfo, mapInfo);
-                addChild((CCNode*)child, idx, idx);
-                
-                // update content size with the max size
-                const CCSize& childSize = child->getContentSize();
-                CCSize currentSize = this->getContentSize();
-                currentSize.width = MAX( currentSize.width, childSize.width );
-                currentSize.height = MAX( currentSize.height, childSize.height );
-                this->setContentSize(currentSize);
-                
-                idx++;
-            }
+    CCISOTileset* tileset=new CCISOTileset();
+    
+    tileset->setTileWidth(tileWidth);
+    tileset->setTileHeight(tileHeight);
+    
+    tileset->setName(tilesetInfo->getName());
+    tileset->setFirstGid(tilesetInfo->getFirstGid());
+    tileset->setTileSpacing(tilesetInfo->getSpacing());
+    tileset->setMargin(tilesetInfo->getMargin());
+    tileset->setTileOffset(tilesetInfo->getTileOffset());
+    tileset->setProperties(tilesetInfo->getProperties());
+
+    const char* imageSource=tilesetInfo->getImageSource();
+    
+    if(imageSource){
+        tileset->setImageSource(tilesetInfo->getImageSource());
+        tileset->setImageSize(tilesetInfo->getImageSize());
+        tileset->loadFromImageSource();
+        CCArray* tileInfos=tilesetInfo->getTiles();
+        if(tileInfos){
+            setMapTilesProperties(tileInfos,tileset);
+        }
+    }else{
+        CCArray* tileInfos=tilesetInfo->getTiles();
+        if(tileInfos){
+            buildMapTiles(tileInfos, tileset);
+        }
+    }
+    
+    tilesetGroup->addTileset(tileset);
+    tileset->release();
+}
+
+void CCISOTileMapBuilder::buildMapTiles(CCArray* tileInfos,CCISOTileset* tileset)
+{
+    CCAssert(tileInfos, "buildMapTiles tiles must non't be null");
+    CCObject* pObj;
+
+    CCARRAY_FOREACH(tileInfos, pObj){
+        CCISOTileInfo* tileInfo=(CCISOTileInfo*)pObj;
+        
+        if(tileInfo->getImageSource()){
+            unsigned int tileId=tileInfo->getId();
+            
+            CCSprite* sprite=new CCSprite();
+            sprite->initWithFile(tileInfo->getImageSource());
+            
+            CCISOTile* tile=new CCISOTile();
+            tile->init(tileId, tileset, sprite);
+            tile->setProperties(tileInfo->getProperties());
+            tileset->addTile(tile);
+            
+            sprite->release();
+            tile->release();
         }
     }
 }
 
-
+void CCISOTileMapBuilder::setMapTilesProperties(CCArray* tileInfos,CCISOTileset* tileset)
+{
+    CCAssert(tileInfos, "setMapTilesProperties tiles must non't be null");
+    CCObject* pObj;
+    
+    CCARRAY_FOREACH(tileInfos, pObj){
+        CCISOTileInfo* tileInfo=(CCISOTileInfo*)pObj;
+        CCISOTile* tile=tileset->tileForId(tileInfo->getId());
+        tile->setProperties(tileInfo->getProperties());
+    }
+}
 
 void CCISOTileMapBuilder::buildMapObjectGroups(CCISOMapInfo* mapInfo)
 {
@@ -172,6 +197,36 @@ void CCISOTileMapBuilder::buildMapObject(CCISOObjectInfo* objectInfo,CCISOObject
     obj->setProperties(objectInfo->getProperties());
     objectGroup->getObjects()->addObject(obj);
     obj->release();
+}
+
+void CCISOTileMapBuilder::buildMapLayers(CCISOMapInfo* mapInfo)
+{
+    int idx=0;
+    
+    CCArray* layers = mapInfo->getLayers();
+    if (layers && layers->count()>0)
+    {
+        CCISOLayerInfo* layerInfo = NULL;
+        CCObject* pObj = NULL;
+        CCARRAY_FOREACH(layers, pObj)
+        {
+            layerInfo = (CCISOLayerInfo*)pObj;
+            if (layerInfo && layerInfo->getVisible())
+            {
+                CCISOTileLayer *child = parseLayer(layerInfo, mapInfo);
+                addChild((CCNode*)child, idx, idx);
+                
+                // update content size with the max size
+                const CCSize& childSize = child->getContentSize();
+                CCSize currentSize = this->getContentSize();
+                currentSize.width = MAX( currentSize.width, childSize.width );
+                currentSize.height = MAX( currentSize.height, childSize.height );
+                this->setContentSize(currentSize);
+                
+                idx++;
+            }
+        }
+    }
 }
 
 

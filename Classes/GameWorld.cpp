@@ -12,6 +12,9 @@
 #include "CCISOTileMap.h"
 #include "CCISODynamicTileLayer.h"
 
+#include "Isometric/parser/CCISOTileMapBuilder.h"
+#include "Isometric/parser/CCISOXMLParser.h"
+
 USING_NS_CC;
 
 NS_YH_BEGIN
@@ -219,6 +222,15 @@ void GameWorld::setupUtil()
  */
 void GameWorld::setupGameWorlds()
 {
+    CCISOXMLParser* isoXmlParser=new CCISOXMLParser();
+    isoXmlParser->initWithTMXFile("map/tt.tmx");
+    
+    CCISOMapInfo* mapInfo=isoXmlParser->getMapInfo();
+    
+    CCLOG("tileset count:%d",mapInfo->getTilesets()->count());
+    CCISOTilesetInfo* tilesetInfo=(CCISOTilesetInfo*)mapInfo->getTilesets()->objectAtIndex(0);
+    CCLOG("tiles count:%d,%s\n%f,%f",tilesetInfo->getTiles()->count(),tilesetInfo->getImageSource(),tilesetInfo->getImageSize().width,tilesetInfo->getImageSize().height);
+    
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 //    CCISOTileLayer* testLayer=new CCISOTileLayer();
 //    testLayer->init();
