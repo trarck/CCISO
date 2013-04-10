@@ -6,3 +6,6 @@
 /proj.android/obj
 /proj.win32/Debug.win32
 /proj.win32/Release.win32
+Resources/editor/
+Resources/map/1.tmx
+Resources/map/low/
