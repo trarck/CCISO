@@ -7,11 +7,11 @@ NS_CC_BEGIN
 
 CCISOObjectGroup::CCISOObjectGroup()
 :m_tOffset(CCPointZero)
-,m_sName("")        
+,m_sName("")
+,m_pObjects(NULL)
+,m_pProperties(NULL)
 {
-    m_pObjects = new CCArray();
-    m_pObjects->init();
-    m_pProperties = new CCDictionary();
+    
 }
 
 CCISOObjectGroup::~CCISOObjectGroup()
@@ -19,6 +19,14 @@ CCISOObjectGroup::~CCISOObjectGroup()
     CCLOGINFO( "CCISOObjectGroup: deallocing.");
     CC_SAFE_RELEASE(m_pObjects);
     CC_SAFE_RELEASE(m_pProperties);
+}
+
+bool CCISOObjectGroup::init()
+{
+    m_pObjects = new CCArray();
+    m_pObjects->init();
+    m_pProperties = new CCDictionary();
+    return true;
 }
 
 CCDictionary* CCISOObjectGroup::objectNamed(const char *objectName)

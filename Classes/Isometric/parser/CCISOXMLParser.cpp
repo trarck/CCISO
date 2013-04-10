@@ -163,6 +163,13 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         s.height = (float)atof(valueForKey("tileheight", attributeDict));
         m_pMapInfo->setTileSize(s);
         
+        //#RRGGBB
+        const char* backgroundColor=valueForKey("backgroundcolor", attributeDict);
+        
+        long backgroundColorValue=strtol(backgroundColor+1, NULL, 16);
+        m_pMapInfo->setBackgroundColor(ccc3(backgroundColorValue>>16,backgroundColorValue>>8 & 0xFF,backgroundColorValue &0xFF));
+        
+        
         // The parent element is now "map"
         m_nCurrentElement=ISOParsePropertyMap;
     }

@@ -56,11 +56,22 @@ public:
     virtual void setProperties(CCDictionary* pProperties);
     virtual CCDictionary* getProperties();
         
+    inline void setBackgroundColor(ccColor3B tBackgroundColor)
+    {
+        m_tBackgroundColor = tBackgroundColor;
+    }
+    
+    inline ccColor3B getBackgroundColor()
+    {
+        return m_tBackgroundColor;
+    }
     
 protected:
-    int m_nOrientation;
+    int m_nOrientation;  
     CCSize m_tMapSize;
     CCSize m_tTileSize;
+    ccColor3B backgroundColor;
+    
     CCArray* m_pLayers;
     CCArray* m_pTilesets;
     CCArray* m_pObjectGroups;

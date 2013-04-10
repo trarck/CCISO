@@ -6,15 +6,22 @@ NS_CC_BEGIN
 
 CCISOTile::CCISOTile()
 :m_nId(0)
+,m_pSprite(NULL)
 {
 
+}
+
+CCISOTile::~CCISOTile()
+{
+    CCLOG("CCISOTile destroy");
+    CC_SAFE_RELEASE(m_pSprite);
+    CC_SAFE_RELEASE(m_pProperties);
 }
 
 bool CCISOTile::init()
 {
     m_pProperties=new CCDictionary();
     return true;
-    
 }
 
 bool CCISOTile::init(int id,CCISOTileset* tileset)
@@ -38,11 +45,7 @@ bool CCISOTile::init(int id,CCISOTileset* tileset,CCSprite* sprite)
 }
 
 
-CCISOTile::~CCISOTile()
-{
-    CCLOG("CCISOTile destroy");
-    CC_SAFE_RELEASE(m_pSprite);
-}
+
 
 void CCISOTile::setId(int nId)
 {

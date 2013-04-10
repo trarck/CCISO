@@ -13,6 +13,8 @@ public:
   
     ~CCISOObject();
    
+    bool init();
+    
 public:
     
     inline const char* getName(){ return m_sName.c_str(); }

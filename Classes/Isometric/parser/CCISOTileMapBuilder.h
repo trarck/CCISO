@@ -33,7 +33,7 @@ class CCISOTileMap;
  * tmx里tile layer是直接添加到显示子列表里，object layer做为属性，具体怎么用由游戏决定。
  * 这里都做为属性，具体怎么用由游戏来决定
  */
-class CCISOTileMapBuilder : public CCNode,public CCISODynamicComponentUpdateDelegator{
+class CCISOTileMapBuilder : public CCObject{
 
 public:
 	
@@ -55,7 +55,7 @@ public:
     /**
      * 构建tileset
      */
-    virtual void buildMapTileset(CCISOTilesetInfo* tilesetInfo,CCISOMapInfo* mapInfo,CCISOTilesetGroup* tilesetGroup);
+    virtual void buildMapTileset(CCISOTilesetInfo* tilesetInfo,CCISOTilesetGroup* tilesetGroup);
     
     /**
      * 构建tiles
@@ -88,7 +88,6 @@ public:
     virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
     virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
     
     virtual void setMap(CCISOTileMap* pMap){
         m_pMap=pMap;

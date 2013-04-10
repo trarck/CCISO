@@ -20,6 +20,9 @@ CCISOTileset::CCISOTileset()
 ,m_pTiles(NULL)
 ,m_uFirstGid(0)
 ,m_uLastGid(0)
+,m_pProperties(NULL)
+,m_pTileProperties(NULL)
+,m_pTexture(NULL)
 {
     
 }
@@ -27,6 +30,21 @@ CCISOTileset::CCISOTileset()
 CCISOTileset::~CCISOTileset()
 {
     CCLOG("CCISOTileset destroy");
+    CC_SAFE_RELEASE(m_pTiles);
+    CC_SAFE_RELEASE(m_pProperties);
+    CC_SAFE_RELEASE(m_pTileProperties);
+    CC_SAFE_RELEASE(m_pTexture);
+}
+
+bool CCISOTileset::init()
+{
+    m_pTiles=new CCArray();
+    m_pTiles->init();
+    
+    m_pProperties=new CCDictionary();
+    
+    m_pTileProperties=new CCDictionary();
+    return true;
 }
 
 //void CCISOTileset::cleanImageSourceTiles()
@@ -104,7 +122,7 @@ CCRect CCISOTileset::rectForId(unsigned int id)
 {
     CCRect rect;
     rect.size = CCSizeMake(m_nTileWidth, m_nTileHeight);
-    int max_x = (int)((m_tImageSize.width - m_nMargin*2 + m_nTileSpacing) / (m_tImageSize.width + m_nTileSpacing));
+    int max_x = (int)((m_tImageSize.width - m_nMargin*2 + m_nTileSpacing) / (m_nTileWidth + m_nTileSpacing));
     rect.origin.x = (id % max_x) * (m_nTileWidth + m_nTileSpacing) + m_nMargin;
     rect.origin.y = (id / max_x) * (m_nTileHeight + m_nTileSpacing) + m_nMargin;
     return rect;

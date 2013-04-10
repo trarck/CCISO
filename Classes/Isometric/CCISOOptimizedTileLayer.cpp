@@ -45,7 +45,7 @@ void CCISOOptimizedTileLayer::addTileAt(float x,float y)
     CCSprite* testGrid=CCSprite::create("grid1.png");
     testGrid->setPosition(isoGameToView2F(x,y));
     testGrid->setAnchorPoint(ccp(0.5,0));
-    testGrid->setOpacity(60);
+//    testGrid->setOpacity(60);
     this->addChild(testGrid);
 }
 

@@ -8,9 +8,12 @@ CCISOTileLayer::CCISOTileLayer()
 ,m_iStartY(0)
 ,m_tLayerSize(CCSizeZero)
 ,m_tMapTileSize(CCSizeZero)
+,m_tOffset(CCPointZero)
 ,m_pProperties(NULL)
 ,m_sLayerName("")
 ,m_pTiles(NULL)
+,m_bUseAutomaticVertexZ(false)
+,m_nVertexZvalue(0)
 {
 	
 }
@@ -27,15 +30,27 @@ CCISOTileLayer::~CCISOTileLayer()
 
 bool CCISOTileLayer::init()
 {
-	m_tOffset=CCPointZero;   
+    m_pProperties=new CCDictionary();
+    
 	return true;
+}
+
+bool CCISOTileLayer::init(CCSize& mapTileSize)
+{
+    if(init()){
+        m_tMapTileSize=mapTileSize;
+        return true;
+    }
+    return false;
 }
 
 bool CCISOTileLayer::init(CCSize& mapTileSize,CCPoint& offset)
 {
-    m_tMapTileSize=mapTileSize;
-    m_tOffset=offset;
-    return true;
+    if(init(mapTileSize)){
+        m_tOffset=offset;
+        return true;
+    }
+    return false;
 }
 
 

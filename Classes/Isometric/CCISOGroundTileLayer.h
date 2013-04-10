@@ -18,7 +18,7 @@ public:
     
 	~CCISOGroundTileLayer(void);
 	
-    virtual bool init(CCISOTileMap *pMap);
+//    virtual bool init(CCISOTileMap *pMap);
 
     /** dealloc the map that contains the tile position from memory.
      Unless you want to know at runtime the tiles positions, you can safely call this method.

@@ -23,6 +23,8 @@ public:
 	~CCISOTileLayer(void);
 	
     virtual bool init();
+        
+    virtual bool init(CCSize& mapTileSize);
     
     virtual bool init(CCSize& mapTileSize,CCPoint& offset);
     
@@ -113,6 +115,16 @@ public:
     virtual void setTiles(unsigned int* pTiles);
     
     virtual unsigned int* getTiles();
+    
+    inline void setOpacity(unsigned char cOpacity)
+    {
+        m_cOpacity = cOpacity;
+    }
+    
+    inline unsigned char getOpacity()
+    {
+        return m_cOpacity;
+    }
     
     inline void setMap(CCISOTileMap* pMap)
     {

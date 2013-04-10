@@ -33,13 +33,11 @@ CCISOGroundTileLayer::~CCISOGroundTileLayer()
     CC_SAFE_DELETE_ARRAY(m_pTiles);
 }
 
-bool CCISOGroundTileLayer::init(CCISOTileMap *pMap)
-{
-    setMap(pMap);
-    return true;
-}
-
-
+//bool CCISOGroundTileLayer::init(CCISOTileMap *pMap)
+//{
+//    setMap(pMap);
+//    return true;
+//}
 
 void CCISOGroundTileLayer::releaseLayer()
 {
@@ -54,6 +52,7 @@ void CCISOGroundTileLayer::releaseLayer()
 
 void CCISOGroundTileLayer::setupTiles()
 {
+    CCLOG("setupTiles");
     // Parse cocos2d properties
     this->parseInternalProperties();
     
@@ -73,7 +72,11 @@ void CCISOGroundTileLayer::setupTiles()
             // XXX: gid == 0 --> empty tile
             if (gid != 0)
             {
-                this->appendTileForGID(gid, ccp(x, y));
+                //需要转换
+                CCPoint pos;
+                pos.x=m_tLayerSize.height-y;
+                pos.y=m_tLayerSize.width-x;
+                this->appendTileForGID(gid, pos);
                 
                 // Optimization: update min and max GID rendered by the layer
                 m_uMinGID = MIN(gid, m_uMinGID);
@@ -89,7 +92,7 @@ void CCISOGroundTileLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, u
     sprite->setVertexZ((float)this->vertexZForPos(mapCoord));
     sprite->setAnchorPoint(CCPointZero);
     sprite->setOpacity(m_cOpacity);
-    
+    CCLOG("opacity:%u",sprite->getOpacity());
     sprite->setFlipX(false);
     sprite->setFlipX(false);
     sprite->setRotation(0.0f);
@@ -234,19 +237,26 @@ CCSprite * CCISOGroundTileLayer::updateTileForGID(unsigned int gid, const CCPoin
 // since lot's of assumptions are no longer true
 CCSprite * CCISOGroundTileLayer::appendTileForGID(unsigned int gid, const CCPoint& pos)
 {
+//    CCLOG("appendTileForGID[%s]:%d,%f,%f,z:%.9lf",m_sLayerName.c_str(),gid,pos.x,pos.y,this->vertexZForPos(pos));
+
     int z = (int)(pos.x + pos.y * m_tLayerSize.width);
     
     CCISOTileset* tileset=m_pMap->getTilesetGroup()->getTilesetByGid(gid);
     
-    CCISOTile* tile=tileset->tileForGid(gid);    
+    CCISOTile* tile=tileset->tileForGid(gid);
     
-    CCSprite *tileSprite = tile->getSprite();
+    CCSprite* tileSprite = tile->getSprite();
     
-    setupTileSprite(tileSprite ,pos ,gid);
- 
-    addChild(tileSprite,0,z);
+    CCSprite* newSprite=CCSprite::createWithTexture(tileSprite->getTexture(), tileSprite->getTextureRect());
     
-    return tileSprite;
+    CCRect rect=tileSprite->getTextureRect();
+//    CCLOG("appendTileForGID[%s]:origin:%f,%f;size:%f,%f,opacity:%d",m_sLayerName.c_str(),rect.origin.x,rect.origin.y,rect.size.width,rect.size.height,m_cOpacity);
+    CCLOG("before:%u",newSprite->getOpacity());
+    setupTileSprite(newSprite ,pos ,gid);
+    CCLOG("after:%u",newSprite->getOpacity());
+    this->addChild(newSprite,0,z);
+    
+    return newSprite;
 }
 
 

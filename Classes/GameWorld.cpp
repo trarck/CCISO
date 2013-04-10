@@ -60,6 +60,18 @@ GameWorld::~GameWorld()
 	CCLOG("GameWorld destroy end");
 }
 
+CCPoint positionForIsoAt(const CCPoint& pos)
+{
+    CCPoint xy = CCPointMake(64 /2 * (pos.x - pos.y - 1),32 /2 * ((pos.x + pos.y) + 2));
+    return xy;
+}
+
+CCPoint positionForIsoAt(float x,float y)
+{
+    CCPoint xy = CCPointMake(64 /2 * (x - y - 1),32 /2 * ((x + y) + 2));
+    return xy;
+}
+
 // on "init" you need to initialize your instance
 bool GameWorld::init()
 {
@@ -76,54 +88,73 @@ bool GameWorld::init()
 	m_iMapRow=20;
 
 	//add coord line
-	ISOCoordinateLayer* coordLayer=ISOCoordinateLayer::create();
-	coordLayer->setMapWidth(m_iMapColumn);
-	coordLayer->setMapHeight(m_iMapRow);
-	this->addChild(coordLayer,100);
+//	ISOCoordinateLayer* coordLayer=ISOCoordinateLayer::create();
+//	coordLayer->setMapWidth(m_iMapColumn);
+//	coordLayer->setMapHeight(m_iMapRow);
+//	this->addChild(coordLayer,100);
     
 //    CCLayerColor* tempLayer=CCLayerColor::create(ccc4(0,0,255,255), 1000.0f, 1000.0f);
 //    this->addChild(tempLayer);
     
     
-    CCSprite* cellTile=CCSprite::create("grid13.png");
-    cellTile->setAnchorPoint(ccp(0.5,0));
-    
-    CCPoint pos=isoGameToView2F(1, 1);
-    pos.x-=0;
-    CCLOG("init:%f,%f",pos.x,pos.y);
-    cellTile->setPosition(pos);
-
-    this->addChild(cellTile);
-
-    cellTile=CCSprite::create("grid13.png");
-    cellTile->setAnchorPoint(ccp(0.5,0));
-    
-    pos=isoGameToView2F(1, 0);
-    pos.y+=0;
-    CCLOG("init:%f,%f",pos.x,pos.y);
-    cellTile->setPosition(pos);
-    
-    this->addChild(cellTile);
-    
-    cellTile=CCSprite::create("grid13.png");
-    cellTile->setAnchorPoint(ccp(0.5,0));
-    
-    pos=isoGameToView2F(0, 1);
-    pos.y+=0;
-    CCLOG("init:%f,%f",pos.x,pos.y);
-    cellTile->setPosition(pos);
-
-    this->addChild(cellTile);
-    
-    cellTile=CCSprite::create("grid13.png");
-    cellTile->setAnchorPoint(ccp(0.5,0));
-    
-    pos=isoGameToView2F(0, 0);
-    pos.y+=0;
-    CCLOG("init:%f,%f",pos.x,pos.y);
-    cellTile->setPosition(pos);
-
-    this->addChild(cellTile);
+//    CCSpriteBatchNode* bn=CCSpriteBatchNode::create("map/iso.png");
+//    
+//    CCTexture2D* texture=bn->getTexture();
+//    
+//    texture->setAliasTexParameters();
+//    
+//    CCRect rect;
+//    rect.origin=ccp(0,0);
+//    rect.size=CCSizeMake(64, 32);
+//    
+//    CCSprite* cellTile=CCSprite::createWithTexture(texture,rect);
+//    cellTile->setAnchorPoint(ccp(0,0));
+//
+//    CCPoint pos=positionForIsoAt(1, 1);
+//    pos.y=-pos.y;
+//    CCLOG("init:%f,%f",pos.x,pos.y);
+//    cellTile->setPosition(pos);
+//
+//    cellTile->setBatchNode(bn);
+//    bn->addChild(cellTile);
+//
+//
+//    cellTile=CCSprite::createWithTexture(texture,rect);
+//    cellTile->setAnchorPoint(ccp(0,0));
+//    
+//    pos=positionForIsoAt(1, 0);
+//    pos.y=-pos.y;
+//    CCLOG("init:%f,%f",pos.x,pos.y);
+//    cellTile->setPosition(pos);
+//    
+//    cellTile->setBatchNode(bn);
+//    bn->addChild(cellTile);
+//    
+//    cellTile=CCSprite::createWithTexture(texture,rect);
+//    cellTile->setAnchorPoint(ccp(0,0));
+//    
+//    pos=positionForIsoAt(0, 1);
+//    pos.y=-pos.y;
+//    CCLOG("init:%f,%f",pos.x,pos.y);
+//    cellTile->setPosition(pos);
+//
+//    cellTile->setBatchNode(bn);
+//    bn->addChild(cellTile);
+//    
+//    cellTile=CCSprite::createWithTexture(texture,rect);
+//    cellTile->setAnchorPoint(ccp(0,0));
+//    
+//    pos=positionForIsoAt(0, 0);
+//    pos.y=-pos.y;
+//    CCLOG("init:%f,%f",pos.x,pos.y);
+//    cellTile->setPosition(pos);
+//
+//    cellTile->setBatchNode(bn);
+//    bn->addChild(cellTile);
+//    
+//    bn->setPosition(ccp(0,100));
+//    
+//    this->addChild(bn);
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
  //   float scaleX=screenSize.width/480;
@@ -184,10 +215,10 @@ void GameWorld::setup()
     m_pGameCamera->moveTo(-screenSize.width/2, 0);
 	//base
 	setupGameWorlds();
-	setupUtil();
+//	setupUtil();
 	//objects
-	loadBackground();
-	loadInterMediate();
+//	loadBackground();
+//	loadInterMediate();
 	
 	//setupNetWork();
 }
@@ -222,14 +253,32 @@ void GameWorld::setupUtil()
  */
 void GameWorld::setupGameWorlds()
 {
+    CCLayerColor* lc=CCLayerColor::create(ccc4(255,0,0,255), 960, 640);
+    addChild(lc);
+    
     CCISOXMLParser* isoXmlParser=new CCISOXMLParser();
-    isoXmlParser->initWithTMXFile("map/tt.tmx");
+    isoXmlParser->initWithTMXFile("map/iso-test2.tmx");
     
     CCISOMapInfo* mapInfo=isoXmlParser->getMapInfo();
     
     CCLOG("tileset count:%d",mapInfo->getTilesets()->count());
     CCISOTilesetInfo* tilesetInfo=(CCISOTilesetInfo*)mapInfo->getTilesets()->objectAtIndex(0);
     CCLOG("tiles count:%d,%s\n%f,%f",tilesetInfo->getTiles()->count(),tilesetInfo->getImageSource(),tilesetInfo->getImageSize().width,tilesetInfo->getImageSize().height);
+    
+    CCISOTileMap* isoMap=new CCISOTileMap();
+    isoMap->init();
+    this->addChild(isoMap,0,kLayerTagTestIsoLayer);
+    
+    struct timeval now;
+    gettimeofday(&now,NULL);
+    CCISOTileMapBuilder* mapBuilder=new CCISOTileMapBuilder();
+    mapBuilder->init(isoMap);
+    mapBuilder->buildWithMapInfo(mapInfo);
+    
+    struct timeval end;
+    gettimeofday(&end,NULL);
+    
+    CCLOG("use:%ld,%d", end.tv_sec-now.tv_sec,end.tv_usec-now.tv_usec);
     
     CCSize screenSize= CCDirector::sharedDirector()->getWinSize();
 //    CCISOTileLayer* testLayer=new CCISOTileLayer();
@@ -238,9 +287,9 @@ void GameWorld::setupGameWorlds()
 //    this->addChild(testLayer,0,kLayerTagTestIsoLayer);
 //    testLayer->visitTileShowable();
     
-    CCISOTileMap* testMap=new CCISOTileMap();
-    testMap->init();
-    this->addChild(testMap);
+//    CCISOTileMap* testMap=new CCISOTileMap();
+//    testMap->init();
+//    this->addChild(testMap);
     
 //    CCISOTileLayerDynamicComponent* testLayer=new CCISOTileLayerDynamicComponent();
 //    testLayer->init();
@@ -253,28 +302,28 @@ void GameWorld::setupGameWorlds()
     
 
     
-    CCISODynamicTileLayer* testLayer=new CCISODynamicTileLayer();
+//    CCISODynamicTileLayer* testLayer=new CCISODynamicTileLayer();
+//    
+//    CCSize tileSize=CCSizeMake(TileWidth, TileHeight);
+//    float offsetX=screenSize.width/2-tileSize.height*3/2;
+//    CCPoint pos=ccp(-offsetX,0);
+//
+//    testLayer->init(tileSize, pos);
+//    
+//    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
     
-    CCSize tileSize=CCSizeMake(TileWidth, TileHeight);
-    float offsetX=screenSize.width/2-tileSize.height*3/2;
-    CCPoint pos=ccp(-offsetX,0);
-
-    testLayer->init(tileSize, pos);
     
-    this->addChild(testLayer,0,kLayerTagTestIsoLayerDynamic);
-    
-    
-	m_pBackground=CCLayer::create();
-	m_pBackground->setPosition(ccp(0,0));
-	this->addChild(m_pBackground,Background_ZOrder);
-		
-	m_pIntermediate=CCLayer::create();
-	m_pIntermediate->setPosition(ccp(0,0));
-	this->addChild(m_pIntermediate,Intermediate_ZOrder);
-	
-	m_pForeground=CCLayer::create();
-	m_pForeground->setPosition(ccp(0,0));
-	this->addChild(m_pForeground,Foreground_ZOrder);
+//	m_pBackground=CCLayer::create();
+//	m_pBackground->setPosition(ccp(0,0));
+//	this->addChild(m_pBackground,Background_ZOrder);
+//		
+//	m_pIntermediate=CCLayer::create();
+//	m_pIntermediate->setPosition(ccp(0,0));
+//	this->addChild(m_pIntermediate,Intermediate_ZOrder);
+//	
+//	m_pForeground=CCLayer::create();
+//	m_pForeground->setPosition(ccp(0,0));
+//	this->addChild(m_pForeground,Foreground_ZOrder);
 	
 	////moveable size
 	//moveableBoundingMax_.x=TileWidth*mapData_.row/2;
@@ -584,8 +633,10 @@ void GameWorld::updateMapPosition(const CCPoint& position)
 {
 //    CCISOTileLayerDynamicComponent* testLayer=(CCISOTileLayerDynamicComponent*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
 //    testLayer->scroll(position);
-    CCISODynamicTileLayer* testLayer=(CCISODynamicTileLayer*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
-    testLayer->scroll(position);
+//    CCISODynamicTileLayer* testLayer=(CCISODynamicTileLayer*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
+//    testLayer->scroll(position);
+//    CCISOTileMap* tileMap=(CCISOTileMap*)this->getChildByTag(kLayerTagTestIsoLayer);
+//    tileMap->setposition
 }
 
 CCPoint GameWorld::toGameCoordinate(const CCPoint& position)

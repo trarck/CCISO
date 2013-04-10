@@ -24,6 +24,8 @@ public:
     
     virtual ~CCISOObjectGroup();
 
+    bool init();
+    
     inline const char* getName(){ return m_sName.c_str(); }
     inline void setName(const char *name){ m_sName = name; }
 

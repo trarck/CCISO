@@ -16,6 +16,12 @@ CCISOObject::~CCISOObject()
     CC_SAFE_RELEASE(m_pProperties);
 }
 
+bool CCISOObject::init()
+{
+    m_pProperties = new CCDictionary();
+    return true;
+}
+
 void CCISOObject::setType(const char * pType)
 {
     m_sType = pType;

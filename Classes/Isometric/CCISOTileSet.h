@@ -24,6 +24,8 @@ public:
     CCISOTileset();
     
     ~CCISOTileset();
+    
+    bool init();
 
     bool isExternal() const { return !m_sFileName.empty(); }
     
@@ -92,6 +94,16 @@ public:
     virtual int getTileWidth();
     virtual void setTileHeight(int nTileHeight);
     virtual int getTileHeight();
+    
+    virtual void setTileSize(CCSize& tTileSize){
+        m_nTileWidth=(int)tTileSize.width;
+        m_nTileHeight=(int)tTileSize.height;
+    }
+    
+    virtual CCSize getTileSize(){
+        return CCSizeMake(m_nTileWidth, m_nTileHeight);
+    }
+    
     virtual void setTileSpacing(int nTileSpacing);
     virtual int getTileSpacing();
     virtual void setMargin(int nMargin);
