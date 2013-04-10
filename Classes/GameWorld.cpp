@@ -257,7 +257,8 @@ void GameWorld::setupGameWorlds()
     addChild(lc);
     
     CCISOXMLParser* isoXmlParser=new CCISOXMLParser();
-    isoXmlParser->initWithTMXFile("map/iso-test2.tmx");
+    isoXmlParser->setTranslateLayerData(true);
+    isoXmlParser->initWithTMXFile("map/1.tmx");
     
     CCISOMapInfo* mapInfo=isoXmlParser->getMapInfo();
     

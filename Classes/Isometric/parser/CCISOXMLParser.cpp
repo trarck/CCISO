@@ -32,6 +32,7 @@ static const char* valueForKey(const char *key, std::map<std::string, std::strin
 
 CCISOXMLParser::CCISOXMLParser()
 :m_pMapInfo(NULL)
+,m_bTranslateLayerData(false)
 {
 
 }
@@ -167,7 +168,8 @@ void CCISOXMLParser::startElement(void *ctx, const char *name, const char **atts
         const char* backgroundColor=valueForKey("backgroundcolor", attributeDict);
         
         long backgroundColorValue=strtol(backgroundColor+1, NULL, 16);
-        m_pMapInfo->setBackgroundColor(ccc3(backgroundColorValue>>16,backgroundColorValue>>8 & 0xFF,backgroundColorValue &0xFF));
+        ccColor3B color=ccc3(backgroundColorValue>>16,backgroundColorValue>>8 & 0xFF,backgroundColorValue &0xFF);
+        m_pMapInfo->setBackgroundColor(color);
         
         
         // The parent element is now "map"
@@ -496,6 +498,8 @@ void CCISOXMLParser::endElement(void *ctx, const char *name)
             return;
         }
         
+        unsigned int* tiles;
+        
         if( m_nLayerAttribs & (ISOParseLayerAttribGzip | ISOParseLayerAttribZlib) )
         {
             unsigned char *deflated;
@@ -516,12 +520,30 @@ void CCISOXMLParser::endElement(void *ctx, const char *name)
                 CCLOG("cocos2d: TiledMap: inflate data error");
                 return;
             }
-            
-            layerInfo->setTiles((unsigned int*) deflated);
+
+            tiles=(unsigned int*) deflated; 
+
         }
         else
         {
-            layerInfo->setTiles((unsigned int*) buffer);
+            tiles=(unsigned int*) buffer;
+        }
+        
+        if(m_bTranslateLayerData){
+            struct timeval startTime;
+            gettimeofday(&startTime,0);
+            
+            unsigned int* translatedTiles;
+            translateMapTiles(tiles, layerInfo, &translatedTiles);
+            layerInfo->setTiles(translatedTiles);
+            delete [] tiles;
+            tiles=NULL;
+            
+            struct timeval endTime;
+            gettimeofday(&endTime,0);
+            CCLOG("trans use:%d,%d",endTime.tv_sec-startTime.tv_sec,endTime.tv_usec-startTime.tv_usec);
+        }else{
+            layerInfo->setTiles(tiles);
         }
         
         this->setCurrentString("");
@@ -569,6 +591,44 @@ void CCISOXMLParser::textHandler(void *ctx, const char *ch, int len)
         std::string currentString = this->getCurrentString();
         currentString += pText;
         this->setCurrentString(currentString.c_str());
+    }
+}
+
+/**
+ * x'=layerHeight-y;
+ * y'=layerWidth-x;
+ *
+ */
+void CCISOXMLParser::translateMapTiles(unsigned int * pTiles,CCISOLayerInfo* layerInfo,unsigned int **out)
+{
+    CCSize layerSize=layerInfo->getLayerSize();
+    unsigned int layerWidth=(unsigned int)layerSize.width;
+    unsigned int layerHeight=(unsigned int)layerSize.height;
+    
+    *out=new unsigned int[layerWidth*layerHeight];
+    if(*out){    
+        //转换索引
+        unsigned int currentIndex=0,currentId=0;
+        unsigned int translatedIndex=0,translatedX=0,translatedY=0;
+        
+        unsigned int translatedLayerMaxX=layerHeight-1;
+        unsigned int translatedLayerMaxY=layerWidth-1;
+        
+        for(int y=0;y<layerHeight;++y){
+            for(int x=0;x<layerWidth;++x){
+                currentIndex=y*layerWidth+x;
+                currentId=pTiles[currentIndex];
+                
+                translatedX=translatedLayerMaxX-y;
+                translatedY=translatedLayerMaxY-x;
+                translatedIndex=translatedY*layerHeight+translatedX;
+//                CCLOG("tran:%u,%u,%u,%u",translatedX,translatedY,translatedIndex,currentId);
+                (*out)[translatedIndex]=currentId;
+            }
+        }
+        CCSize translatedSize=CCSizeMake(layerSize.height, layerSize.width);
+        //转换高宽
+        layerInfo->setLayerSize(translatedSize);
     }
 }
 

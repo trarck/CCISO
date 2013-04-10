@@ -74,8 +74,10 @@ void CCISOGroundTileLayer::setupTiles()
             {
                 //需要转换
                 CCPoint pos;
-                pos.x=m_tLayerSize.height-y;
-                pos.y=m_tLayerSize.width-x;
+                pos.x=x;
+                pos.y=y;
+//                pos.x=m_tLayerSize.height-y;
+//                pos.y=m_tLayerSize.width-x;
                 this->appendTileForGID(gid, pos);
                 
                 // Optimization: update min and max GID rendered by the layer
@@ -92,7 +94,6 @@ void CCISOGroundTileLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, u
     sprite->setVertexZ((float)this->vertexZForPos(mapCoord));
     sprite->setAnchorPoint(CCPointZero);
     sprite->setOpacity(m_cOpacity);
-    CCLOG("opacity:%u",sprite->getOpacity());
     sprite->setFlipX(false);
     sprite->setFlipX(false);
     sprite->setRotation(0.0f);
@@ -251,9 +252,7 @@ CCSprite * CCISOGroundTileLayer::appendTileForGID(unsigned int gid, const CCPoin
     
     CCRect rect=tileSprite->getTextureRect();
 //    CCLOG("appendTileForGID[%s]:origin:%f,%f;size:%f,%f,opacity:%d",m_sLayerName.c_str(),rect.origin.x,rect.origin.y,rect.size.width,rect.size.height,m_cOpacity);
-    CCLOG("before:%u",newSprite->getOpacity());
     setupTileSprite(newSprite ,pos ,gid);
-    CCLOG("after:%u",newSprite->getOpacity());
     this->addChild(newSprite,0,z);
     
     return newSprite;

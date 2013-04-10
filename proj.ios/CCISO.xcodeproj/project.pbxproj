@@ -89,6 +89,7 @@
 		57BAD23E170583DB00F9B542 /* CCISODynamicTileLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57BAD23C170583D800F9B542 /* CCISODynamicTileLayer.cpp */; };
 		57D9CCFE16B6207100DE7D92 /* CCISOTileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57851AB31696D1A900BB6701 /* CCISOTileMap.cpp */; };
 		57D9CD0316B6336000DE7D92 /* CCISODynamicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */; };
+		57F7791C17156D9800873C1B /* editor in Resources */ = {isa = PBXBuildFile; fileRef = 57F7791B17156D9800873C1B /* editor */; };
 		57FE5A401636A0ED00FCD88B /* SimpleMoveComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */; };
 /* End PBXBuildFile section */
 
@@ -258,6 +259,7 @@
 		57BAD23D170583DA00F9B542 /* CCISODynamicTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISODynamicTileLayer.h; sourceTree = "<group>"; };
 		57D9CCFF16B62D7400DE7D92 /* CCISODynamicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISODynamicComponent.cpp; sourceTree = "<group>"; };
 		57D9CD0016B62D7400DE7D92 /* CCISODynamicComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISODynamicComponent.h; sourceTree = "<group>"; };
+		57F7791B17156D9800873C1B /* editor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = editor; sourceTree = "<group>"; };
 		57FE5A3E1636A0ED00FCD88B /* SimpleMoveComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleMoveComponent.cpp; sourceTree = "<group>"; };
 		57FE5A3F1636A0ED00FCD88B /* SimpleMoveComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMoveComponent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -398,6 +400,7 @@
 		5763C24B160856E20068D420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				57F7791B17156D9800873C1B /* editor */,
 				57316B711714260300BA86A5 /* map */,
 				57A47CDD16B26E34000800D3 /* grid14.png */,
 				57A47CDB16B26BE6000800D3 /* grid13.png */,
@@ -662,6 +665,7 @@
 				57A47CDC16B26BE6000800D3 /* grid13.png in Resources */,
 				57A47CDE16B26E34000800D3 /* grid14.png in Resources */,
 				57316B721714260300BA86A5 /* map in Resources */,
+				57F7791C17156D9800873C1B /* editor in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

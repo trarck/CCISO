@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "CCISOMapInfo.h"
+#include "CCISOLayerInfo.h"
 
 NS_CC_BEGIN
 
@@ -42,8 +43,23 @@ public:
     
     virtual CCISOMapInfo* getMapInfo();
     
+    inline void setTranslateLayerData(bool bTranslateLayerData)
+    {
+        m_bTranslateLayerData = bTranslateLayerData;
+    }
+    
+    inline bool getTranslateLayerData()
+    {
+        return m_bTranslateLayerData;
+    }
+
+    
 private:
+    
     void internalInit(const char* tmxFileName, const char* resourcePath);
+    
+    //把地图坐标左上角为原点的转为左下角。
+    void translateMapTiles(unsigned int * pTiles,CCISOLayerInfo* layerInfo,unsigned int **out);
 
     //xml file related
     int m_nCurrentElement;
@@ -66,6 +82,7 @@ protected:
 
     CCISOMapInfo* m_pMapInfo;	
     
+    bool m_bTranslateLayerData;
 };
 
 
