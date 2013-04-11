@@ -98,18 +98,18 @@ public:
     
     
     /**
-     * 获取tile
+     * 获取tile sprite
      */
 	virtual CCSprite* tileSpriteAt(float x,float y);
     
 	virtual CCSprite* tileSpriteAt(const CCPoint& pos);
     
     /**
-     * 删除tile
+     * 删除tile sprite
      */   
-	virtual void removeSpriteTileAt(float x,float y);
+	virtual void removeTileSpriteAt(float x,float y);
     
-    virtual void removeSpriteTileAt(const CCPoint& pos);
+    virtual void removeTileSpriteAt(const CCPoint& pos);
     
  
     //移动

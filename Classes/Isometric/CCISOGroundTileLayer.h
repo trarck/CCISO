@@ -17,14 +17,6 @@ public:
 	CCISOGroundTileLayer();
     
 	~CCISOGroundTileLayer(void);
-	
-//    virtual bool init(CCISOTileMap *pMap);
-
-    /** dealloc the map that contains the tile position from memory.
-     Unless you want to know at runtime the tiles positions, you can safely call this method.
-     If you are going to call layer->tileGIDAt() then, don't release the map
-     */
-    virtual void releaseLayer();
 
     /**
      * 初始化显示tiles
@@ -82,9 +74,6 @@ protected:
     CCSprite* updateTileForGID(unsigned int gid, const CCPoint& pos);
     
 protected:
-    
-    unsigned int        m_uMinGID;
-    unsigned int        m_uMaxGID;
 
 };
 

@@ -85,8 +85,11 @@ CCISOTileLayer* CCISOTileLayer::create()
 
 void CCISOTileLayer::releaseLayer()
 {
-    CCLOG("CCISOTileLayer::releaseLayer");
-
+    if (m_pTiles)
+    {
+        delete [] m_pTiles;
+        m_pTiles = NULL;
+    }
 }
 
 void CCISOTileLayer::setupTiles()
@@ -195,12 +198,12 @@ CCSprite* CCISOTileLayer::tileSpriteAt(const CCPoint& pos)
 /**
  * 删除tile
  */
-void CCISOTileLayer::removeSpriteTileAt(float x,float y)
+void CCISOTileLayer::removeTileSpriteAt(float x,float y)
 {
-    removeSpriteTileAt(ccp(x,y));
+    removeTileSpriteAt(ccp(x,y));
 }
 
-void CCISOTileLayer::removeSpriteTileAt(const CCPoint& pos)
+void CCISOTileLayer::removeTileSpriteAt(const CCPoint& pos)
 {
     CCAssert(false, "you must impl CCISOTileLayer::removeSpriteTileAt");
 }

@@ -9,6 +9,7 @@
 
 #include "CCISOGroundTileLayer.h"
 #include "CCISODynamicTileLayer.h"
+#include "CCISOBatchTileLayer.h"
 
 NS_CC_BEGIN
 
@@ -241,6 +242,19 @@ void CCISOTileMapBuilder::buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo 
             layer=new CCISODynamicTileLayer();
             layer->init();
             break;
+        case BatchLayerType:
+        {
+            CCISOBatchTileLayer* batchLayer=new CCISOBatchTileLayer();
+            batchLayer->init();
+
+            CCISOTileset* tileset=tilesetForLayer(layerInfo);
+            
+            if(tileset){
+                batchLayer->setTileSet(tileset);
+            }
+            layer=batchLayer;
+            break;
+        }
         default:
             break;
     }
@@ -274,12 +288,61 @@ void CCISOTileMapBuilder::setLayerAttribute(CCISOTileLayer* tileLayer,CCISOLayer
     tileLayer->setOffset(layerInfo->getOffset());
     tileLayer->setOpacity(layerInfo->getOpacity());
     tileLayer->setTiles(layerInfo->getTiles());
-    tileLayer->setProperties(layerInfo->getProperties());   
+    tileLayer->setProperties(layerInfo->getProperties());
 
     tileLayer->setupTiles();
 }
 
-CCISOTilesetInfo * CCISOTileMapBuilder::tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+CCISOTileset * CCISOTileMapBuilder::tilesetForLayer(CCISOLayerInfo *layerInfo)
+{
+    CCSize size = layerInfo->getLayerSize();
+    CCArray* tilesets = m_pMap->getTilesetGroup()->getTilesets();
+    if (tilesets && tilesets->count()>0)
+    {
+        CCISOTileset* tileset = NULL;
+        CCObject* pObj = NULL;
+        CCARRAY_FOREACH_REVERSE(tilesets, pObj)
+        {
+            tileset = (CCISOTileset*)pObj;
+            if (tileset)
+            {
+                unsigned int* pTiles=layerInfo->getTiles();
+                
+                for( unsigned int y=0; y < size.height; y++ )
+                {
+                    for( unsigned int x=0; x < size.width; x++ )
+                    {
+                        unsigned int pos = (unsigned int)(x + size.width * y);
+                        unsigned int gid = pTiles[ pos ];
+                        
+                        // gid are stored in little endian.
+                        // if host is big endian, then swap
+                        //if( o == CFByteOrderBigEndian )
+                        //    gid = CFSwapInt32( gid );
+                        /* We support little endian.*/
+                        
+                        // XXX: gid == 0 --> empty tile
+                        if( gid != 0 )
+                        {
+                            // Optimization: quick return
+                            // if the layer is invalid (more than 1 tileset per layer) an CCAssert will be thrown later
+                            if( (gid & kCCFlippedMask) >= tileset->getFirstGid() )
+                                return tileset;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // If all the tiles are 0, return empty tileset
+    CCLOG("cocos2d: Warning: ISO Layer '%s' has no tiles", layerInfo->getName());
+    return NULL;
+}
+
+
+
+CCISOTilesetInfo * CCISOTileMapBuilder::tilesetInfoForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
     CCSize size = layerInfo->getLayerSize();
     CCArray* tilesets = mapInfo->getTilesets();

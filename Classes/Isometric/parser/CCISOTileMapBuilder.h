@@ -87,8 +87,10 @@ public:
     virtual void buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
 
     virtual void setLayerAttribute(CCISOTileLayer* tileLayer,CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-            
-    virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+    
+    virtual CCISOTileset * tilesetForLayer(CCISOLayerInfo *layerInfo);
+    
+    virtual CCISOTilesetInfo * tilesetInfoForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
 public:
     
@@ -114,7 +116,8 @@ public:
     
     enum BuildMapLayerType{
         NormalLayerType,
-        DynamicLayerType
+        DynamicLayerType,
+        BatchLayerType
     };
     
 protected:

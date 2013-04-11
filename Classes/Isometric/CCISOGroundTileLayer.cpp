@@ -36,17 +36,6 @@ CCISOGroundTileLayer::~CCISOGroundTileLayer()
 //    return true;
 //}
 
-void CCISOGroundTileLayer::releaseLayer()
-{
-    if (m_pTiles)
-    {
-        delete [] m_pTiles;
-        m_pTiles = NULL;
-    }
-    
-    CCISOTileLayer::releaseLayer();
-}
-
 void CCISOGroundTileLayer::setupTiles()
 {
     CCLOG("setupTiles");
@@ -77,9 +66,6 @@ void CCISOGroundTileLayer::setupTiles()
 //                pos.y=m_tLayerSize.width-x;
                 this->appendTileForGID(gid, pos);
                 
-                // Optimization: update min and max GID rendered by the layer
-                m_uMinGID = MIN(gid, m_uMinGID);
-                m_uMaxGID = MAX(gid, m_uMaxGID);
             }
         }
     }

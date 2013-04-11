@@ -16,31 +16,17 @@ struct _ccCArray;
 /**
  * 使用batch node来渲染layer.(TMX的渲染方式)
  * 一个layer只有一个tileset,tileset只有一个拼图。
- * 
+ * 暂不支持多个tileset
  */
 class CCISOBatchTileLayer : public CCISOTileLayer {
 
 public:
 	
 	CCISOBatchTileLayer();
+    
 	~CCISOBatchTileLayer(void);
-	
-    virtual bool init(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** creates a CCISOBatchTileLayer with an tileset info, a layer info and a map info
-     @deprecated: This interface will be deprecated sooner or later.
-     */
-    CC_DEPRECATED_ATTRIBUTE static CCISOBatchTileLayer * layerWithTilesetInfo(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** creates a CCISOBatchTileLayer with an tileset info, a layer info and a map info */
-    static CCISOBatchTileLayer * create(CCISOTilesetInfo *tilesetInfo, CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
-    /** dealloc the map that contains the tile position from memory.
-     Unless you want to know at runtime the tiles positions, you can safely call this method.
-     If you are going to call layer->tileGIDAt() then, don't release the map
-     */
-    virtual void releaseLayer();
 
+    bool init();
     /**
      * 初始化显示tiles
      */
@@ -49,44 +35,45 @@ public:
     /**
      * 获取tile
      */
-	virtual CCSprite* tileAt(float x,float y);
-	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
     
-    /**
-     * 获取tile gid
-     */
-    unsigned int  tileGIDAt(float x,float y);
-    unsigned int  tileGIDAt(const CCPoint& tileCoordinate);
-    unsigned int  tileGIDAt(float x,float y,ccTMXTileFlags* flags);
-    unsigned int  tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags);
+	virtual CCSprite* tileSpriteAt(const CCPoint& pos);
     
-    /**
-     * 设置tile gid
-     */
-    virtual void setTileGID(unsigned int gid, float x,float y);
-    virtual void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
-    void setTileGID(unsigned int gid, const CCPoint& tileCoordinate, ccTMXTileFlags flags);
-    virtual void setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags);
     /**
      * 删除tile
      */
-	virtual void removeTileAt(float x,float y);
-    virtual void removeTileAt(const CCPoint& pos);
-
+    virtual void removeTileSpriteAt(const CCPoint& pos);
     
-
+    void setTileGID(unsigned int gid, const CCPoint& pos);
     
-    virtual void removeChild(CCNode* child, bool cleanup);
+    void removeChild(CCNode* node, bool cleanup);
     
-    void setTiles(unsigned int* pTiles);
-    unsigned int* getTiles();
+public:
     
-    void setTileSet(CCISOTilesetInfo* pTileSet);
-    CCISOTilesetInfo* getTileSet();
+    void setTileSet(CCISOTileset* pTileSet);
+    CCISOTileset* getTileSet();
     
     void setTileSets(CCArray* pTileSets);
     CCArray* getTileSets();
-
+    
+    inline void setMinGID(unsigned int uMinGID)
+    {
+        m_uMinGID = uMinGID;
+    }
+    
+    inline unsigned int getMinGID()
+    {
+        return m_uMinGID;
+    }
+    
+    inline void setMaxGID(unsigned int uMaxGID)
+    {
+        m_uMaxGID = uMaxGID;
+    }
+    
+    inline unsigned int getMaxGID()
+    {
+        return m_uMaxGID;
+    }
 
 protected:
     
@@ -127,8 +114,7 @@ protected:
     
 protected:
 
-    unsigned int* m_pTiles;
-    CCISOTilesetInfo* m_pTileSet;
+    CCISOTileset* m_pTileSet;
     //对于多个tileSet的支持。这样就不能使用batch node。所以最好一个layer使用一个tileSet
     CCArray* m_pTileSets;
     

@@ -15,6 +15,7 @@
 		57248D9C170A7FB4002CAE13 /* CCISOTilesetGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57248D97170A7FB3002CAE13 /* CCISOTilesetGroup.cpp */; };
 		57248D9D170A7FB4002CAE13 /* CCISOTileset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57248D99170A7FB3002CAE13 /* CCISOTileset.cpp */; };
 		57248DA0170ACF74002CAE13 /* CCISOXMLReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57248D9E170ACF73002CAE13 /* CCISOXMLReader.cpp */; };
+		5727B5921716BAE700A687DD /* CCISOBatchTileLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5727B5901716BAE600A687DD /* CCISOBatchTileLayer.cpp */; };
 		57316B721714260300BA86A5 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 57316B711714260300BA86A5 /* map */; };
 		57584246162D1B85008DA210 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584244162D1B85008DA210 /* Monster.cpp */; };
 		57584249162D3884008DA210 /* AutoAttackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57584247162D3884008DA210 /* AutoAttackComponent.cpp */; };
@@ -129,6 +130,8 @@
 		57248D9E170ACF73002CAE13 /* CCISOXMLReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOXMLReader.cpp; sourceTree = "<group>"; };
 		57248D9F170ACF74002CAE13 /* CCISOXMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOXMLReader.h; sourceTree = "<group>"; };
 		57248DA1170AD47D002CAE13 /* CCISOReaderInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOReaderInterface.h; sourceTree = "<group>"; };
+		5727B5901716BAE600A687DD /* CCISOBatchTileLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCISOBatchTileLayer.cpp; sourceTree = "<group>"; };
+		5727B5911716BAE600A687DD /* CCISOBatchTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCISOBatchTileLayer.h; sourceTree = "<group>"; };
 		572BA6B4163FB53600F69F7C /* GameTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTypes.h; sourceTree = "<group>"; };
 		57316B711714260300BA86A5 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		57584244162D1B85008DA210 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
@@ -501,6 +504,8 @@
 				57248D99170A7FB3002CAE13 /* CCISOTileset.cpp */,
 				57248D9A170A7FB4002CAE13 /* CCISOTileset.h */,
 				57248D94170A74FB002CAE13 /* interface */,
+				5727B5901716BAE600A687DD /* CCISOBatchTileLayer.cpp */,
+				5727B5911716BAE600A687DD /* CCISOBatchTileLayer.h */,
 				578EA4D117096EEF00350444 /* CCISOGroundTileLayer.cpp */,
 				578EA4D217096EEF00350444 /* CCISOGroundTileLayer.h */,
 				5761F5CD1705A08000DF1F6E /* CCISOOptimizedTileLayer.cpp */,
@@ -733,6 +738,7 @@
 				5759092617112B9E0037F46F /* CCISOObjectGroupInfo.cpp in Sources */,
 				5759092917112D2C0037F46F /* CCISOObjectInfo.cpp in Sources */,
 				5759092C1711513D0037F46F /* CCISOTileInfo.cpp in Sources */,
+				5727B5921716BAE700A687DD /* CCISOBatchTileLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
