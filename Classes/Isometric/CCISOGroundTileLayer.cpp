@@ -245,17 +245,12 @@ CCSprite * CCISOGroundTileLayer::appendTileForGID(unsigned int gid, const CCPoin
     CCISOTileset* tileset=m_pMap->getTilesetGroup()->getTilesetByGid(gid);
     
     CCISOTile* tile=tileset->tileForGid(gid);
+   
+    CCSprite* tileSprite=CCSprite::createWithTexture(tile->getTexture(), tile->getTextureRect());
+    setupTileSprite(tileSprite ,pos ,gid);
+    this->addChild(tileSprite,0,z);
     
-    CCSprite* tileSprite = tile->getSprite();
-    
-    CCSprite* newSprite=CCSprite::createWithTexture(tileSprite->getTexture(), tileSprite->getTextureRect());
-    
-    CCRect rect=tileSprite->getTextureRect();
-//    CCLOG("appendTileForGID[%s]:origin:%f,%f;size:%f,%f,opacity:%d",m_sLayerName.c_str(),rect.origin.x,rect.origin.y,rect.size.width,rect.size.height,m_cOpacity);
-    setupTileSprite(newSprite ,pos ,gid);
-    this->addChild(newSprite,0,z);
-    
-    return newSprite;
+    return tileSprite;
 }
 
 

@@ -321,26 +321,29 @@ void CCISOXMLReader::startElement(void *ctx, const char *name, const char **atts
             CCISOTileset* tileset = (CCISOTileset*)m_pMap->getTilesetGroup()->getTilesets()->lastObject();
             CCISOTile* tile=(CCISOTile*)tileset->getTiles()->lastObject();
             
+            CCTexture2D* pTexture=CCTextureCache::sharedTextureCache()->addImage(imagename.c_str());
+            tile->setTexture(pTexture);
+            
+            CCRect rect;
+            rect.origin=ccp(0, 0);
+            
             if(widthValue && heightValue){
                 
-                CCRect rect;
                 //support origin 
                 const char* originXValue = valueForKey("originX", attributeDict);
                 const char* originYValue = valueForKey("originY", attributeDict);
                 if(originXValue && originYValue){
                     rect.origin.x=(float)atof(originXValue);
                     rect.origin.y=(float)atof(originYValue);
-                }else{
-                    rect.origin=ccp(0, 0);
                 }
                 
                 rect.size.width=(float)atof(widthValue);
                 rect.size.height=(float)atof(heightValue);
-                tile->setSprite(CCSprite::create(imagename.c_str(), rect));
                 
             }else{
-                tile->setSprite(CCSprite::create(imagename.c_str()));
+                rect.size=pTexture->getContentSizeInPixels();
             }
+            tile->setTextureRect(rect);
         }
     }
     else if(elementName == "data")

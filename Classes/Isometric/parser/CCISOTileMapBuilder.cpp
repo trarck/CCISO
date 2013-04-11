@@ -122,15 +122,13 @@ void CCISOTileMapBuilder::buildMapTiles(CCArray* tileInfos,CCISOTileset* tileset
         if(tileInfo->getImageSource()){
             unsigned int tileId=tileInfo->getId();
             
-            CCSprite* sprite=new CCSprite();
-            sprite->initWithFile(tileInfo->getImageSource());
+            CCTexture2D* pTexture=CCTextureCache::sharedTextureCache()->addImage(tileInfo->getImageSource());
             
             CCISOTile* tile=new CCISOTile();
-            tile->init(tileId, tileset, sprite);
+            tile->init(tileId, tileset, pTexture);
             tile->setProperties(tileInfo->getProperties());
             tileset->addTile(tile);
             
-            sprite->release();
             tile->release();
         }
     }

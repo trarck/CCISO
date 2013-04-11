@@ -92,7 +92,8 @@ void CCISOTileset::loadFromImageSource()
         for (int j=0; j<row; ++j) {
             for(int i=0;i<column;++i){
                 CCISOTile* tile=new CCISOTile();
-                tile->init(idx, this,tileSpriteForId(idx));
+                CCRect rect=rectForId(idx);
+                tile->init(idx, this,m_pTexture,rect);
                 if(idx<oldTilesSize){
                     m_pTiles->replaceObjectAtIndex(idx, tile);
                 }else{
@@ -181,14 +182,15 @@ CCISOTile* CCISOTileset::tileForGid(unsigned int gid)
 
 void CCISOTileset::appendTile(const char* imageName)
 {
-    CCSprite* sprite=CCSprite::create(imageName);
-    appendTile(sprite);
+    CCTexture2D* pTexture=CCTextureCache::sharedTextureCache()->addImage(imageName);
+    
+    appendTile(pTexture);
 }
 
-void CCISOTileset::appendTile(CCSprite* sprite)
+void CCISOTileset::appendTile(CCTexture2D* pTexture)
 {
     CCISOTile* tile=new CCISOTile();
-    tile->init(tileCount(), this, sprite);
+    tile->init(tileCount(), this, pTexture);
     m_pTiles->addObject(tile);
     tile->release();
     
@@ -197,18 +199,18 @@ void CCISOTileset::appendTile(CCSprite* sprite)
 
 void CCISOTileset::setTile(unsigned int id,const char* imageName)
 {
-    CCSprite* sprite=CCSprite::create(imageName);
-    setTile(id, sprite);
+    CCTexture2D* pTexture=CCTextureCache::sharedTextureCache()->addImage(imageName);
+    setTile(id, pTexture);
 }
 
-void CCISOTileset::setTile(unsigned int id,CCSprite* sprite)
+void CCISOTileset::setTile(unsigned int id,CCTexture2D* pTexture)
 {
     CCISOTile* tile=(CCISOTile*)m_pTiles->objectAtIndex(id);
     if(tile){
-        tile->setSprite(sprite);
+        tile->setTexture(pTexture);
     }else{
         CCISOTile* tile=new CCISOTile();
-        tile->init(id, this, sprite);
+        tile->init(id, this, pTexture);
         m_pTiles->replaceObjectAtIndex(id, tile);
         tile->release();
     }
@@ -216,19 +218,19 @@ void CCISOTileset::setTile(unsigned int id,CCSprite* sprite)
 
 void CCISOTileset::addTile(unsigned int id,const char* imageName)
 {
-    CCSprite* sprite=CCSprite::create(imageName);
-    addTile(id, sprite);
+    CCTexture2D* pTexture=CCTextureCache::sharedTextureCache()->addImage(imageName);
+    addTile(id, pTexture);
 }
 
-void CCISOTileset::addTile(unsigned int id,CCSprite* sprite)
+void CCISOTileset::addTile(unsigned int id,CCTexture2D* pTexture)
 {
     //如果index大于tile count，则中间插入空的
     unsigned int tileCount=this->tileCount();
     if(id<tileCount){
         //replace
-        setTile(id, sprite);
+        setTile(id, pTexture);
     }else if(id==tileCount){
-        appendTile(sprite);
+        appendTile(pTexture);
     }else{
         //补充空的tile
         unsigned int padCount=id-tileCount;
@@ -236,7 +238,7 @@ void CCISOTileset::addTile(unsigned int id,CCSprite* sprite)
             m_pTiles->addObject(NULL);
         }
         //增加新的tile
-        appendTile(sprite);
+        appendTile(pTexture);
     }
 }
 

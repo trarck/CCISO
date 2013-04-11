@@ -40,15 +40,15 @@ public:
     
     void appendTile(const char* imageName);
     
-    void appendTile(CCSprite* sprite);
+    void appendTile(CCTexture2D* pTexture);
     
     void setTile(unsigned int id,const char* imageName);
     
-    void setTile(unsigned int id,CCSprite* sprite);
+    void setTile(unsigned int id,CCTexture2D* pTexture);
     
     void addTile(unsigned int id,const char* imageName);
     
-    void addTile(unsigned int id,CCSprite* sprite);
+    void addTile(unsigned int id,CCTexture2D* pTexture);
     
     void addTile(CCISOTile* tile);
     

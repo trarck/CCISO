@@ -6,7 +6,8 @@ NS_CC_BEGIN
 
 CCISOTile::CCISOTile()
 :m_nId(0)
-,m_pSprite(NULL)
+,m_pTexture(NULL)
+,m_tTextureRect(CCRectZero)
 {
 
 }
@@ -14,8 +15,8 @@ CCISOTile::CCISOTile()
 CCISOTile::~CCISOTile()
 {
     CCLOG("CCISOTile destroy");
-    CC_SAFE_RELEASE(m_pSprite);
     CC_SAFE_RELEASE(m_pProperties);
+    CC_SAFE_RELEASE(m_pTexture);
 }
 
 bool CCISOTile::init()
@@ -34,18 +35,24 @@ bool CCISOTile::init(int id,CCISOTileset* tileset)
     return false;
 }
 
-
-bool CCISOTile::init(int id,CCISOTileset* tileset,CCSprite* sprite)
+bool CCISOTile::init(int id,CCISOTileset* tileset,CCTexture2D* texture)
 {
     if(init(id,tileset)){
-        setSprite(sprite);
+        setTexture(texture);
+        m_tTextureRect.size=texture->getContentSizeInPixels();
         return true;
     }
     return false;
 }
 
-
-
+bool CCISOTile::init(int id,CCISOTileset* tileset,CCTexture2D* texture,CCRect& textureRect)
+{
+    if(init(id,tileset,texture)){
+        m_tTextureRect=textureRect;
+        return true;
+    }
+    return false;
+}
 
 void CCISOTile::setId(int nId)
 {
@@ -65,18 +72,6 @@ void CCISOTile::setTileset(CCISOTileset* pTileset)
 CCISOTileset* CCISOTile::getTileset()
 {
     return m_pTileset;
-}
-
-void CCISOTile::setSprite(CCSprite* pSprite)
-{
-    CC_SAFE_RETAIN(pSprite);
-    CC_SAFE_RELEASE(m_pSprite);
-    m_pSprite = pSprite;
-}
-
-CCSprite* CCISOTile::getSprite()
-{
-    return m_pSprite;
 }
 
 void CCISOTile::setProperties(CCDictionary* pProperties)
