@@ -17,6 +17,10 @@ public:
     
     void updateMapCoordinate(float mapX,float mapY);
     
+    void changeZOrder(int z){
+        m_nZOrder=z;
+    }
+    
 	void setColumn(int iColumn)
 	{
 		m_iColumn = iColumn;

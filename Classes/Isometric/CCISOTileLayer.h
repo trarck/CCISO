@@ -84,6 +84,7 @@ public:
     virtual void setTileGID(unsigned int gid, const CCPoint& pos);
 
     
+    
     //===============tile sprite===============
     
     /**
@@ -116,10 +117,21 @@ public:
     virtual void scroll(float x,float y);
     
     /**
+     * 取得zOrder值，处理遮挡使用.zOrder vertexZ二者使用一
+     */
+    int zOrderForPos(const CCPoint& pos);
+    
+    /**
+     * 取得z值，处理遮挡使用
+     */
+    int vertexZForPos(const CCPoint& pos);
+    
+    /**
      * 获取属性名称
      */
     CCString *propertyNamed(const char *propertyName);
-    
+
+public:
     //===================get set 属性====================//
     
 	virtual void setLayerSize(const CCSize& tLayerSize);
@@ -179,11 +191,6 @@ protected:
      * 处理扩展属性
      */
     virtual void parseInternalProperties();
-            
-    /**
-     * 取得z值，处理遮挡使用
-     */
-    int vertexZForPos(const CCPoint& pos);
     
 protected:
     

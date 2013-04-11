@@ -165,7 +165,7 @@ CCSprite * CCISOGroundTileLayer::tileSpriteAt(const CCPoint& pos)
             tile->setAnchorPoint(CCPointZero);
             tile->setOpacity(m_cOpacity);
             
-            this->addChild(tile);
+            this->addChild(tile,-z,z);
         }
     }
     
@@ -180,7 +180,7 @@ void CCISOGroundTileLayer::removeSpriteTileAt(const CCPoint& pos)
     
     if (gid)
     {
-        unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+        int z = (int)(pos.x + pos.y * m_tLayerSize.width);
         
         // remove tile from GID map
         m_pTiles[z] = 0;
@@ -195,11 +195,11 @@ CCSprite * CCISOGroundTileLayer::insertTileForGID(unsigned int gid, const CCPoin
     CCISOTileset* tileset=m_pMap->getTilesetGroup()->getTilesetByGid(gid);
     CCSprite *tile = tileset->tileSpriteForGid(gid);
     
-    intptr_t z = (intptr_t)(pos.x + pos.y * m_tLayerSize.width);
+    int z = (int)(pos.x + pos.y * m_tLayerSize.width);
     
     setupTileSprite(tile, pos, gid);
     
-    addChild(tile,0,z);
+    addChild(tile,-z,z);
     return tile;
 }
 
@@ -214,7 +214,7 @@ CCSprite * CCISOGroundTileLayer::updateTileForGID(unsigned int gid, const CCPoin
     
     setupTileSprite(newTile ,pos ,gid);
 
-    addChild(newTile,0,z);
+    addChild(newTile,-z,z);
     
     m_pTiles[z] = gid;
     
@@ -235,7 +235,7 @@ CCSprite * CCISOGroundTileLayer::appendTileForGID(unsigned int gid, const CCPoin
    
     CCSprite* tileSprite=CCSprite::createWithTexture(tile->getTexture(), tile->getTextureRect());
     setupTileSprite(tileSprite ,pos ,gid);
-    this->addChild(tileSprite,0,z);
+    this->addChild(tileSprite,-z,z);
     
     return tileSprite;
 }

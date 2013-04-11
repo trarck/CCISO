@@ -262,6 +262,9 @@ void CCISODynamicComponent::updateNode(CCISOComponentNode* node,float mx,float m
         //更新位置
         node->setPosition(isoGameToView2F(mx, my));
         
+        m_pTileLayer->reorderChild(node,m_pTileLayer->zOrderForPos(pos));
+//        node->reorderChild(m_pTileLayer->zOrderForPos(pos));
+        
         //更新显示内容
         node->setVisible(true);
         
