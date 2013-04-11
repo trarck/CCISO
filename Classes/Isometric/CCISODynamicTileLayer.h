@@ -8,7 +8,8 @@
 NS_CC_BEGIN
 
 /**
- 动态更新可显示区域,只渲染显示区域的tile.
+ * 动态更新可显示区域,只渲染显示区域的tile.
+ * 使用batchnode来优化组件显示。
  */
 class CCISODynamicTileLayer : public CCISOTileLayer,CCISODynamicComponentCreateDelegator {
 

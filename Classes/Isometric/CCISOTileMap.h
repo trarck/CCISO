@@ -23,6 +23,9 @@ NS_CC_BEGIN
  * 注意:这里的实现和tmx里的实现不太一样,
  * tmx里tile layer是直接添加到显示子列表里，object layer做为属性，具体怎么用由游戏决定。
  * 这里都做为属性，具体怎么用由游戏来决定
+ * 
+ * 关于layer层的优化。
+ * 上层的layer会挡住下层的layer所以只需要显示上层的layer块。如果上层是透明的，那么可以只渲染上层的元素。但是透明的就不可以使用，如果不显示下层，会出现空洞。
  */
 class CCISOTileMap : public CCNode,public CCISODynamicComponentUpdateDelegator{
 
