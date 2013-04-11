@@ -76,6 +76,9 @@ public:
     
     virtual CCISOTileLayer* createLayer();
     
+    void scrollLayer(const CCPoint& pos);
+    
+    
 public://==============属性===============//
     
 	virtual void setMapSize(CCSize tMapSize);

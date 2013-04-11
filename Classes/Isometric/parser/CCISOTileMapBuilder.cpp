@@ -8,11 +8,13 @@
 #include "CCISOObject.h"
 
 #include "CCISOGroundTileLayer.h"
+#include "CCISODynamicTileLayer.h"
 
 NS_CC_BEGIN
 
 CCISOTileMapBuilder::CCISOTileMapBuilder()
 :m_pMap(NULL)
+,m_uMapLayerType(NormalLayerType)
 {
 	
 }
@@ -165,6 +167,9 @@ void CCISOTileMapBuilder::buildMapObjectGroups(CCISOMapInfo* mapInfo)
                 objGroup->setOffset(objectGroupInfo->getPositionOffset());
                 objGroup->setProperties(objectGroupInfo->getProperties());
                 buildMapObjects(objectGroupInfo->getObjects(), objGroup);
+                
+                m_pMap->getObjectGroups()->addObject(objGroup);
+                objGroup->release();
             }
         }
     }
@@ -216,51 +221,62 @@ void CCISOTileMapBuilder::buildMapLayers(CCISOMapInfo* mapInfo)
             layerInfo = (CCISOLayerInfo*)pObj;
             if (layerInfo && layerInfo->getVisible())
             {
-                CCISOTileLayer *layer = parseLayer(layerInfo, mapInfo);
-
-                m_pMap->addChild(layer);
-                
-                // update content size with the max size
-//                const CCSize& childSize = layer->getContentSize();
-//                CCSize currentSize = m_pMap->getContentSize();
-//                currentSize.width = MAX( currentSize.width, childSize.width );
-//                currentSize.height = MAX( currentSize.height, childSize.height );
-//                m_pMap->setContentSize(currentSize);
-                
+                buildMapLayer(layerInfo,mapInfo);
                 idx++;
             }
         }
     }
 }
 
-
-CCISOTileLayer * CCISOTileMapBuilder::parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+void CCISOTileMapBuilder::buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
-    //CCISOTilesetInfo *tileset = this->tilesetForLayer(layerInfo, mapInfo);
-    //CCISOTileLayer *layer = CCISOTileLayer::create(tileset, layerInfo, mapInfo);
-    //
-    //// tell the layerinfo to release the ownership of the tiles map.
-    //layerInfo->m_bOwnTiles = false;
-    //layer->setupTiles();
-    //
-    //return layer;
+    CCISOTileLayer *layer = NULL;
     
-    CCISOGroundTileLayer* layer=new CCISOGroundTileLayer();
-    CCLOG("parseLayer:%s",layerInfo->getName());
-    layer->init();
-    layer->setMap(m_pMap);
-    layer->setMapTileSize(m_pMap->getTileSize());
-    layer->setLayerName(layerInfo->getName());
-    layer->setLayerSize(layerInfo->getLayerSize());
-    layer->setOffset(layerInfo->getOffset());
-    layer->setOpacity(layerInfo->getOpacity());
-    layer->setTiles(layerInfo->getTiles());
-    layer->setProperties(layerInfo->getProperties());
+    switch (m_uMapLayerType) {
+        case NormalLayerType:
+            layer=new CCISOGroundTileLayer();
+            layer->init();
+            break;
+        case DynamicLayerType:
+            layer=new CCISODynamicTileLayer();
+            layer->init();
+            break;
+        default:
+            break;
+    }
     
+    if(layer){
+        
+        setLayerAttribute(layer, layerInfo, mapInfo);
+        
+        
+        
+        m_pMap->addChild(layer);
+        m_pMap->getTileLayers()->addObject(layer);
+        layer->release();
+    }
     
-    layer->setupTiles();
-    
-	return layer;
+    // update content size with the max size
+//                const CCSize& childSize = layer->getContentSize();
+//                CCSize currentSize = m_pMap->getContentSize();
+//                currentSize.width = MAX( currentSize.width, childSize.width );
+//                currentSize.height = MAX( currentSize.height, childSize.height );
+//                m_pMap->setContentSize(currentSize);
+}
+
+void CCISOTileMapBuilder::setLayerAttribute(CCISOTileLayer* tileLayer,CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
+{
+
+    tileLayer->setMap(m_pMap);
+    tileLayer->setMapTileSize(m_pMap->getTileSize());
+    tileLayer->setLayerName(layerInfo->getName());
+    tileLayer->setLayerSize(layerInfo->getLayerSize());
+    tileLayer->setOffset(layerInfo->getOffset());
+    tileLayer->setOpacity(layerInfo->getOpacity());
+    tileLayer->setTiles(layerInfo->getTiles());
+    tileLayer->setProperties(layerInfo->getProperties());   
+
+    tileLayer->setupTiles();
 }
 
 CCISOTilesetInfo * CCISOTileMapBuilder::tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)

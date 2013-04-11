@@ -21,16 +21,13 @@ static inline int compareInts(const void * a, const void * b)
 
 
 CCISOGroundTileLayer::CCISOGroundTileLayer()
-:m_pTiles(NULL)
 {
 	
 }
 
 CCISOGroundTileLayer::~CCISOGroundTileLayer()
 {
-    CC_SAFE_RELEASE(m_pProperties);
-    
-    CC_SAFE_DELETE_ARRAY(m_pTiles);
+
 }
 
 //bool CCISOGroundTileLayer::init(CCISOTileMap *pMap)
@@ -145,7 +142,7 @@ void CCISOGroundTileLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, u
 }
 
 
-CCSprite * CCISOGroundTileLayer::tileAt(const CCPoint& pos)
+CCSprite * CCISOGroundTileLayer::tileSpriteAt(const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "ISOTileLayer: invalid position");
     
@@ -175,31 +172,21 @@ CCSprite * CCISOGroundTileLayer::tileAt(const CCPoint& pos)
     return tile;
 }
 
-CCSprite* CCISOGroundTileLayer::tileAt(float x,float y)
-{
-    return tileAt(ccp(x,y));
-}
-
-unsigned int CCISOGroundTileLayer::tileGIDAt(const CCPoint& pos)
-{
-    return tileGIDAt(pos, NULL);
-}
-
-unsigned int CCISOGroundTileLayer::tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags)
+void CCISOGroundTileLayer::removeSpriteTileAt(const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
     
-    int idx = (int)(pos.x + pos.y * m_tLayerSize.width);
-    // Bits on the far end of the 32-bit global tile ID are used for tile flags
-    unsigned int tile = m_pTiles[idx];
+    unsigned int gid = tileGIDAt(pos);
     
-    // issue1264, flipped tiles can be changed dynamically
-    if (flags)
+    if (gid)
     {
-        *flags = (ccTMXTileFlags)(tile & kCCFlipedAll);
+        unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+        
+        // remove tile from GID map
+        m_pTiles[z] = 0;
+        removeChildByTag(z, true);
+        
     }
-    
-    return (tile & kCCFlippedMask);
 }
 
 // CCISOGroundTileLayer - adding helper methods
@@ -252,63 +239,4 @@ CCSprite * CCISOGroundTileLayer::appendTileForGID(unsigned int gid, const CCPoin
     
     return tileSprite;
 }
-
-
-// CCISOGroundTileLayer - adding / remove tiles
-void CCISOGroundTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
-{
-    setTileGID(gid, pos, (ccTMXTileFlags)0);
-}
-
-void CCISOGroundTileLayer::setTileGID(unsigned int gid, float x,float y)
-{
-    setTileGID(gid, x,y, (ccTMXTileFlags)0);
-}
-
-void CCISOGroundTileLayer::setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags)
-{
-    setTileGID(gid, ccp(x,y), flags);
-}
-
-void CCISOGroundTileLayer::setTileGID(unsigned int gid, const CCPoint& pos, ccTMXTileFlags flags)
-{
-    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
-   
-}
-
-
-
-void CCISOGroundTileLayer::removeTileAt(float x,float y)
-{
-    removeTileAt(ccp(x,y));
-}
-
-void CCISOGroundTileLayer::removeTileAt(const CCPoint& pos)
-{
-    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
-    
-    unsigned int gid = tileGIDAt(pos);
-    
-    if (gid)
-    {
-        unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
-        
-        // remove tile from GID map
-        m_pTiles[z] = 0;
-        removeChildByTag(z, true);
-        
-    }
-}
-
-
-void CCISOGroundTileLayer::setTiles(unsigned int* pTiles)
-{
-    m_pTiles = pTiles;
-}
-
-unsigned int* CCISOGroundTileLayer::getTiles()
-{
-    return m_pTiles;
-}
-
 NS_CC_END

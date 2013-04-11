@@ -42,7 +42,6 @@ bool GameScene::init()
     pMenu->setPosition( CCPointZero );
     this->addChild(pMenu, 1);
 
-
     m_pGameWorld=new GameWorld();
 	m_pGameWorld->init();
 	m_pGameWorld->setup();

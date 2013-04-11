@@ -1,5 +1,7 @@
+#include "CCISOTileMap.h"
 #include "CCISOCoordinate.h"
 #include "CCISOTileLayer.h"
+#include "CCISOTileset.h"
 
 NS_CC_BEGIN
 
@@ -89,56 +91,120 @@ void CCISOTileLayer::releaseLayer()
 
 void CCISOTileLayer::setupTiles()
 {
-    CCLOG("CCISOTileLayer::setupTiles");
+    CCAssert(false, "you must impl CCISOTileLayer::setupTiles");
 }
 
-void CCISOTileLayer::addTile(CCSprite* tile)
+void CCISOTileLayer::addTileAt(float x,float y)
 {
-    CCLOG("CCISOTileLayer::addTile");
-
+    addTileAt(ccp(x,y));
 }
 
-void CCISOTileLayer::addTileAt(CCSprite* tile,float x,float y)
+void CCISOTileLayer::addTileAt(const CCPoint& pos)
 {
-    CCLOG("CCISOTileLayer::addTile");
-
-}
-
-void CCISOTileLayer::addTileAt(CCSprite* tile,const CCPoint& tileCoordinate)
-{
-    CCLOG("CCISOTileLayer::addTile");
+    CCAssert(false, "you must impl CCISOTileLayer::addTileAt");
 }
 
 /**
  * 获取tile
  */
-CCSprite* CCISOTileLayer::tileAt(float x,float y)
+CCISOTile* CCISOTileLayer::tileAt(float x,float y)
 {
-    CCLOG("CCISOTileLayer::tileAt");
-    return NULL;
+    return tileAt(ccp(x,y));
 }
 
 
-CCSprite* CCISOTileLayer::tileAt(const CCPoint& tileCoordinate)
+CCISOTile* CCISOTileLayer::tileAt(const CCPoint& pos)
 {
-    CCLOG("CCISOTileLayer::tileAt");
-    return NULL;
-}
-
-void CCISOTileLayer::removeTile(CCSprite* tile)
-{
-    CCLOG("CCISOTileLayer::removeTile");
+    CCISOTile* tile=NULL;
+    unsigned int gid=tileGIDAt(pos);
+    
+    if(gid>0){
+        CCISOTileset* tileset=m_pMap->getTilesetGroup()->getTilesetByGid(gid);
+        tile=tileset->tileForGid(gid);
+    }
+    
+    return tile;
 }
 
 void CCISOTileLayer::removeTileAt(float x,float y)
 {
-    CCLOG("CCISOTileLayer::removeTileAt");
+    removeTileAt(ccp(x,y));
 }
 
 void CCISOTileLayer::removeTileAt(const CCPoint& pos)
 {
-    CCLOG("CCISOTileLayer::removeTileAt");
+    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "CCISOTileLayer::removeTileAt: invalid position");
+    
+    int idx = (int)(pos.x + pos.y * m_tLayerSize.width);
+    m_pTiles[idx]=0;
 }
+
+unsigned int CCISOTileLayer::tileGIDAt(float x,float y)
+{
+    return tileGIDAt(ccp(x,y));
+}
+
+unsigned int CCISOTileLayer::tileGIDAt(const CCPoint& pos)
+{
+    if(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0){
+        int idx = (int)(pos.x + pos.y * m_tLayerSize.width);
+        unsigned int gid = m_pTiles[idx];
+        
+        return gid;
+    }
+    return 0;
+}
+
+
+//TODO 
+void CCISOTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
+{
+    CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "CCISOTileLayer::setTileGID: invalid position");
+    int idx = (int)(pos.x + pos.y * m_tLayerSize.width);
+    m_pTiles[idx]=gid;
+}
+
+void CCISOTileLayer::setTileGID(unsigned int gid, float x,float y)
+{
+    setTileGID(gid,ccp(x,y));
+}
+
+
+//===============tile sprite===============
+
+/**
+ * 获取tile
+ */
+CCSprite* CCISOTileLayer::tileSpriteAt(float x,float y)
+{
+    return tileSpriteAt(ccp(x,y));
+}
+
+CCSprite* CCISOTileLayer::tileSpriteAt(const CCPoint& pos)
+{
+    CCSprite* sprite=NULL;
+    
+    CCISOTile* tile=tileAt(pos);
+    if(tile){
+        sprite=CCSprite::createWithTexture(tile->getTexture(), tile->getTextureRect());
+    }
+    
+    return sprite;
+}
+
+/**
+ * 删除tile
+ */
+void CCISOTileLayer::removeSpriteTileAt(float x,float y)
+{
+    removeSpriteTileAt(ccp(x,y));
+}
+
+void CCISOTileLayer::removeSpriteTileAt(const CCPoint& pos)
+{
+    CCAssert(false, "you must impl CCISOTileLayer::removeSpriteTileAt");
+}
+
 
 void CCISOTileLayer::scroll(const CCPoint& tOffset)
 {

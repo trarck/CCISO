@@ -8,12 +8,12 @@
    H4sIAAAAAAAAA2NkYGBgHGCMDqiljpFIdYTMoycGAI7OoLWQAQAA
   </data>
  </layer>
- <layer name="Layer 1" width="10" height="10">
+ <layer name="Layer 1" width="10" height="10" visible="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA2NmwARMOOjhAJhwsJlxqMPmd2YkmgmHGmS1yOqwqWdGwgDg7sqJkAEAAA==
   </data>
  </layer>
- <layer name="Layer 2" width="10" height="10">
+ <layer name="Layer 2" width="10" height="10" visible="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA2NgGFqAGYqppW6wAQDMTJpEkAEAAA==
   </data>

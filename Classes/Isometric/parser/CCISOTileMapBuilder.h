@@ -84,22 +84,44 @@ public:
      */
     virtual void buildMapLayers(CCISOMapInfo* mapInfo);
     
+    virtual void buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
 
-    virtual CCISOTileLayer * parseLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
-    
+    virtual void setLayerAttribute(CCISOTileLayer* tileLayer,CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
+            
     virtual CCISOTilesetInfo * tilesetForLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo);
     
-    virtual void setMap(CCISOTileMap* pMap){
+public:
+    
+    inline void setMap(CCISOTileMap* pMap){
         m_pMap=pMap;
     }
-    virtual CCISOTileMap* getMap(){
+    
+    inline CCISOTileMap* getMap(){
         return m_pMap;
     }
+    
+    inline void setMapLayerType(unsigned int uMapLayerType)
+    {
+        m_uMapLayerType = uMapLayerType;
+    }
+    
+    inline unsigned int getMapLayerType()
+    {
+        return m_uMapLayerType;
+    }
    
+public:
+    
+    enum BuildMapLayerType{
+        NormalLayerType,
+        DynamicLayerType
+    };
     
 protected:
     
     CCISOTileMap* m_pMap;
+    
+    unsigned int m_uMapLayerType;
     
 };
 

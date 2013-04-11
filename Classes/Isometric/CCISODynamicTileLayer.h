@@ -22,6 +22,7 @@ public:
     
     virtual bool init(CCSize& mapTileSize,CCPoint& offset);
 
+    virtual void setupTiles();
 
     //设置m_pDynamicComponent的column and row
     void setComponentColumnAndRow();
@@ -40,7 +41,6 @@ public:
      * 只作判断使用，不改变显示位置
      */
     virtual void scroll(const CCPoint& tOffset);
-    virtual void scroll(float x,float y);
     
 	bool isCellChange();
     void visitTileShowable();
@@ -51,18 +51,9 @@ public:
      */
     virtual void draw();
     
-	void addTileAt(float x,float y);
-    
     void setScreenSize(const CCSize& screenSize);
     
     CCSprite* createTile();
-    
-    /**
-     * 获取tile
-     */
-	virtual CCSprite* tileAt(float x,float y);
-    
-	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
 
 public:
     

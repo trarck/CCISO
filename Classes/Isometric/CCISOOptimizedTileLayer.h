@@ -50,8 +50,6 @@ public:
      */
     virtual void draw();
     
-	void addTileAt(float x,float y);
-    
     void setScreenSize(const CCSize& screenSize);
 
 protected:

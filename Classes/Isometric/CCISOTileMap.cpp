@@ -18,6 +18,8 @@ CCISOTileMap::CCISOTileMap()
 
 CCISOTileMap::~CCISOTileMap()
 {
+    CC_SAFE_RELEASE(m_pTileLayers);
+    CC_SAFE_RELEASE(m_pTilesetGroup);
     CC_SAFE_RELEASE(m_pProperties);
     CC_SAFE_RELEASE(m_pObjectGroups);
     CC_SAFE_RELEASE(m_pTileProperties);
@@ -74,6 +76,16 @@ CCISOTileMap* CCISOTileMap::createWithJSON(const char* jsonString, const char* r
 
 bool CCISOTileMap::init()
 {
+    m_pTileLayers=new CCArray();
+    m_pTileLayers->init();
+    
+    m_pObjectGroups=new CCArray();
+    m_pObjectGroups->init();
+    
+    m_pProperties=new CCDictionary();
+
+//    CCLayerColor* lc=CCLayerColor::create(ccc4(0,0,255,255), 600, 400);
+//    addChild(lc);
 	return true;
 }
 
@@ -317,14 +329,6 @@ void CCISOTileMap::updateComponentMapCoordinate(unsigned int index,float deltaMa
 {
     CCLOG("CCISOTileMap::updateComponentMapCoordinate");
     
-//    CCArray* components=m_pDynamicComponent->getComponents();
-//    CCISOComponentNode* node=(CCISOComponentNode*) components->objectAtIndex(index);
-//    float mx=node->getMapX();
-//    float my=node->getMapY();
-//    float newMx=mx+deltaMapX;
-//    float newMy=my+deltaMapY;
-//    
-//    CCLOG("CCISOTileMap::updateComponentMapCoordinate from:%f,%f to:%f,%f",mx,my,newMx,newMy);
     
     //TODO other thing.
     //1.标记地图哪些区域可以显示。
@@ -332,6 +336,17 @@ void CCISOTileMap::updateComponentMapCoordinate(unsigned int index,float deltaMa
 
 }
 
+
+void CCISOTileMap::scrollLayer(const CCPoint& pos)
+{
+    CCObject* pObj=NULL;
+    CCISOTileLayer* tileLayer;
+    
+    CCARRAY_FOREACH(m_pTileLayers, pObj){
+        tileLayer=(CCISOTileLayer*) pObj;
+        tileLayer->scroll(pos);
+    }
+}
 
 
 void CCISOTileMap::setMapSize(CCSize tMapSize)

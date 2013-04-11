@@ -44,6 +44,11 @@ bool CCISODynamicTileLayer::init(CCSize& mapTileSize,CCPoint& offset)
     return false;
 }
 
+void CCISODynamicTileLayer::setupTiles()
+{
+    setComponentColumnAndRow();
+    m_pDynamicComponent->setupComponents(m_tOffset);
+}
 
 void CCISODynamicTileLayer::setComponentColumnAndRow()
 {
@@ -73,12 +78,6 @@ void CCISODynamicTileLayer::scroll(const CCPoint& tOffset)
 	m_pDynamicComponent->scroll(tOffset);
 }
 
-void CCISODynamicTileLayer::scroll(float x,float y)
-{
-    this->scroll(ccp(x,y));
-}
-
-
 void CCISODynamicTileLayer::setScreenSize(const CCSize& screenSize)
 {
     m_tScreenSize=screenSize;
@@ -105,26 +104,4 @@ CCSprite* CCISODynamicTileLayer::createTile()
     this->addChild(cellTile);
     return cellTile;
 }
-
-/**
- * 获取tile
- */
-CCSprite* CCISODynamicTileLayer::tileAt(float x,float y)
-{
-    CCSprite* cellTile=CCSprite::create("grid_ground.png");
-    cellTile->setAnchorPoint(ccp(0.5,0));
-    //    cellTile->setOpacity(60);
-    this->addChild(cellTile);
-    return cellTile;
-}
-
-CCSprite* CCISODynamicTileLayer::tileAt(const CCPoint& tileCoordinate)
-{
-    CCSprite* cellTile=CCSprite::create("grid_ground.png");
-    cellTile->setAnchorPoint(ccp(0.5,0));
-    //    cellTile->setOpacity(60);
-    this->addChild(cellTile);
-    return cellTile;
-}
-
 NS_CC_END

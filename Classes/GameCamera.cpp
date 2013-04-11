@@ -33,6 +33,7 @@ void  GameCamera::move(float deltaX,float deltaY)
     m_tWorldPosition.y-=deltaY;
 
     m_pGameWorld->setPosition(m_tWorldPosition);
+    m_pGameWorld->updateMapPosition(ccp(-m_tWorldPosition.x,-m_tWorldPosition.y));
 }
 
 void  GameCamera::moveTo(float x,float y)
@@ -41,6 +42,8 @@ void  GameCamera::moveTo(float x,float y)
     m_tWorldPosition.y=-y;
 
     m_pGameWorld->setPosition(m_tWorldPosition);
+    m_pGameWorld->updateMapPosition(ccp(-m_tWorldPosition.x,-m_tWorldPosition.y));
+
 }
 
 void  GameCamera::moveOpposite(float deltaX,float deltaY)
@@ -48,7 +51,7 @@ void  GameCamera::moveOpposite(float deltaX,float deltaY)
     m_tWorldPosition.x+=deltaX;
     m_tWorldPosition.y+=deltaY;
 
-    m_pGameWorld->setPosition(ccp(m_tWorldPosition.x,m_tWorldPosition.y));
+    m_pGameWorld->setPosition(m_tWorldPosition);
     m_pGameWorld->updateMapPosition(ccp(-m_tWorldPosition.x,-m_tWorldPosition.y));
 }
 

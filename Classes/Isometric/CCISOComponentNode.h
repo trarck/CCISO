@@ -5,12 +5,15 @@
 
 NS_CC_BEGIN
 
-class CCISOComponentNode : public CCNode{
+class CCISOComponentNode : public CCSprite{
 
 public:
     
     CCISOComponentNode();
+    
     ~CCISOComponentNode();
+    
+    bool init();
     
     void updateMapCoordinate(float mapX,float mapY);
     

@@ -1,6 +1,6 @@
 #include "CCISOCoordinate.h"
 #include "CCISOTile.h"
-
+#include "CCISOTileset.h"
 
 NS_CC_BEGIN
 
@@ -62,6 +62,11 @@ void CCISOTile::setId(int nId)
 int CCISOTile::getId()
 {
     return m_nId;
+}
+
+int CCISOTile::getGId()
+{
+    return m_nId+m_pTileset->getFirstGid();
 }
 
 void CCISOTile::setTileset(CCISOTileset* pTileset)

@@ -34,34 +34,16 @@ public:
     /**
      * 获取tile
      */
-	virtual CCSprite* tileAt(float x,float y);
-	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
     
-    /**
-     * 获取tile gid
-     */
-    unsigned int  tileGIDAt(float x,float y);
-    unsigned int  tileGIDAt(const CCPoint& tileCoordinate);
-    unsigned int  tileGIDAt(float x,float y,ccTMXTileFlags* flags);
-    unsigned int  tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags);
+	virtual CCSprite* tileSpriteAt(const CCPoint& pos);
     
-    /**
-     * 设置tile gid
-     */
-    virtual void setTileGID(unsigned int gid, float x,float y);
-    virtual void setTileGID(unsigned int gid, const CCPoint& tileCoordinate);
-    void setTileGID(unsigned int gid, const CCPoint& tileCoordinate, ccTMXTileFlags flags);
-    virtual void setTileGID(unsigned int gid, float x,float y, ccTMXTileFlags flags);
     /**
      * 删除tile
      */
-	virtual void removeTileAt(float x,float y);
-    virtual void removeTileAt(const CCPoint& pos);
+    virtual void removeSpriteTileAt(const CCPoint& pos);
 
-    
-    void setTiles(unsigned int* pTiles);
-    unsigned int* getTiles();
-    
+public:
+        
     void setTileSet(CCISOTilesetInfo* pTileSet);
     CCISOTilesetInfo* getTileSet();
     
@@ -100,8 +82,6 @@ protected:
     CCSprite* updateTileForGID(unsigned int gid, const CCPoint& pos);
     
 protected:
-
-    unsigned int* m_pTiles;    
     
     unsigned int        m_uMinGID;
     unsigned int        m_uMaxGID;

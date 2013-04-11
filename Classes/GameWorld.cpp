@@ -87,6 +87,7 @@ bool GameWorld::init()
 	m_iMapColumn=20;
 	m_iMapRow=20;
 
+    ccDrawColor4B(0,255, 0, 255);
 	//add coord line
 //	ISOCoordinateLayer* coordLayer=ISOCoordinateLayer::create();
 //	coordLayer->setMapWidth(m_iMapColumn);
@@ -212,7 +213,7 @@ void GameWorld::setup()
 	m_pGameCamera=new GameCamera();
 	m_pGameCamera->init();
 	m_pGameCamera->setGameWorld(this);
-    m_pGameCamera->moveTo(-screenSize.width/2, 0);
+    
 	//base
 	setupGameWorlds();
 //	setupUtil();
@@ -221,6 +222,7 @@ void GameWorld::setup()
 //	loadInterMediate();
 	
 	//setupNetWork();
+    m_pGameCamera->moveTo(-screenSize.width/2, 0);
 }
 
 void GameWorld::loadMapData()
@@ -253,8 +255,6 @@ void GameWorld::setupUtil()
  */
 void GameWorld::setupGameWorlds()
 {
-    CCLayerColor* lc=CCLayerColor::create(ccc4(255,0,0,255), 960, 640);
-    addChild(lc);
     
     CCISOXMLParser* isoXmlParser=new CCISOXMLParser();
     isoXmlParser->setTranslateLayerData(true);
@@ -274,6 +274,7 @@ void GameWorld::setupGameWorlds()
     gettimeofday(&now,NULL);
     CCISOTileMapBuilder* mapBuilder=new CCISOTileMapBuilder();
     mapBuilder->init(isoMap);
+    mapBuilder->setMapLayerType(CCISOTileMapBuilder::DynamicLayerType);
     mapBuilder->buildWithMapInfo(mapInfo);
     
     struct timeval end;
@@ -636,7 +637,8 @@ void GameWorld::updateMapPosition(const CCPoint& position)
 //    testLayer->scroll(position);
 //    CCISODynamicTileLayer* testLayer=(CCISODynamicTileLayer*)this->getChildByTag(kLayerTagTestIsoLayerDynamic);
 //    testLayer->scroll(position);
-//    CCISOTileMap* tileMap=(CCISOTileMap*)this->getChildByTag(kLayerTagTestIsoLayer);
+    CCISOTileMap* tileMap=(CCISOTileMap*)this->getChildByTag(kLayerTagTestIsoLayer);
+    tileMap->scrollLayer(position);
 //    tileMap->setposition
 }
 

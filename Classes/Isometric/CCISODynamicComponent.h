@@ -89,6 +89,8 @@ public:
     
 protected:
     
+    virtual void updateNode(CCISOComponentNode* node,float mx,float my);
+    
     virtual void updateMapCoordinate(unsigned int nodeIndex,float deltaMapX,float deltaMapY);
     
 protected:

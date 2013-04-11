@@ -816,6 +816,7 @@
 					USE_FILE32API,
 					TARGET_OS_IPHONE,
 					CC_TARGET_OS_IPHONE,
+					"CC_SPRITE_DEBUG_DRAW=1",
 				);
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				HEADER_SEARCH_PATHS = (

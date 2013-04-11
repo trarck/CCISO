@@ -2,6 +2,7 @@
 #define ISO_CCISOTileLayer_H_
 
 #include "cocos2d.h"
+#include "CCISOTile.h"
 
 NS_CC_BEGIN
 
@@ -20,7 +21,7 @@ public:
 	
 	CCISOTileLayer();
     
-	~CCISOTileLayer(void);
+	virtual ~CCISOTileLayer(void);
 	
     virtual bool init();
         
@@ -50,28 +51,65 @@ public:
     /**
      * 添加tile
      */
-    virtual void addTile(CCSprite* tile);
+	virtual void addTileAt(float x,float y);
     
-    virtual void addTileAt(CCSprite* tile,float x,float y);
+	virtual void addTileAt(const CCPoint& pos);
     
-	virtual void addTileAt(CCSprite* tile,const CCPoint& tileCoordinate);
-
-
     /**
      * 获取tile
      */
-	virtual CCSprite* tileAt(float x,float y);
+	virtual CCISOTile* tileAt(float x,float y);
     
-	virtual CCSprite* tileAt(const CCPoint& tileCoordinate);
+	virtual CCISOTile* tileAt(const CCPoint& pos);
     
     /**
      * 删除tile
-     */
-    virtual void removeTile(CCSprite* tile);
-    
+     */    
 	virtual void removeTileAt(float x,float y);
     
     virtual void removeTileAt(const CCPoint& pos);
+    
+    
+    /**
+     * 获取tile gid
+     */
+    unsigned int  tileGIDAt(float x,float y);
+    
+    unsigned int  tileGIDAt(const CCPoint& pos);
+    
+    /**
+     * 设置tile gid
+     */
+    virtual void setTileGID(unsigned int gid, float x,float y);
+    virtual void setTileGID(unsigned int gid, const CCPoint& pos);
+
+    
+    //===============tile sprite===============
+    
+    /**
+     * 添加tile
+     */
+//    virtual void addTileSprite(CCSprite* tileSprite);
+//    
+//    virtual void addTileSpriteAt(CCSprite* tileSprite,float x,float y);
+//    
+//	virtual void addTileSpriteAt(CCSprite* tileSprite,const CCPoint& pos);
+    
+    
+    /**
+     * 获取tile
+     */
+	virtual CCSprite* tileSpriteAt(float x,float y);
+    
+	virtual CCSprite* tileSpriteAt(const CCPoint& pos);
+    
+    /**
+     * 删除tile
+     */   
+	virtual void removeSpriteTileAt(float x,float y);
+    
+    virtual void removeSpriteTileAt(const CCPoint& pos);
+    
  
     //移动
     virtual void scroll(const CCPoint& tOffset);

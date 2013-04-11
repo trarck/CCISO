@@ -40,15 +40,6 @@ void CCISOOptimizedTileLayer::initOffset(float x,float y)
 	this->initOffset(ccp(x,y));
 }
 
-void CCISOOptimizedTileLayer::addTileAt(float x,float y)
-{
-    CCSprite* testGrid=CCSprite::create("grid1.png");
-    testGrid->setPosition(isoGameToView2F(x,y));
-    testGrid->setAnchorPoint(ccp(0.5,0));
-//    testGrid->setOpacity(60);
-    this->addChild(testGrid);
-}
-
 /**
  * 检查是否需要由于位置的改变而更新显示内容。
  * 并记录新位置对应的地图坐标，为更新使用。

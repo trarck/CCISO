@@ -30,9 +30,12 @@ public:
 
 public:
     
+    virtual int getGId();
+    
+    
     virtual void setId(int nId);
     
-    virtual int getId();
+    virtual int getId();    
     
     virtual void setTileset(CCISOTileset* pTileset);
     
