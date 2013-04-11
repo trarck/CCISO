@@ -236,6 +236,9 @@
     <ClInclude Include="..\Classes\Isometric\CCISOInfos.h">
       <Filter>Classes\Isometric</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOBatchTileLayer.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -383,6 +386,9 @@
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Isometric\CCISOTilesetGroup.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOBatchTileLayer.cpp">
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
   </ItemGroup>

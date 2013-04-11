@@ -45,7 +45,7 @@ GameWorld::GameWorld()
 GameWorld::~GameWorld()
 {
 	CCLOG("GameWorld destroy begin");
-	CCLOG("player retain:%d",m_pPlayer->retainCount());
+	//CCLOG("player retain:%d",m_pPlayer->retainCount());
 	CC_SAFE_RELEASE(m_pGameCamera);
 	CC_SAFE_RELEASE(m_pAstar);
 	CC_SAFE_RELEASE(m_pZIndex);
@@ -53,7 +53,7 @@ GameWorld::~GameWorld()
 	//CC_SAFE_RELEASE(m_pBackground);
 	//CC_SAFE_RELEASE(m_pIntermediate);
 	//CC_SAFE_RELEASE(m_pForeground);
-	CCLOG("player retain:%d",m_pPlayer->retainCount());
+	//CCLOG("player retain:%d",m_pPlayer->retainCount());
 	CC_SAFE_RELEASE(m_pPlayer);
 	CC_SAFE_RELEASE(m_pUnits);
     
@@ -274,7 +274,7 @@ void GameWorld::setupGameWorlds()
     gettimeofday(&now,NULL);
     CCISOTileMapBuilder* mapBuilder=new CCISOTileMapBuilder();
     mapBuilder->init(isoMap);
-    mapBuilder->setMapLayerType(CCISOTileMapBuilder::BatchLayerType);
+	mapBuilder->setMapLayerType(CCISOTileMapBuilder::NormalLayerType);
     mapBuilder->buildWithMapInfo(mapInfo);
     
     struct timeval end;
