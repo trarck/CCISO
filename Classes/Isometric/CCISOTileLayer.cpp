@@ -253,11 +253,7 @@ void CCISOTileLayer::parseInternalProperties()
 
 int  CCISOTileLayer::zOrderForPos(const CCPoint& pos)
 {
-    int ret = 0;
-    unsigned int maxVal = 0;
-//    maxVal = (unsigned int)(m_tLayerSize.width + m_tLayerSize.height);
-    ret = (int)(maxVal - (pos.x + pos.y));
-
+    int ret=(int)(m_tLayerSize.width*m_tLayerSize.height -pos.x + pos.y * m_tLayerSize.width);
     return ret;
 }
 

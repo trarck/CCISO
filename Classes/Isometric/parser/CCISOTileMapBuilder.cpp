@@ -231,6 +231,7 @@ void CCISOTileMapBuilder::buildMapLayers(CCISOMapInfo* mapInfo)
 
 void CCISOTileMapBuilder::buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo *mapInfo)
 {
+    CCLOG("CCISOTileMapBuilder::buildMapLayer:%s",layerInfo->getName());
     CCISOTileLayer *layer = NULL;
     
     switch (m_uMapLayerType) {

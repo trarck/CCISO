@@ -42,10 +42,6 @@ bool CCISOBatchTileLayer::init()
 {
     if(CCISOTileLayer::init()){
         
-        m_pSpriteBatchNode=new CCSpriteBatchNode();
-        
-        addChild(m_pSpriteBatchNode);
-        
         m_uMinGID = 100000;
         m_uMaxGID = 0;
         
@@ -66,12 +62,19 @@ void CCISOBatchTileLayer::setupTiles()
     
     CCTexture2D *texture = m_pTileSet->getTexture();
     
+
+    CCAssert(texture, "Texture is null");
+
+    m_pSpriteBatchNode=new CCSpriteBatchNode();
+    
     if (m_pSpriteBatchNode->initWithTexture(texture, (unsigned int)capacity))
     {               
         m_pAtlasIndexArray = ccCArrayNew((unsigned int)totalNumberOfTiles);
         
         this->setContentSize(CCSizeMake(m_tLayerSize.width * m_tMapTileSize.width, m_tLayerSize.height * m_tMapTileSize.height));
     }
+    
+    CCLOG("m_pIndices:%d,%d,%d",m_pSpriteBatchNode,m_pSpriteBatchNode->getTextureAtlas(),m_pSpriteBatchNode->getTextureAtlas()->getIndices());
 
 
     m_pSpriteBatchNode->getTextureAtlas()->getTexture()->setAliasTexParameters();
@@ -95,7 +98,7 @@ void CCISOBatchTileLayer::setupTiles()
             // XXX: gid == 0 --> empty tile
             if (gid != 0)
             {
-                this->appendTileForGID(gid, ccp(x, y));
+                this->insertTileForGID(gid, ccp(x, y));
                 
                 // Optimization: update min and max GID rendered by the layer
                 m_uMinGID = MIN(gid, m_uMinGID);
@@ -106,6 +109,8 @@ void CCISOBatchTileLayer::setupTiles()
     
     CCAssert( m_uMaxGID >= m_pTileSet->getFirstGid() &&
              m_uMinGID >= m_pTileSet->getFirstGid(), "TMX: Only 1 tileset per layer is supported");
+    
+    addChild(m_pSpriteBatchNode);
 }
 
 void CCISOBatchTileLayer::setupTileSprite(CCSprite* sprite, CCPoint mapCoord, unsigned int gid)
@@ -199,7 +204,7 @@ CCSprite * CCISOBatchTileLayer::tileSpriteAt(const CCPoint& pos)
     // if GID == 0, then no tile is present
     if (gid)
     {
-        int z = (int)(pos.x + pos.y * m_tLayerSize.width);
+        int z = zOrderForPos(pos);
         tile = (CCSprite*) this->getChildByTag(z);
         
         // tile not created yet. create it
@@ -230,7 +235,7 @@ CCSprite * CCISOBatchTileLayer::insertTileForGID(unsigned int gid, const CCPoint
 {
     CCRect rect = m_pTileSet->rectForGid(gid);
     
-    intptr_t z = (intptr_t)(pos.x + pos.y * m_tLayerSize.width);
+    int z = zOrderForPos(pos);
     
     CCSprite *tile = reusedTileWithRect(rect);
     
@@ -271,7 +276,7 @@ CCSprite * CCISOBatchTileLayer::updateTileForGID(unsigned int gid, const CCPoint
 {
     CCRect rect = m_pTileSet->rectForGid(gid);
     rect = CCRectMake(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width/ m_fContentScaleFactor, rect.size.height/ m_fContentScaleFactor);
-    int z = (int)(pos.x + pos.y * m_tLayerSize.width);
+    int z = zOrderForPos(pos);
     
     CCSprite *tile = reusedTileWithRect(rect);
     
@@ -293,7 +298,7 @@ CCSprite * CCISOBatchTileLayer::appendTileForGID(unsigned int gid, const CCPoint
 {
     CCRect rect = m_pTileSet->rectForGid(gid);
     
-    int z = -(int)(pos.x + pos.y * m_tLayerSize.width);
+    int z = zOrderForPos(pos);
     
     CCSprite *tile = reusedTileWithRect(rect);
     
@@ -364,7 +369,8 @@ void CCISOBatchTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
         // modifying an existing tile with a non-empty tile
         else
         {
-            unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+            unsigned int tileIndex = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+            int z=zOrderForPos(pos);
             CCSprite *sprite = (CCSprite*)m_pSpriteBatchNode->getChildByTag(z);
             if (sprite)
             {
@@ -374,7 +380,7 @@ void CCISOBatchTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
 
                 setupTileSprite(sprite, sprite->getPosition(), gid);
 
-                m_pTiles[z] = gid;
+                m_pTiles[tileIndex] = gid;
             }
             else
             {
