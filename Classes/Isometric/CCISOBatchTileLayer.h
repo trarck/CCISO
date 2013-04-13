@@ -2,10 +2,8 @@
 #define ISO_CCISOBatchTileLayer_H_
 
 #include "cocos2d.h"
+#include "CCISOInfos.h"
 #include "CCISOTileLayer.h"
-#include "CCISOMapInfo.h"
-#include "CCISOTilesetInfo.h"
-#include "CCISOLayerInfo.h"
 #include "cocoa/CCArray.h"
 
 

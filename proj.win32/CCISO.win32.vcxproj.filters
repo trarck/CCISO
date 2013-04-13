@@ -239,6 +239,12 @@
     <ClInclude Include="..\Classes\Isometric\CCISOBatchTileLayer.h">
       <Filter>Classes\Isometric</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOBatchDynamicComponent.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Isometric\CCISOBatchDynamicTileLayer.h">
+      <Filter>Classes\Isometric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -389,6 +395,12 @@
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Isometric\CCISOBatchTileLayer.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOBatchDynamicComponent.cpp">
+      <Filter>Classes\Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Isometric\CCISOBatchDynamicTileLayer.cpp">
       <Filter>Classes\Isometric</Filter>
     </ClCompile>
   </ItemGroup>

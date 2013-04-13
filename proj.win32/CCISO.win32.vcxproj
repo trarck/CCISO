@@ -155,6 +155,8 @@
     <ClInclude Include="..\Classes\Isometric\CCAstar.h" />
     <ClInclude Include="..\Classes\Isometric\CCAstarNode.h" />
     <ClInclude Include="..\Classes\Isometric\CCCoordinate.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOBatchDynamicComponent.h" />
+    <ClInclude Include="..\Classes\Isometric\CCISOBatchDynamicTileLayer.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOBatchTileLayer.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOComponentNode.h" />
     <ClInclude Include="..\Classes\Isometric\CCISOCoordinate.h" />
@@ -213,6 +215,8 @@
     <ClCompile Include="..\Classes\Isometric\CCAstar.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCAstarNode.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCCoordinate.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOBatchDynamicComponent.cpp" />
+    <ClCompile Include="..\Classes\Isometric\CCISOBatchDynamicTileLayer.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOBatchTileLayer.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISOComponentNode.cpp" />
     <ClCompile Include="..\Classes\Isometric\CCISODynamicComponent.cpp" />
