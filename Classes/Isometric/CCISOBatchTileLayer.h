@@ -49,8 +49,8 @@ public:
     
 public:
     
-    void setTileSet(CCISOTileset* pTileSet);
-    CCISOTileset* getTileSet();
+    void setTileset(CCISOTileset* pTileset);
+    CCISOTileset* getTileset();
     
     void setTileSets(CCArray* pTileSets);
     CCArray* getTileSets();
@@ -114,7 +114,7 @@ protected:
     
 protected:
 
-    CCISOTileset* m_pTileSet;
+    CCISOTileset* m_pTileset;
     //对于多个tileSet的支持。这样就不能使用batch node。所以最好一个layer使用一个tileSet
     CCArray* m_pTileSets;
     

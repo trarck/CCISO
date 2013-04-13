@@ -14,7 +14,7 @@ static inline int compareInts(const void * a, const void * b)
 
 
 CCISOBatchTileLayer::CCISOBatchTileLayer()
-:m_pTileSet(NULL)
+:m_pTileset(NULL)
 ,m_pReusedTile(NULL)
 ,m_pSpriteBatchNode(NULL)
 ,m_pAtlasIndexArray(NULL)
@@ -25,7 +25,7 @@ CCISOBatchTileLayer::CCISOBatchTileLayer()
 
 CCISOBatchTileLayer::~CCISOBatchTileLayer()
 {
-    CC_SAFE_RELEASE(m_pTileSet);
+    CC_SAFE_RELEASE(m_pTileset);
     CC_SAFE_RELEASE(m_pReusedTile);
     CC_SAFE_RELEASE(m_pProperties);
     CC_SAFE_RELEASE(m_pSpriteBatchNode);
@@ -60,7 +60,7 @@ void CCISOBatchTileLayer::setupTiles()
     float totalNumberOfTiles = m_tLayerSize.width * m_tLayerSize.height;
     float capacity = totalNumberOfTiles * 0.35f + 1; // 35 percent is occupied ?
     
-    CCTexture2D *texture = m_pTileSet->getTexture();
+    CCTexture2D *texture = m_pTileset->getTexture();
     
 
     CCAssert(texture, "Texture is null");
@@ -106,8 +106,8 @@ void CCISOBatchTileLayer::setupTiles()
         }
     }
     
-    CCAssert( m_uMaxGID >= m_pTileSet->getFirstGid() &&
-             m_uMinGID >= m_pTileSet->getFirstGid(), "TMX: Only 1 tileset per layer is supported");
+    CCAssert( m_uMaxGID >= m_pTileset->getFirstGid() &&
+             m_uMinGID >= m_pTileset->getFirstGid(), "TMX: Only 1 tileset per layer is supported");
     
     addChild(m_pSpriteBatchNode);
 }
@@ -209,7 +209,7 @@ CCSprite * CCISOBatchTileLayer::tileSpriteAt(const CCPoint& pos)
         // tile not created yet. create it
         if (! tile)
         {
-            CCRect rect = m_pTileSet->rectForGid(gid);
+            CCRect rect = m_pTileset->rectForGid(gid);
             
             tile = new CCSprite();
             tile->initWithTexture(m_pSpriteBatchNode->getTexture(), rect);
@@ -232,7 +232,7 @@ CCSprite * CCISOBatchTileLayer::tileSpriteAt(const CCPoint& pos)
 // CCISOBatchTileLayer - adding helper methods
 CCSprite * CCISOBatchTileLayer::insertTileForGID(unsigned int gid, const CCPoint& pos)
 {
-    CCRect rect = m_pTileSet->rectForGid(gid);
+    CCRect rect = m_pTileset->rectForGid(gid);
     
 	int z=zOrderForPos(pos);
     
@@ -274,7 +274,7 @@ CCSprite * CCISOBatchTileLayer::insertTileForGID(unsigned int gid, const CCPoint
 
 CCSprite * CCISOBatchTileLayer::updateTileForGID(unsigned int gid, const CCPoint& pos)
 {
-    CCRect rect = m_pTileSet->rectForGid(gid);
+    CCRect rect = m_pTileset->rectForGid(gid);
     rect = CCRectMake(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width/ m_fContentScaleFactor, rect.size.height/ m_fContentScaleFactor);
     
 	int z = zOrderForPos(pos);
@@ -299,7 +299,7 @@ CCSprite * CCISOBatchTileLayer::updateTileForGID(unsigned int gid, const CCPoint
 // since lot's of assumptions are no longer true
 CCSprite * CCISOBatchTileLayer::appendTileForGID(unsigned int gid, const CCPoint& pos)
 {
-    CCRect rect = m_pTileSet->rectForGid(gid);
+    CCRect rect = m_pTileset->rectForGid(gid);
     
     int z = zOrderForPos(pos);
     
@@ -352,7 +352,7 @@ void CCISOBatchTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
     CCAssert(m_pTiles && m_pAtlasIndexArray, "TMXLayer: the tiles map has been released");
-    CCAssert(gid == 0 || gid >= m_pTileSet->getFirstGid(), "TMXLayer: invalid gid" );
+    CCAssert(gid == 0 || gid >= m_pTileset->getFirstGid(), "TMXLayer: invalid gid" );
     
     unsigned int currentGID = tileGIDAt(pos);
     
@@ -377,7 +377,7 @@ void CCISOBatchTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
             CCSprite *sprite = (CCSprite*)m_pSpriteBatchNode->getChildByTag(z);
             if (sprite)
             {
-                CCRect rect = m_pTileSet->rectForGid(gid);
+                CCRect rect = m_pTileset->rectForGid(gid);
                 
                 sprite->setTextureRect(rect, false, rect.size);
 
@@ -526,16 +526,16 @@ void CCISOBatchTileLayer::addSpriteWithoutQuad(CCSprite*child, unsigned int z, i
 }
 
 
-void CCISOBatchTileLayer::setTileSet(CCISOTileset* pTileSet)
+void CCISOBatchTileLayer::setTileset(CCISOTileset* pTileset)
 {
-    CC_SAFE_RETAIN(pTileSet);
-    CC_SAFE_RELEASE(m_pTileSet);
-    m_pTileSet = pTileSet;
+    CC_SAFE_RETAIN(pTileset);
+    CC_SAFE_RELEASE(m_pTileset);
+    m_pTileset = pTileset;
 }
 
-CCISOTileset* CCISOBatchTileLayer::getTileSet()
+CCISOTileset* CCISOBatchTileLayer::getTileset()
 {
-    return m_pTileSet;
+    return m_pTileset;
 }
 
 void CCISOBatchTileLayer::setTileSets(CCArray* pTileSets)

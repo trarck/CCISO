@@ -252,7 +252,7 @@ void CCISOTileMapBuilder::buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo 
             CCISOTileset* tileset=tilesetForLayer(layerInfo);
             
             if(tileset){
-                batchLayer->setTileSet(tileset);
+                batchLayer->setTileset(tileset);
             }
             layer=batchLayer;
             break;
