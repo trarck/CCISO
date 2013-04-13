@@ -73,9 +73,6 @@ void CCISOBatchTileLayer::setupTiles()
         
         this->setContentSize(CCSizeMake(m_tLayerSize.width * m_tMapTileSize.width, m_tLayerSize.height * m_tMapTileSize.height));
     }
-    
-    CCLOG("m_pIndices:%d,%d,%d",m_pSpriteBatchNode,m_pSpriteBatchNode->getTextureAtlas(),m_pSpriteBatchNode->getTextureAtlas()->getIndices());
-
 
     m_pSpriteBatchNode->getTextureAtlas()->getTexture()->setAliasTexParameters();
  
