@@ -274,7 +274,7 @@ void GameWorld::setupGameWorlds()
     gettimeofday(&now,NULL);
     CCISOTileMapBuilder* mapBuilder=new CCISOTileMapBuilder();
     mapBuilder->init(isoMap);
-	mapBuilder->setMapLayerType(CCISOTileMapBuilder::BatchLayerType);
+	mapBuilder->setMapLayerType(CCISOTileMapBuilder::DynamicLayerType);
     mapBuilder->buildWithMapInfo(mapInfo);
     
     struct timeval end;
