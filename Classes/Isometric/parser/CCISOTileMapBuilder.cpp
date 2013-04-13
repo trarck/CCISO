@@ -10,6 +10,7 @@
 #include "CCISOGroundTileLayer.h"
 #include "CCISODynamicTileLayer.h"
 #include "CCISOBatchTileLayer.h"
+#include "CCISOBatchDynamicTileLayer.h"
 
 NS_CC_BEGIN
 
@@ -252,6 +253,19 @@ void CCISOTileMapBuilder::buildMapLayer(CCISOLayerInfo *layerInfo, CCISOMapInfo 
             
             if(tileset){
                 batchLayer->setTileSet(tileset);
+            }
+            layer=batchLayer;
+            break;
+        }
+		case BatchDynamicLayerType:
+        {
+            CCISOBatchDynamicTileLayer* batchLayer=new CCISOBatchDynamicTileLayer();
+            batchLayer->init();
+
+            CCISOTileset* tileset=tilesetForLayer(layerInfo);
+            
+            if(tileset){
+                batchLayer->setTileset(tileset);
             }
             layer=batchLayer;
             break;

@@ -117,7 +117,8 @@ public:
     enum BuildMapLayerType{
         NormalLayerType,
         DynamicLayerType,
-        BatchLayerType
+        BatchLayerType,
+		BatchDynamicLayerType
     };
     
 protected:

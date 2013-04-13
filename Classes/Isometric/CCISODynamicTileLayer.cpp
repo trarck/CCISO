@@ -36,8 +36,8 @@ bool CCISODynamicTileLayer::init(CCSize& mapTileSize,CCPoint& offset)
 {
     if(CCISOTileLayer::init(mapTileSize, offset)){
         init();
-        setComponentColumnAndRow();
-        m_pDynamicComponent->setupComponents(offset);
+        //setComponentColumnAndRow();
+        //m_pDynamicComponent->setupComponents(offset);
         
         return true;
     }

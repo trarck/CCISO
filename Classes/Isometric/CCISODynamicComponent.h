@@ -42,15 +42,15 @@ public:
 
 	void calcComponentsCount();
     
-	void createComponents();
+	virtual void createComponents();
     
-    void initComponents();
+    virtual void initComponents();
     
-    void setupComponents();
+    virtual void setupComponents();
     
-    void setupComponents(const CCPoint& position);
+    virtual void setupComponents(const CCPoint& position);
     
-    CCArray* getComponents();
+    virtual CCArray* getComponents();
 
     virtual void initOffset(const CCPoint& tOffset);
     
