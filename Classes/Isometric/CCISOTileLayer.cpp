@@ -251,9 +251,15 @@ void CCISOTileLayer::parseInternalProperties()
     }
 }
 
+unsigned int  CCISOTileLayer::indexForPos(const CCPoint& pos)
+{
+    unsigned int index=(unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+    return index;
+}
+
 int  CCISOTileLayer::zOrderForPos(const CCPoint& pos)
 {
-    int ret=(int)(m_tLayerSize.width*m_tLayerSize.height -pos.x + pos.y * m_tLayerSize.width);
+    int ret=(int)(m_tLayerSize.width*m_tLayerSize.height -(pos.x + pos.y * m_tLayerSize.width));
     return ret;
 }
 
@@ -272,6 +278,11 @@ int CCISOTileLayer::vertexZForPos(const CCPoint& pos)
     }
     
     return ret;
+}
+
+unsigned int CCISOTileLayer::zOrderToIndex(int z)
+{
+	return (unsigned int)(m_tLayerSize.width*m_tLayerSize.height-z);
 }
 
 CCString* CCISOTileLayer::propertyNamed(const char *propertyName)

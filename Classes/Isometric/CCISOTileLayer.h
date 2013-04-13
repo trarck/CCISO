@@ -116,6 +116,11 @@ public:
     virtual void scroll(const CCPoint& tOffset);
     virtual void scroll(float x,float y);
     
+	/**
+     * 地图格子对应到数组
+     */
+    unsigned int indexForPos(const CCPoint& pos);
+
     /**
      * 取得zOrder值，处理遮挡使用.zOrder vertexZ二者使用一
      */
@@ -126,6 +131,7 @@ public:
      */
     int vertexZForPos(const CCPoint& pos);
     
+	unsigned int zOrderToIndex(int z);
     /**
      * 获取属性名称
      */

@@ -86,9 +86,8 @@ void CCISOBatchTileLayer::setupTiles()
     {
         for (unsigned int x=0; x < m_tLayerSize.width; x++)
         {
-            unsigned int pos = (unsigned int)(x + m_tLayerSize.width * y);
-            unsigned int gid = m_pTiles[ pos ];
-            
+            unsigned int tileIndex = indexForPos(ccp(x,y));
+            unsigned int gid = m_pTiles[ tileIndex ];
             // gid are stored in little endian.
             // if host is big endian, then swap
             //if( o == CFByteOrderBigEndian )
@@ -235,7 +234,7 @@ CCSprite * CCISOBatchTileLayer::insertTileForGID(unsigned int gid, const CCPoint
 {
     CCRect rect = m_pTileSet->rectForGid(gid);
     
-    int z = zOrderForPos(pos);
+	int z=zOrderForPos(pos);
     
     CCSprite *tile = reusedTileWithRect(rect);
     
@@ -268,7 +267,8 @@ CCSprite * CCISOBatchTileLayer::insertTileForGID(unsigned int gid, const CCPoint
             }
         }
     }
-    m_pTiles[z] = gid;
+	int tileIndex = indexForPos(pos);
+    m_pTiles[tileIndex] = gid;
     return tile;
 }
 
@@ -276,7 +276,8 @@ CCSprite * CCISOBatchTileLayer::updateTileForGID(unsigned int gid, const CCPoint
 {
     CCRect rect = m_pTileSet->rectForGid(gid);
     rect = CCRectMake(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width/ m_fContentScaleFactor, rect.size.height/ m_fContentScaleFactor);
-    int z = zOrderForPos(pos);
+    
+	int z = zOrderForPos(pos);
     
     CCSprite *tile = reusedTileWithRect(rect);
     
@@ -287,7 +288,9 @@ CCSprite * CCISOBatchTileLayer::updateTileForGID(unsigned int gid, const CCPoint
     tile->setAtlasIndex(indexForZ);
     tile->setDirty(true);
     tile->updateTransform();
-    m_pTiles[z] = gid;
+
+	int tileIndex = indexForPos(pos);
+    m_pTiles[tileIndex] = gid;
     
     return tile;
 }
@@ -313,7 +316,7 @@ CCSprite * CCISOBatchTileLayer::appendTileForGID(unsigned int gid, const CCPoint
     addQuadFromSprite(tile, indexForZ);
     
     // append should be after addQuadFromSprite since it modifies the quantity values
-    ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, (void*)&z, indexForZ);
+    ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, (void*)z, indexForZ);
     
     return tile;
 }
@@ -369,7 +372,7 @@ void CCISOBatchTileLayer::setTileGID(unsigned int gid, const CCPoint& pos)
         // modifying an existing tile with a non-empty tile
         else
         {
-            unsigned int tileIndex = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+            unsigned int tileIndex = indexForPos(pos);
             int z=zOrderForPos(pos);
             CCSprite *sprite = (CCSprite*)m_pSpriteBatchNode->getChildByTag(z);
             if (sprite)
@@ -403,8 +406,9 @@ void CCISOBatchTileLayer::removeChild(CCNode* node, bool cleanup)
     CCAssert(m_pSpriteBatchNode->getChildren()->containsObject(sprite), "Tile does not belong to TMXLayer");
     
     unsigned int atlasIndex = sprite->getAtlasIndex();
-    unsigned int zz = (size_t)m_pAtlasIndexArray->arr[atlasIndex];
-    m_pTiles[zz] = 0;
+    int z = (size_t)m_pAtlasIndexArray->arr[atlasIndex];
+	unsigned int tileIndex=zOrderToIndex(z);
+    m_pTiles[tileIndex] = 0;
     ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
     m_pSpriteBatchNode->removeChild(sprite, cleanup);
 }
@@ -418,11 +422,12 @@ void CCISOBatchTileLayer::removeTileSpriteAt(const CCPoint& pos)
     
     if (gid)
     {
-        unsigned int z = (unsigned int)(pos.x + pos.y * m_tLayerSize.width);
+        int z = zOrderForPos(pos);
         unsigned int atlasIndex = atlasIndexForExistantZ(z);
         
+		unsigned int tileIndex=indexForPos(pos);
         // remove tile from GID map
-        m_pTiles[z] = 0;
+        m_pTiles[tileIndex] = 0;
         
         // remove tile from atlas position array
         ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
