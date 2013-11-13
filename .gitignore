@@ -10,3 +10,5 @@ Resources/editor/
 Resources/map/1.tmx
 Resources/map/low/
 /proj.android/temp
+proj.ios/CCISO.xcodeproj/project.xcworkspace/xcshareddata/
+proj.ios/CCISO.xcodeproj/xcuserdata/
